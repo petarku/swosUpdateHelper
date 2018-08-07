@@ -10,7 +10,7 @@ function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
 	const number = row.querySelector('.rn_nummer').innerHTML;
 	const playerSubtable = row.querySelectorAll('.posrela table tbody tr');
-	//const playerLink = playerSubtable[0].querySelector('.hauptlink a');
+	const playerLink = playerSubtable[0].querySelector('.hauptlink a');
 	const name = playerLink.innerHTML;
 	//const url = BASE_URL + playerLink.href;
 
