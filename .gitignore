@@ -1,10 +1,7 @@
 node_modules/
 
-config.json
-
 .DS_Store
 *.log
 *.lock
 *-lock.json
-*.png
-data/*.jpg
+superliga.json
