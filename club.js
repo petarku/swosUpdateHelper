@@ -10,9 +10,9 @@ function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
 	const number = row.querySelector('.rn_nummer').innerHTML;
 	const playerSubtable = row.querySelectorAll('.posrela table tbody tr');
-	const playerLink = playerSubtable[0].querySelector('.hauptlink a');
+	//const playerLink = playerSubtable[0].querySelector('.hauptlink a');
 	const name = playerLink.innerHTML;
-	const url = BASE_URL + playerLink.href;
+	//const url = BASE_URL + playerLink.href;
 
 	const position = playerSubtable[1].querySelector('td').innerHTML;
 
@@ -22,7 +22,7 @@ function parsePlayerRow (row) {
 	const cells = row.children;
 	const value = cells[cells.length - 1].childNodes[0].textContent;
 
-	return { number, name, position, url, flags, value };
+	return { number, name, position, flags, value };
 }
 
 
