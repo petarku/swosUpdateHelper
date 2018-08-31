@@ -4,10 +4,6 @@ const { JSDOM } = jsdom;
 
 const BASE_URL = 'https://www.transfermarkt.com';
 
-const SERBIAN_LEAGUE = '/superliga/startseite/wettbewerb/SER1';
-
-const SPANISH_LEAGUE = '/primera-division/startseite/wettbewerb/ES1';
-
 
 function parseClubRow (row) {
 	const mainlink = row.querySelector('.hauptlink a');
@@ -25,9 +21,9 @@ function parseTable (res) {
 }
 
 
-function getClubs () {
+function getClubs (league) {
 	console.log('Getting clubs\' details...');
-	return fetch(BASE_URL + SPANISH_LEAGUE)
+	return fetch(BASE_URL + league)
 		.then(res => res.text())
 		.then(parseTable);
 }
