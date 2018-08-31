@@ -7,8 +7,11 @@ const fs = require('fs');
 const FNAME = 'superliga.json';
 
 const leagues = [
-	{ name: 'serbian', url: '/superliga/startseite/wettbewerb/SER1' },
-	{ name: 'spanish', url: '/primera-division/startseite/wettbewerb/ES1' }
+	{ name: 'serbia', url: '/superliga/startseite/wettbewerb/SER1' },
+	{ name: 'italy', url: '/serie-a/startseite/wettbewerb/IT1' }
+//	{ name: 'england', url: '/premier-league/startseite/wettbewerb/GB1' },
+//	{ name: 'germany', url: '/1-bundesliga/startseite/wettbewerb/L1' }
+//	{ name: 'spain', url: '/primera-division/startseite/wettbewerb/ES1' }
 ];
 
 
@@ -22,8 +25,8 @@ function getLeague (league) {
 		})
 		.then(res => {
 			const str = JSON.stringify(res, null, 2);
-			fs.writeFileSync(`${league.name}-league.json`, str);
-			//console.log(`File ${FNAME} created!`);
+			fs.writeFileSync(`league-${league.name}.json`, str);
+			console.log(`File league-${league.name}.json created!`);
 		});
 }
 

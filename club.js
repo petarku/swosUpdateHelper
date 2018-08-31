@@ -25,7 +25,7 @@ async function parsePlayerRow (row) {
 	var valueStripped = convertStringValuetoNumber (value, 'Mill. €' , 'Th. €');
 
 	var swosValue = getTheSwosValue(valueStripped);
-	console.log(swosValue);
+	//console.log(swosValue);
 
 	return { number, name, position, flags, value , timeInPlay , swosValue };
 }
@@ -96,7 +96,7 @@ const valueRange2 =  [
 
 function convertStringValuetoNumber(original, substr, substr2) {
     var idx = original.indexOf(substr);
-		
+
 
     if (idx != -1) {
 				original = original.substr(0,idx);
