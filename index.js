@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const superliga = require('./superliga');
+const superliga = require('./leagues');
 const club = require('./club');
 const fs = require('fs');
 
