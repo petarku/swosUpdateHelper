@@ -17,3 +17,6 @@ superliga
 		fs.writeFileSync(FNAME, str);
 		console.log(`File ${FNAME} created!`);
 	});
+
+
+
