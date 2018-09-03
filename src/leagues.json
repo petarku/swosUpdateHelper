@@ -1,0 +1,7 @@
+[
+	{ "name": "serbia",  "url": "/superliga/startseite/wettbewerb/SER1" },
+	{ "name": "italy",   "url": "/serie-a/startseite/wettbewerb/IT1" },
+	{ "name": "england", "url": "/premier-league/startseite/wettbewerb/GB1" },
+	{ "name": "germany", "url": "/1-bundesliga/startseite/wettbewerb/L1" },
+	{ "name": "spain",   "url": "/primera-division/startseite/wettbewerb/ES1" }
+]
