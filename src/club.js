@@ -64,11 +64,18 @@ async function parsePlayerStats (url) {
 	const { document } = (new JSDOM(res1)).window;
 	if (!document) return;
 
+	const table = document.querySelector('#yw1');
+	if (!table) return 0;
+
+	const heading = table.closest('.box').querySelector('.table-header').textContent.trim();
+	if (heading.indexOf('Performance') === -1) return 0;
+
+
 	let timeInPlay = document.querySelector('#yw1 .items td:last-child');
 	if (!timeInPlay) return 0;
-	timeInPlay = timeInPlay.textContent.replace('-', '0');
+	timeInPlay = timeInPlay.textContent.replace('.', '');
 
-	return parseInt(timeInPlay, 10);
+	return parseInt(timeInPlay, 10);	
 }
 
 
@@ -78,7 +85,13 @@ async function parseTable (res) {
 	if (!document) return;
 	const rows = document.querySelectorAll('#yw1 table.items>tbody>tr');
 	const promises = Array.from(rows).map(parsePlayerRow);
-	return Promise.all(promises);
+
+	//const coach = {name: 'petar' };
+	const coachName = document.querySelectorAll('.container-hauptinfo');
+	const coach = coachName[0].textContent.trim() ;
+	console.log(coach);
+
+	return Promise.all(promises).then(players => ({ players, coach }));
 }
 
 
@@ -88,7 +101,8 @@ function getPlayers (club) {
 		.then(res => res.text())
 		.then(parseTable)
 		.then(res => {
-			club.players = res.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			club.coach = res.coach;
+			club.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
 			return club;
 		});
 }
