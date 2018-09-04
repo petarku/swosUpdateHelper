@@ -73,7 +73,9 @@ async function parsePlayerStats (url) {
 
 	let timeInPlay = document.querySelector('#yw1 .items td:last-child');
 	if (!timeInPlay) return 0;
+	
 	timeInPlay = timeInPlay.textContent.replace('.', '');
+	//timeInPlay = timeInPlay.textContent.replace('-', '0');
 
 	return parseInt(timeInPlay, 10);	
 }

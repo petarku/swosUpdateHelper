@@ -33,12 +33,18 @@
 		return `<tr class="player-row">
 			<td><img src="${player.imgUrl}"></td>
 			<td>${player.name}</td>
+			<td>${player.timeInPlay}</td>
+			<td>${player.position}</td>
+			<td>${player.swosValue}</td>
+			<td>${player.flags}</td>
+
 		</tr>`;
 	}
 
 	function getClubHtml (club) {
 		const players = club.players.map(getPlayerHtml).join('');
 		return `<h1><a href="${club.url}" target="_blank">${club.name}</a></h1>
+		<tr <td>${club.coach} </td> </tr>
 			<table class="club">${players}</table>`;
 	}
 
