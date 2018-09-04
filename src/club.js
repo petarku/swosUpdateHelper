@@ -85,11 +85,9 @@ async function parseTable (res) {
 	if (!document) return;
 	const rows = document.querySelectorAll('#yw1 table.items>tbody>tr');
 	const promises = Array.from(rows).map(parsePlayerRow);
-
-	//const coach = {name: 'petar' };
 	const coachName = document.querySelectorAll('.container-hauptinfo');
 	const coach = coachName[0].textContent.trim() ;
-	console.log(coach);
+
 
 	return Promise.all(promises).then(players => ({ players, coach }));
 }
