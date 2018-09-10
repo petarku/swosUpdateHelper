@@ -17,6 +17,8 @@ async function parsePlayerRow (row) {
 	const url = BASE_URL + playerLink.href;
 	const timeInPlay = await parsePlayerStats(url);
 	const position = playerSubtable[1].querySelector('td').innerHTML;
+	const zenTriertArray = row.querySelectorAll('.zentriert');
+	const age = zenTriertArray[1].textContent ; 
 	const imgUrl = playerSubtable[0].querySelector('td:first-child img')
 		.getAttribute('data-src')
 		.replace('small', 'medium');
@@ -31,7 +33,7 @@ async function parsePlayerRow (row) {
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
 	const swosValue = getTheSwosValue(valueStripped);
 
-	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl };
+	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age };
 }
 
 function getTheSwosValue (valueStripped) {
@@ -95,7 +97,13 @@ async function parseTable (res) {
 	const promises = Array.from(rows).map(parsePlayerRow);
 	const coachName = document.querySelectorAll('.container-hauptinfo');
 	const coach = coachName[0].textContent.trim() ;
-
+	
+	/*const formationNode = document.querySelectorAll('.large-7.aufstellung-vereinsseite.columns.small-12.unterueberschrift.aufstellung-unterueberschrift');
+	if (!formationNode ) {
+		formation = 'not known' ; 
+	} else {
+		formation = formationNode[0].textContent ; 
+	}*/
 
 	return Promise.all(promises).then(players => ({ players, coach }));
 }
