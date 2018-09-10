@@ -3,7 +3,8 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const swosRange = require('./swos-range.json');
 
-const BASE_URL = 'https://www.transfermarkt.com';
+//const BASE_URL = 'https://www.transfermarkt.com';
+const BASE_URL = 'https://www.transfermarkt.co.uk';
 
 
 
@@ -26,7 +27,8 @@ async function parsePlayerRow (row) {
 	const cells = row.children;
 	const value = cells[cells.length - 1].childNodes[0].textContent;
 
-	const valueStripped = convertStringValuetoNumber(value, 'Mill. €', 'Th. €');
+	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
+	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
 	const swosValue = getTheSwosValue(valueStripped);
 
 	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl };
@@ -41,7 +43,8 @@ function getTheSwosValue (valueStripped) {
 	return 'no Set Price';
 }
 
-function convertStringValuetoNumber (original, substr, substr2) {
+function convertStringValuetoNumber (original, substr, substr2, currency) {
+	original = original.replace(currency, '');
 	const idx = original.indexOf(substr);
 
 	if (idx != -1) {
@@ -77,7 +80,10 @@ async function parsePlayerStats (url) {
 	timeInPlay = timeInPlay.textContent.replace('.', '');
 	//timeInPlay = timeInPlay.textContent.replace('-', '0');
 
-	return parseInt(timeInPlay, 10);	
+	var time =  parseInt(timeInPlay, 10);	
+	if (!time) return 0 ; 
+
+	return time; 
 }
 
 

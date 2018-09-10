@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const BASE_URL = 'https://www.transfermarkt.com';
+const BASE_URL = 'https://www.transfermarkt.co.uk';
 
 
 function parseClubRow (row) {
