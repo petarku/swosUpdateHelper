@@ -98,14 +98,10 @@ async function parseTable (res) {
 	const coachName = document.querySelectorAll('.container-hauptinfo');
 	const coach = coachName[0].textContent.trim() ;
 	
-	/*const formationNode = document.querySelectorAll('.large-7.aufstellung-vereinsseite.columns.small-12.unterueberschrift.aufstellung-unterueberschrift');
-	if (!formationNode ) {
-		formation = 'not known' ; 
-	} else {
-		formation = formationNode[0].textContent ; 
-	}*/
+	const formationNode = document.querySelectorAll('.large-7.aufstellung-vereinsseite.columns.small-12.unterueberschrift.aufstellung-unterueberschrift');
+	const formation = formationNode[0].textContent.trim() ; 
 
-	return Promise.all(promises).then(players => ({ players, coach }));
+	return Promise.all(promises).then(players => ({ players, coach , formation }));
 }
 
 
@@ -116,6 +112,7 @@ function getPlayers (club) {
 		.then(parseTable)
 		.then(res => {
 			club.coach = res.coach;
+			club.formation = res.formation ; 
 			club.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
 			return club;
 		});

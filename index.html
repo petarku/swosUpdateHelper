@@ -47,6 +47,7 @@
 		const players = club.players.map(getPlayerHtml).join('');
 		return `<h1>Club Name : <a href="${club.url}" target="_blank">${club.name}</a></h1>
 		<tr <h1> Coach: <td>${club.coach} </td> </h1> </tr>
+		<tr <h1> Formation: <td>${club.formation} </td> </h1> </tr>
 			<table class="club">${players}</table>`;
 	}
 
