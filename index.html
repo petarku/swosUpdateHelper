@@ -46,9 +46,11 @@
 	function getClubHtml (club) {
 		const players = club.players.map(getPlayerHtml).join('');
 		return `<h1>Club Name : <a href="${club.url}" target="_blank">${club.name}</a></h1>
-		<tr <h1> Coach: <td>${club.coach} </td> </h1> </tr>
-		<tr <h1> Formation: <td>${club.formation} </td> </h1> </tr>
-			<table class="club">${players}</table>`;
+		<h2>Coach: : ${club.coach}</h2>
+		<h2>Formation: : ${club.formation}</h2>
+	
+			<table class="club">${players}</table>`
+		
 	}
 
 	function getListHtml (list) {
