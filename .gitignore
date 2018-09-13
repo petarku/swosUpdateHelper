@@ -6,3 +6,4 @@ node_modules/
 *-lock.json
 superliga.json
 league-*.json
+nationalTeam-*.json

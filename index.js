@@ -20,17 +20,14 @@ function getLeague (league) {
 }
 
 function getNationalTeams(nationalTeam) {
-	club.getNationalTeamPlayers(nationalTeam)
-		.then(nationalTeams => {
-			const playersPromises = nationalTeams.map(club.getNationalTeamPlayers);
-			return Promise.all(playersPromises);
-
+		club.getNationalTeamPlayers(nationalTeam).then(res => {
+			const str = JSON.stringify(res, null, 2);
+			fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
+			console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
 		})
-	.then(res => {
-		const str = JSON.stringify(res, null, 2);
-		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
-		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-	});	
+		
+		
+
 	
 
 }
