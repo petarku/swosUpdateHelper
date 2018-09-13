@@ -97,9 +97,16 @@ async function parseTable (res) {
 	const promises = Array.from(rows).map(parsePlayerRow);
 	const coachName = document.querySelectorAll('.container-hauptinfo');
 	const coach = coachName[0].textContent.trim() ;
+	var formation = 'unknown'; 
+
+	try {
+		const formationNode = document.querySelectorAll('.large-7.aufstellung-vereinsseite.columns.small-12.unterueberschrift.aufstellung-unterueberschrift');
+		 formation = formationNode[0].textContent.trim() ; 
+	  }
+	  catch(error) {
+		formation = 'unknown'; 
+	  }
 	
-	const formationNode = document.querySelectorAll('.large-7.aufstellung-vereinsseite.columns.small-12.unterueberschrift.aufstellung-unterueberschrift');
-	const formation = formationNode[0].textContent.trim() ; 
 
 	return Promise.all(promises).then(players => ({ players, coach , formation }));
 }
