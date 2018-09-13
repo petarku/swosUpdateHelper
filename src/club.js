@@ -39,7 +39,15 @@ async function parsePlayerRow (row) {
 async function parseNationalPlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
 	const number = row.querySelector('.rn_nummer').innerHTML;
+	const name = row.querySelector('.spielprofil_tooltip').textContent ; 
+	const position = row.querySelector('.inline-table tr:last-child > td').textContent ; 
+	const value = row.querySelector('.rechts.hauptlink').textContent.trim(); 
+	
+	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
+	const swosValue = getTheSwosValue(valueStripped);
+	
 	/*console.log(number) ; 
+	
 	const playerSubtable = row.querySelectorAll('.posrela table tbody tr');
 	const playerLink = playerSubtable[0].querySelector('.hauptlink a');
 	const name = playerLink.innerHTML;
@@ -62,7 +70,7 @@ async function parseNationalPlayerRow (row) {
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
 	const swosValue = getTheSwosValue(valueStripped);
 */
-	return { number };
+	return { number , name, position , value , swosValue };
 }
 
 function getTheSwosValue (valueStripped) {
@@ -147,7 +155,7 @@ async function parseNationalTeamTable (res) {
 	const promises = Array.from(rows).map(parseNationalPlayerRow);
 	const coachName = document.querySelectorAll('.container-hauptinfo');
 	const coach = coachName[0].textContent.trim() ;
-	console.log(coach); 
+	 
 	var formation = 'unknown'; 
 
 	try {
