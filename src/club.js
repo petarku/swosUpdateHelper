@@ -45,6 +45,12 @@ async function parseNationalPlayerRow (row) {
 	
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
 	const swosValue = getTheSwosValue(valueStripped);
+	const zenTriertArray = row.querySelectorAll('.zentriert');
+	const age = zenTriertArray[1].textContent ; 
+	const playerLink = row.querySelector('.spielprofil_tooltip').href;
+	const url = BASE_URL + playerLink;
+	
+	const timeInPlay = await parseNationalPlayerStats(url); 
 	
 	/*console.log(number) ; 
 	
@@ -70,7 +76,7 @@ async function parseNationalPlayerRow (row) {
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
 	const swosValue = getTheSwosValue(valueStripped);
 */
-	return { number , name, position , value , swosValue };
+	return { number , name, position , value , swosValue , age , timeInPlay};
 }
 
 function getTheSwosValue (valueStripped) {
@@ -100,6 +106,29 @@ function convertStringValuetoNumber (original, substr, substr2, currency) {
 	return original;
 }
 
+
+async function parseNationalPlayerStats (url) {
+	const res1 = await fetch(url).then(res => res.text());
+	const { document } = (new JSDOM(res1)).window;
+	if (!document) return;
+
+	const table = document.querySelector('#yw1');
+	if (!table) return 0;
+
+
+
+
+	let timeInPlay = document.querySelector('#yw1 .items td:last-child');
+	if (!timeInPlay) return 0;
+	
+	timeInPlay = timeInPlay.textContent.replace('.', '');
+	//timeInPlay = timeInPlay.textContent.replace('-', '0');
+
+	var time =  parseInt(timeInPlay, 10);	
+	if (!time) return 0 ; 
+
+	return time; 
+}
 
 async function parsePlayerStats (url) {
 	const res1 = await fetch(url).then(res => res.text());
