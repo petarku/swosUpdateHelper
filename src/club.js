@@ -221,6 +221,7 @@ function getNationalTeamPlayers (nationalTeam) {
 		.then(res => res.text())
 		.then(parseNationalTeamTable)
 		.then(res => {
+			nationalTeam.url = BASE_URL + nationalTeam.url; 
 			nationalTeam.coach = res.coach;
 			nationalTeam.formation = res.formation ; 
 			nationalTeam.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
