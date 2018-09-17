@@ -10,3 +10,8 @@
 ```sh
 > node .
 ```
+
+## Show data
+```sh
+> npm start
+```
