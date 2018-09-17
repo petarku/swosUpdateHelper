@@ -5,6 +5,7 @@ const club = require('./src/club');
 const fs = require('fs');
 const leagues = require('./src/leagues.json');
 const nationalTeams = require('./src/nationalTeams.json');
+const csvMap = require('./src/csv-maps.js');
 
 function getLeague (league) {
 	superliga.getClubs(league.url)
@@ -32,6 +33,10 @@ function getNationalTeams(nationalTeam) {
 
 }
 
+
+
+
+console.log(csvMap.getCountryCode('Serbia'));
 // leagues.forEach(getLeague);	// get all leaggues
-getLeague(leagues[0]);			// get 1 league - for tests
-//getNationalTeams(nationalTeams[0]) ; 
+//getLeague(leagues[5]);			// get 1 league - for tests
+//getNationalTeams(nationalTeams[1]) ; 
