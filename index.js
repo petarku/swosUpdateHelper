@@ -36,7 +36,7 @@ function getNationalTeams(nationalTeam) {
 
 
 
-console.log(csvMap.getCountryCode('Serbia'));
+
 // leagues.forEach(getLeague);	// get all leaggues
-//getLeague(leagues[5]);			// get 1 league - for tests
+getLeague(leagues[5]);			// get 1 league - for tests
 //getNationalTeams(nationalTeams[1]) ; 
