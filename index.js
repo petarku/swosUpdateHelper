@@ -26,16 +26,8 @@ function getNationalTeams(nationalTeam) {
 			fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
 			console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
 		})
-		
-		
-
 	
-
 }
-
-
-
-
 
 // leagues.forEach(getLeague);	// get all leaggues
 getLeague(leagues[5]);			// get 1 league - for tests

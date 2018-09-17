@@ -33,5 +33,5 @@ function getPositionCode(positionName) {
 }
 
 module.exports = {
-	getCountryCode
+	getCountryCode, getPositionCode
 };
