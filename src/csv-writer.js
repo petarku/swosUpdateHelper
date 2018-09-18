@@ -80,13 +80,14 @@ function petarsWeirdSelection (players) {
 
 
 function writeClub (league, club) {
-	const fname = league.name + '-' + slugify(club.name) + '.csv';
-	console.log(`Writing CSV for: ${league.name}/${club.name}`);
+	const clubName = normalize.normalizeDiacritics(club.name); 
+	const fname = league.name + '-' + slugify(clubName) + '.csv';
+	console.log(`Writing CSV for: ${league.name}/${clubName}`);
 
 	const lines = [];
 
 	// first line: club name, nation number, team number, formation, coach name
-	lines.push([ club.name, 'NATION NUMBER', 'TEAM NUMBER', club.formation, club.coach, '', '', '', '', '', '', '', '' ].join(','));
+	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', club.formation, club.coach, '', '', '', '', '', '', '', '' ].join(','));
 
 	petarsWeirdSelection(club.players)
 		.forEach(player => {
