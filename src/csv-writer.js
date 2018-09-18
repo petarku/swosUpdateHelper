@@ -62,7 +62,7 @@ const formationCodeMap = {
 	'3-5-2':'3-5-2', 
 
 };
-4-2-3-1
+
 
 function slugify (text) {
 	return text.toString().toLowerCase().trim()
