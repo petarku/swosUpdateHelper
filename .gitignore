@@ -5,5 +5,4 @@ node_modules/
 *.lock
 *-lock.json
 superliga.json
-league-*.json
 nationalTeam-*.json

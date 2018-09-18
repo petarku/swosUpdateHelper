@@ -5,30 +5,33 @@ const club = require('./src/club');
 const fs = require('fs');
 const leagues = require('./src/leagues.json');
 const nationalTeams = require('./src/nationalTeams.json');
-const csvMap = require('./src/csv-maps.js');
+const csvWriter = require('./src/csv-writer.js');
 
 function getLeague (league) {
-	superliga.getClubs(league.url)
+	superliga
+		.getClubs(league.url)
 		.then(clubs => {
 			const playersPromises = clubs.map(club.getPlayers);
+			// const playersPromises = [ club.getPlayers(clubs[0]) ];		// get 1 club for tests
 			return Promise.all(playersPromises);
 		})
 		.then(res => {
 			const str = JSON.stringify(res, null, 2);
 			fs.writeFileSync(`data/league-${league.name}.json`, str);
 			console.log(`File data/league-${league.name}.json created!`);
+
+			csvWriter.writeLeague(league, res);
 		});
 }
 
-function getNationalTeams(nationalTeam) {
-		club.getNationalTeamPlayers(nationalTeam).then(res => {
-			const str = JSON.stringify(res, null, 2);
-			fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
-			console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-		})
-	
+function getNationalTeams (nationalTeam) {
+	club.getNationalTeamPlayers(nationalTeam).then(res => {
+		const str = JSON.stringify(res, null, 2);
+		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
+		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
+	});
 }
 
-// leagues.forEach(getLeague);	// get all leaggues
-getLeague(leagues[5]);			// get 1 league - for tests
-//getNationalTeams(nationalTeams[1]) ; 
+// leagues.forEach(getLeague);	// get all leagues
+getLeague(leagues[4]); // get 1 league - for tests
+//getNationalTeams(nationalTeams[1]) ;
