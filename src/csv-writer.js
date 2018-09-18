@@ -56,12 +56,14 @@ function playerLine (player) {
 
 
 function petarsWeirdSelection (players) {
-	const goalkeepers = players.filter(p => p.position === 'Goalkeeper');
+	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
 	let gkIndex = 1;
 	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
 		gk.index = gkIndex;
 		gkIndex += 11;
 	});
+	goalkeepers = goalkeepers.slice(0, 2);
+
 	players = players
 		.filter(p => p.position !== 'Goalkeeper')           // filter out GK
 		.slice(0, 14)                                       // take 14 non-GK players
@@ -81,13 +83,14 @@ function petarsWeirdSelection (players) {
 
 function writeClub (league, club) {
 	const clubName = normalize.normalizeDiacritics(club.name); 
+	const clubCoach = normalize.normalizeDiacritics(club.coach); 
 	const fname = league.name + '-' + slugify(clubName) + '.csv';
 	console.log(`Writing CSV for: ${league.name}/${clubName}`);
 
 	const lines = [];
 
 	// first line: club name, nation number, team number, formation, coach name
-	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', club.formation, club.coach, '', '', '', '', '', '', '', '' ].join(','));
+	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', club.formation, clubCoach, '', '', '', '', '', '', '', '' ].join(','));
 
 	petarsWeirdSelection(club.players)
 		.forEach(player => {
