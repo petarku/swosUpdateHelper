@@ -1,4 +1,5 @@
 const fs = require('fs');
+const normalize = require('normalize-text');
 
 const countryCodeMap = {
 	Romania: 'ROM',
@@ -34,10 +35,12 @@ function slugify (text) {
 function playerLine (player) {
 	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
 	const country = player.flags[0];
+	const playerName = normalize.normalizeDiacritics(player.name) ; 
+
 	return [
 		countryCodeMap[country] || country.substr(0, 3).toUpperCase(),
 		player.index,
-		player.name,
+		playerName,
 		positionCodeMap[player.position],
 		'BLACK',
 		0,
