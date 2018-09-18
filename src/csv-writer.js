@@ -2,10 +2,34 @@ const fs = require('fs');
 const normalize = require('normalize-text');
 
 const countryCodeMap = {
-	Romania: 'ROM',
-	Serbia: 'SER',
-	Poland: 'POL',
-	Germany: 'GER',
+	Austria: 'AUT',
+	Serbia: 'YUG',
+	Spain:'ESP', 
+	Netherlands:'HOL',
+	Camerun:'CMR', 
+	Ireland:'IRL' , 
+	Azerbaijan:'AZB', 
+	Belarus:'BLS', 
+	'Czech Republic':'TCH', 
+	Iceland:'ISL', 
+	Malta:'MLT', 
+	'San Marino':'SMR', 
+	'Northern Ireland':'NIR', 
+	Slovakia:'SVK', 
+	Switzerland:'SUI',
+	Chile:'CHL', 
+	Venezuela:'VNZ',
+	'Costa Rica':'CRC',
+	'El Salvador':'ELS',
+	'United States':'USA',
+	'Burkina Faso':'BFS',
+	'Cote d\'Ivoire':'CIV', 
+	Mali:'MLI', 
+	'South Africa': 'SAF',
+	'New Zealand':'NZL', 
+	'Montenegro':'CUS', 
+	'Cape Verde':'CUS',
+
 };
 
 const positionCodeMap = {
@@ -24,6 +48,22 @@ const positionCodeMap = {
 	'Second Striker':'A',
 };
 
+const formationCodeMap = {
+	'4-2-3-1':'4-5-1',
+	'3-5-2 flat':'3-5-2', 
+	'4-3-3 off.':'4-3-3', 
+	'5-3-2':'5-3-2', 
+	'4-1-3-2':'4-4-2', 
+	'4-3-2-1':'4-5-1',
+	'4-3-1-2':'4-4-2', 
+	'4-4-2 double 6':'4-4-2', 
+	'3-4-2-1': '3-4-3', 
+	'4-1-4-1':'5-4-1',
+	'3-5-2':'3-5-2', 
+
+};
+4-2-3-1
+
 function slugify (text) {
 	return text.toString().toLowerCase().trim()
 		.replace(/&/g, '-and-')         // Replace & with 'and'
@@ -38,6 +78,7 @@ function playerLine (player) {
 	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
 	const country = player.flags[0];
 	const playerName = normalize.normalizeDiacritics(player.name) ; 
+	const skills7 = '0,0,0,0,0,0,0'; 
 
 	return [
 		countryCodeMap[country] || country.substr(0, 3).toUpperCase(),
@@ -45,13 +86,7 @@ function playerLine (player) {
 		playerName,
 		positionCodeMap[player.position],
 		'BLACK',
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
+		skills7,
 		player.swosValue
 	].join(',');
 }
@@ -86,13 +121,14 @@ function petarsWeirdSelection (players) {
 function writeClub (league, club) {
 	const clubName = normalize.normalizeDiacritics(club.name); 
 	const clubCoach = normalize.normalizeDiacritics(club.coach); 
+	const clubFormation = formationCodeMap[club.formation] || '4-4-2'; 
 	const fname = league.name + '-' + slugify(clubName) + '.csv';
 	console.log(`Writing CSV for: ${league.name}/${clubName}`);
 
 	const lines = [];
 
 	// first line: club name, nation number, team number, formation, coach name
-	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', club.formation, clubCoach, '', '', '', '', '', '', '', '' ].join(','));
+	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', '' ].join(','));
 
 	petarsWeirdSelection(club.players)
 		.forEach(player => {
