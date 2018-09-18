@@ -16,6 +16,8 @@ const positionCodeMap = {
 	'Right Winger':'RW',
 	'Left Winger':'LW',
 	'Central Midfield':'M',
+	'Left Midfield':'M', 
+	'Right Midfield':'M',
 	'Defensive Midfield':'M',
 	'Attacking Midfield':'M',
 	'Centre-Forward':'A',
