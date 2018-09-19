@@ -32,7 +32,7 @@ async function parsePlayerRow (row) {
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
 	const swosValue = getTheSwosValue(valueStripped);
 
-	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age };
+	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age , value };
 }
 
 async function parseNationalPlayerRow (row) {
@@ -51,31 +51,9 @@ async function parseNationalPlayerRow (row) {
 
 	const timeInPlay = await parseNationalPlayerStats(url);
 
-	/*console.log(number) ;
+	
 
-	const playerSubtable = row.querySelectorAll('.posrela table tbody tr');
-	const playerLink = playerSubtable[0].querySelector('.hauptlink a');
-	const name = playerLink.innerHTML;
-	const url = BASE_URL + playerLink.href;
-	const timeInPlay = await parsePlayerStats(url);
-	const position = playerSubtable[1].querySelector('td').innerHTML;
-	const zenTriertArray = row.querySelectorAll('.zentriert');
-	const age = zenTriertArray[1].textContent ;
-	const imgUrl = playerSubtable[0].querySelector('td:first-child img')
-		.getAttribute('data-src')
-		.replace('small', 'medium');
-
-	const flagImgs = row.querySelectorAll('td img.flaggenrahmen');
-	//const flags = Array.from(flagImgs).map(img => img.alt);
-
-	const cells = row.children;
-	const value = cells[cells.length - 1].childNodes[0].textContent;
-
-	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
-	const valueStripped = convertStringValuetoNumber(value, 'm', 'k' , '£');
-	const swosValue = getTheSwosValue(valueStripped);
-*/
-	return { number, name, position, value, swosValue, age, timeInPlay };
+	return { number, name, position, value, swosValue, age, timeInPlay , value };
 }
 
 function getTheSwosValue (valueStripped) {
