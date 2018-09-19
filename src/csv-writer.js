@@ -91,12 +91,29 @@ function playerLine (player) {
 	].join(',');
 }
 
+function capGoalkeeperPrice(swosValue) {
+
+	if (['8M', '7M', '6M', '5M'].indexOf(swosValue) >= 0) {
+		swosValue= '4.5M ; '
+	}
+	return swosValue ; 
+	/*if ((swosValue ==='8M') || (swosValue ==='7M')
+	(swosValue ==='6M') || (swosValue ==='5M') ) {
+		swosValue = '4.5M' ; 
+		return swosValue ; 
+	} else {
+		return swosValue ; 
+	}*/
+}
 
 function petarsWeirdSelection (players) {
 	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
+	goalkeepers = goalkeepers.sort((a, b) => b.timeInPlay - a.timeInPlay); 
 	let gkIndex = 1;
-	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
-		gk.index = gkIndex;
+	goalkeepers.forEach(gk => {  
+		gk.swosValue = capGoalkeeperPrice(gk.swosValue) ; 
+		                          
+		gk.index = gkIndex;// number goalkeepers: 1, 12,
 		gkIndex += 11;
 	});
 	goalkeepers = goalkeepers.slice(0, 2);
