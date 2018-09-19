@@ -107,31 +107,78 @@ function capGoalkeeperPrice(swosValue) {
 }
 
 function petarsWeirdSelection (players) {
+	
 	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
-	goalkeepers = goalkeepers.sort((a, b) => b.timeInPlay - a.timeInPlay); 
 	let gkIndex = 1;
-	goalkeepers.forEach(gk => {  
-		gk.swosValue = capGoalkeeperPrice(gk.swosValue) ; 
-		                          
-		gk.index = gkIndex;// number goalkeepers: 1, 12,
+	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
+		gk.index = gkIndex;
 		gkIndex += 11;
 	});
-	goalkeepers = goalkeepers.slice(0, 2);
+	let firstgoalkeeper = goalkeepers.slice(0, 1);
+	let secondGoalkeeper = goalkeepers.slice(1,2) ; 
 
-	players = players
+	var codePriority = [ 
+	'Goalkeeper', 
+	'Right-Back', 
+	'Centre-Back', 
+	'Left-Back', 
+	'Right Winger',
+	'Central Midfield',
+	'Left Midfield',
+	'Right Midfield',
+	'Defensive Midfield',
+	'Attacking Midfield',
+	'Left Winger',
+	'Second Striker',
+	'Centre-Forward',
+	]
+
+	let firstTeam = players
 		.filter(p => p.position !== 'Goalkeeper')           // filter out GK
-		.slice(0, 14)                                       // take 14 non-GK players
-		.concat(goalkeepers)                                // add the 2 goalkeepers
-		.sort((a, b) => b.timeInPlay - a.timeInPlay);       // sort all by time in play
+		.slice(0, 10)                                       // take 14 non-GK players                               // add the 2 goalkeepers
+		.sort((a, b) => b.timeInPlay - a.timeInPlay); 
+
+	/*let firstTeam = players 
+		.sort((a, b) => b.timeInPlay - a.timeInPlay)        // filter out GK
+		.slice(0, 11);  */                                     // take 14 non-GK players                               // add the 2 goalkeepers
+		 
+	
+	let reserveTeam = players 
+		.filter(p => p.position !== 'Goalkeeper')         // filter out GK
+		.slice(10, 14);                                     // take 14 non-GK players                               // add the 2 goalkeepers
+			//
+	//console.log(reserveTeam); 
+
+	firstTeam = firstTeam.sort( function(a,b){ 
+		return codePriority.indexOf( a.position ) - codePriority.indexOf( b.position ) 
+	});
 
 	let idx = 2;
-	players.forEach(player => {                             // number other players
+	firstTeam.forEach(player => {                             // number other players
 		if (player.index) return;							// don't number if GK is first
 		player.index = idx;
 		idx += 1;
-		if (idx === 12) idx += 1;
+		
 	});
-	return players;
+	
+	reserveTeam = reserveTeam.sort( function(a,b){ 
+		return codePriority.indexOf( a.position ) - codePriority.indexOf( b.position ) 
+	});
+
+	idx = 13;
+	reserveTeam.forEach(player => {                             // number other players
+		if (player.index) return;							// don't number if GK is first
+		player.index = idx;
+		idx += 1;
+		
+	});
+
+	//console.log(reserveTeam) ; 
+  	let teamCSV = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam))); 
+
+ 	//console.log(teamCSV); 
+ return teamCSV ; 
+
 }
 
 
