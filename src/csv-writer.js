@@ -29,6 +29,7 @@ const countryCodeMap = {
 	'New Zealand':'NZL', 
 	'Montenegro':'CUS', 
 	'Cape Verde':'CUS',
+	'Comoros':'CUS', 
 
 };
 
@@ -83,6 +84,25 @@ function playerLine (player) {
 
 	return [
 		countryCodeMap[country] || country.substr(0, 3).toUpperCase(),
+		player.index,
+		playerName,
+		positionCodeMap[player.position],
+		'BLACK',
+		skills7,
+		player.swosValue
+	].join(',');
+}
+
+
+function playerNationalTeamLine (player , nationalTeamName) {
+	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
+	//const country = player.flags[0];
+	player.swosValue = capGoalkeeperPrice(player.swosValue); 
+	const playerName = normalize.normalizeDiacritics(player.name) ; 
+	const skills7 = '0,0,0,0,0,0,0'; 
+
+	return [
+		countryCodeMap[nationalTeamName] || nationalTeamName.substr(0, 3).toUpperCase(),
 		player.index,
 		playerName,
 		positionCodeMap[player.position],
@@ -178,6 +198,25 @@ function petarsWeirdSelection (players) {
 
 }
 
+function writeNationalTeam (nationalTeam, club) {
+	const clubName = normalize.normalizeDiacritics(nationalTeam.name); 
+	const clubCoach = normalize.normalizeDiacritics(club.coach); 
+	const clubFormation = formationCodeMap[club.formation] || '4-4-2'; 
+	const fname = 'nationalTeam' + '-' + slugify(clubName) + '.csv';
+	console.log(`Writing CSV for: 'nationalTeam'/${clubName}`);
+
+	const lines = [];
+
+	// first line: club name, nation number, team number, formation, coach name
+	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', '' ].join(','));
+
+	petarsWeirdSelection(club.players)
+		.forEach(player => {
+			lines.push(playerNationalTeamLine(player , nationalTeam.name));
+		});
+
+	fs.writeFileSync('data-csv/' + fname, lines.join('\n'));
+}
 
 function writeClub (league, club) {
 	const clubName = normalize.normalizeDiacritics(club.name); 
@@ -207,6 +246,8 @@ function writeLeague (league, data) {
 }
 
 
+
+
 module.exports = {
-	writeLeague,
+	writeLeague,writeNationalTeam
 };
