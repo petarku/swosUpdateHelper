@@ -215,7 +215,7 @@ function writeNationalTeam (nationalTeam, club) {
 			lines.push(playerNationalTeamLine(player , nationalTeam.name));
 		});
 
-	fs.writeFileSync('data-csv/' + fname, lines.join('\n'));
+	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));
 }
 
 function writeClub (league, club) {
@@ -235,7 +235,7 @@ function writeClub (league, club) {
 			lines.push(playerLine(player));
 		});
 
-	fs.writeFileSync('data-csv/' + fname, lines.join('\n'));
+	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));
 }
 
 
