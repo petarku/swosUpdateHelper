@@ -77,6 +77,7 @@ function slugify (text) {
 function playerLine (player) {
 	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
 	const country = player.flags[0];
+	player.swosValue = capGoalkeeperPrice(player.swosValue); 
 	const playerName = normalize.normalizeDiacritics(player.name) ; 
 	const skills7 = '0,0,0,0,0,0,0'; 
 
@@ -117,7 +118,7 @@ function petarsWeirdSelection (players) {
 	let firstgoalkeeper = goalkeepers.slice(0, 1);
 	let secondGoalkeeper = goalkeepers.slice(1,2) ; 
 
-	var codePriority = [ 
+	var positionPriority = [ 
 	'Goalkeeper', 
 	'Right-Back', 
 	'Centre-Back', 
@@ -135,26 +136,23 @@ function petarsWeirdSelection (players) {
 
 	let firstTeam = players
 		.filter(p => p.position !== 'Goalkeeper')           // filter out GK
-		.slice(0, 10)                                       // take 14 non-GK players                               // add the 2 goalkeepers
-		.sort((a, b) => b.timeInPlay - a.timeInPlay); 
-
-	/*let firstTeam = players 
-		.sort((a, b) => b.timeInPlay - a.timeInPlay)        // filter out GK
-		.slice(0, 11);  */                                     // take 14 non-GK players                               // add the 2 goalkeepers
+		.slice(0, 10)                                       // pick first 10 for first team                              // add the 2 goalkeepers
+		.sort((a, b) => b.timeInPlay - a.timeInPlay);    // sorted per timeINPlay 
+                                                               
 		 
 	
 	let reserveTeam = players 
 		.filter(p => p.position !== 'Goalkeeper')         // filter out GK
-		.slice(10, 14);                                     // take 14 non-GK players                               // add the 2 goalkeepers
-			//
-	//console.log(reserveTeam); 
+		.slice(10, 14);                                     // take 4 reserves                               // add the 2 goalkeepers
+		
+
 
 	firstTeam = firstTeam.sort( function(a,b){ 
-		return codePriority.indexOf( a.position ) - codePriority.indexOf( b.position ) 
-	});
+		return positionPriority.indexOf( a.position ) - positionPriority.indexOf( b.position ) 
+	});   // sort positions by predefine list 
 
 	let idx = 2;
-	firstTeam.forEach(player => {                             // number other players
+	firstTeam.forEach(player => {                             // give the numbers starting from 2
 		if (player.index) return;							// don't number if GK is first
 		player.index = idx;
 		idx += 1;
@@ -162,7 +160,7 @@ function petarsWeirdSelection (players) {
 	});
 	
 	reserveTeam = reserveTeam.sort( function(a,b){ 
-		return codePriority.indexOf( a.position ) - codePriority.indexOf( b.position ) 
+		return positionPriority.indexOf( a.position ) - positionPriority.indexOf( b.position ) 
 	});
 
 	idx = 13;
@@ -173,10 +171,9 @@ function petarsWeirdSelection (players) {
 		
 	});
 
-	//console.log(reserveTeam) ; 
+
   	let teamCSV = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam))); 
 
- 	//console.log(teamCSV); 
  return teamCSV ; 
 
 }
