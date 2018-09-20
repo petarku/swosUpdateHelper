@@ -30,6 +30,7 @@ const countryCodeMap = {
 	'Montenegro':'CUS', 
 	'Cape Verde':'CUS',
 	'Comoros':'CUS', 
+	 Morocco:'MAR', 
 
 };
 
