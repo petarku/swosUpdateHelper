@@ -1,5 +1,14 @@
 [
 	{ "name": "SERBIA",  "url": "/serbien/startseite/verein/3438" },
-	{ "name": "ITALY",   "url": "/italien/startseite/verein/3376" }
-	
+	{ "name": "ITALY",   "url": "/italien/startseite/verein/3376" }, 
+	{ "name": "CROATIA",   "url": "/kroatien/startseite/verein/3556" }, 
+	{ "name": "ENGLAND",   "url": "/england/startseite/verein/3299" }, 
+	{ "name": "BELGIUM",   "url": "/belgien/startseite/verein/3382" }, 
+	{ "name": "FRANCE",   "url": "/frankreich/startseite/verein/3377" },
+	{ "name": "BRAZIL",   "url": "/brasilien/startseite/verein/3439" }, 
+	{ "name": "ARGENTINA",   "url": "/argentinien/startseite/verein/3437" }, 
+	{ "name": "PORTUGAL",   "url": "/portugal/startseite/verein/3300" }, 
+	{ "name": "GERMANY",   "url": "/deutschland/startseite/verein/3262" }
+
+
 ]
