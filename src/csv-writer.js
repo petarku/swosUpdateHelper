@@ -88,7 +88,7 @@ function playerLine (player) {
 		player.index,
 		playerName,
 		positionCodeMap[player.position],
-		'BLACK',
+		'White',
 		skills7,
 		player.swosValue
 	].join(',');
@@ -107,7 +107,7 @@ function playerNationalTeamLine (player , nationalTeamName) {
 		player.index,
 		playerName,
 		positionCodeMap[player.position],
-		'BLACK',
+		'White',
 		skills7,
 		player.swosValue
 	].join(',');
