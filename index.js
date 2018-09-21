@@ -29,16 +29,16 @@ function getNationalTeams (nationalTeam) {
 		const str = JSON.stringify(res, null, 2);
 		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
 		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-		csvWriter.writeNationalTeam(nationalTeam, res) ; 
+		csvWriter.writeTeam(null, res, nationalTeam) ; 
 	});
 }
 //console.log(nationalTeams) ; 
 
 // leagues.forEach(getLeague);	// get all leagues
-getLeague(leagues[5]); // get 1 league - for tests
+//getLeague(leagues[5]); // get 1 league - for tests
 
 
-//getNationalTeams(nationalTeams[0]) ;
+getNationalTeams(nationalTeams[0]) ;
 /*var arrayLength = nationalTeams.length;
 
 for (var i = 0; i < arrayLength; i++) {

@@ -181,50 +181,46 @@ function petarsWeirdSelection (players) {
 
 }
 
-function writeNationalTeam (nationalTeam, club) {
-	const clubName = normalize.normalizeDiacritics(nationalTeam.name); 
-	const clubCoach = normalize.normalizeDiacritics(club.coach); 
-	const clubFormation = formationCodeMap[club.formation] || '4-4-2'; 
-	const fname = 'nationalTeam' + '-' + slugify(clubName) + '.csv';
-	console.log(`Writing CSV for: 'nationalTeam'/${clubName}`);
+function writeTeam (leagueData, playersData , nationalTeamData) {
+	let clubName ; 
+	let nationalTeamName ; 
+	if (nationalTeamData) {
+		clubName = normalize.normalizeDiacritics(nationalTeamData.name); 
+		nationalTeamName = nationalTeamData.name ; 
+	} else {
+		clubName = normalize.normalizeDiacritics(playersData.name); 
+	}
+	
+	const clubCoach = normalize.normalizeDiacritics(playersData.coach); 
+	const clubFormation = formationCodeMap[playersData.formation] || '4-4-2'; 
+	
+	let fname ; 
+	if (nationalTeamData) {
+		fname = 'nationalTeam' + '-' + slugify(clubName) + '.csv';
+		console.log(`Writing CSV for: 'nationalTeam'/${clubName}`);
+	} else {
+		fname = leagueData.name + '-' + slugify(clubName) + '.csv';
+		console.log(`Writing CSV for: ${leagueData.name}/${clubName}`);
+	}
+	
+	
 
 	const lines = [];
 
 	// first line: club name, nation number, team number, formation, coach name
 	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', '' ].join(','));
 
-	petarsWeirdSelection(club.players)
+	petarsWeirdSelection(playersData.players)
 		.forEach(player => {
-			lines.push(playerLine(player , nationalTeam.name));
+			lines.push(playerLine(player , nationalTeamName));
 		});
 
 	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));
 }
-
-function writeClub (league, club) {
-	const clubName = normalize.normalizeDiacritics(club.name); 
-	const clubCoach = normalize.normalizeDiacritics(club.coach); 
-	const clubFormation = formationCodeMap[club.formation] || '4-4-2'; 
-	const fname = league.name + '-' + slugify(clubName) + '.csv';
-	console.log(`Writing CSV for: ${league.name}/${clubName}`);
-
-	const lines = [];
-
-	// first line: club name, nation number, team number, formation, coach name
-	lines.push([ clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', '' ].join(','));
-
-	petarsWeirdSelection(club.players)
-		.forEach(player => {
-			lines.push(playerLine(player , null));
-		});
-
-	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));
-}
-
 
 function writeLeague (league, data) {
 	data.forEach(club => {
-		writeClub(league, club);
+		writeTeam(league, club, null);
 	});
 }
 
@@ -232,5 +228,5 @@ function writeLeague (league, data) {
 
 
 module.exports = {
-	writeLeague,writeNationalTeam
+	writeLeague,writeTeam
 };
