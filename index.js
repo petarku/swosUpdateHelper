@@ -11,6 +11,23 @@ function getLeague (league) {
 	superliga
 		.getClubs(league.url)
 		.then(clubs => {
+			const playersPromises = clubs.map(club.getPlayers);
+			 
+			return Promise.all(playersPromises);
+		})
+		.then(res => {
+			const str = JSON.stringify(res, null, 2);
+			fs.writeFileSync(`data/league-${league.name}.json`, str);
+			console.log(`File data/league-${league.name}.json created!`);
+
+			csvWriter.writeLeague(league, res);
+		});
+}
+
+function getBestTeamInLeague (league) {
+	superliga
+		.getClubs(league.url)
+		.then(clubs => {
 			//const playersPromises = clubs.map(club.getPlayers);
 			 const playersPromises = [ club.getPlayers(clubs[0]) ];		// get 1 club for tests
 			return Promise.all(playersPromises);
@@ -32,15 +49,26 @@ function getNationalTeams (nationalTeam) {
 		csvWriter.writeTeam(null, res, nationalTeam) ; 
 	});
 }
-//console.log(nationalTeams) ; 
 
-// leagues.forEach(getLeague);	// get all leagues
-//getLeague(leagues[5]); // get 1 league - for tests
+const cmdline = require('node-cmdline-parser');
+if (cmdline.keyexists('testNational')) {
+    getNationalTeams(nationalTeams[0]) ;
+} 
+if (cmdline.keyexists('testLeague')) {
+    getBestTeamInLeague(leagues[5]);
+}
+
+if (cmdline.keyexists('league')) {
+	const number = cmdline.get('league')
+    getLeague(leagues[number]);
+}
 
 
-getNationalTeams(nationalTeams[0]) ;
-/*var arrayLength = nationalTeams.length;
 
-for (var i = 0; i < arrayLength; i++) {
-    getNationalTeams(nationalTeams[i]) ;
-}*/
+if (cmdline.keyexists('allNational')) {
+   	var arrayLength = nationalTeams.length;
+
+	for (var i = 0; i < arrayLength; i++) {
+    	getNationalTeams(nationalTeams[i]) ;
+	}
+}
