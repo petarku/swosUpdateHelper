@@ -32,7 +32,14 @@ function getNationalTeams (nationalTeam) {
 		csvWriter.writeNationalTeam(nationalTeam, res) ; 
 	});
 }
-
+//console.log(nationalTeams) ; 
 // leagues.forEach(getLeague);	// get all leagues
-//getLeague(leagues[0]); // get 1 league - for tests
-getNationalTeams(nationalTeams[1]) ;
+getLeague(leagues[5]); // get 1 league - for tests
+//nationalTeams.forEach(getNationalTeams(nationalTeam)); 
+//getNationalTeams(nationalTeams[0]) ;
+
+/*var arrayLength = nationalTeams.length;
+
+for (var i = 0; i < arrayLength; i++) {
+    getNationalTeams(nationalTeams[i]) ;
+}*/
