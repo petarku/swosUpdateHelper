@@ -163,6 +163,7 @@ async function parseNationalTeamTable (res) {
 	try {
 		const formationNode = document.querySelectorAll('.large-7.aufstellung-vereinsseite.columns.small-12.unterueberschrift.aufstellung-unterueberschrift');
 		formation = formationNode[0].textContent.trim();
+		formation = formation.substring(18);
 	}
 	catch (error) {
 		formation = 'unknown';
