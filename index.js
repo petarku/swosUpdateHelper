@@ -50,7 +50,7 @@ function getNationalTeams (nationalTeam) {
 	});
 }
 
-function getLeaguebyLeagueName(leagueName) { 
+function getLeagueByLeagueName(leagueName) { 
 	for (var i in leagues) {
 		if (leagues[i].name.indexOf(leagueName) !== -1) {
 			//console.log(leagues[i]);
@@ -75,7 +75,7 @@ switch (true) {
 	   break;
 	case cmdline.keyexists('leagueName'):
 		const leagueName = cmdline.get('leagueName')
-		getLeague(getLeaguebyLeagueName(leagueName))
+		getLeague(getLeagueByLeagueName(leagueName))
 	   break;
 	case cmdline.keyexists('allNational'):
 		var arrayLength = nationalTeams.length;
@@ -88,10 +88,10 @@ switch (true) {
 		console.log('you can use node . -testNational to get 1 national team') ; 
 		console.log('you can use node . -testLeague to get 1  team from league') ; 
 		console.log('you can use node . -leagueName serbia to get teams from league of serbia') ; 
+		console.log('you can use node . -allNational to get all national teams') ; 
 		break; 
 	default:
-	   	console.log('no command found ') ; 
-	   	console.log('you can use node . -testNational to get 1 national team') ; 
-		console.log('you can use node . -testLeague to get 1  team from league') ; 
-		console.log('you can use node . -leagueName serbia to get teams from league of serbia') ; 
+		console.log('no command parameter is not found ') ; 
+		console.log('run node . -help to get list of all parameters you can use  ') ;    
+	  
   }
