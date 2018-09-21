@@ -76,34 +76,22 @@ function slugify (text) {
 }
 
 
-function playerLine (player) {
-	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
-	const country = player.flags[0];
-	player.swosValue = capGoalkeeperPrice(player.swosValue); 
-	const playerName = normalize.normalizeDiacritics(player.name) ; 
-	const skills7 = '0,0,0,0,0,0,0'; 
-
-	return [
-		countryCodeMap[country] || country.substr(0, 3).toUpperCase(),
-		player.index,
-		playerName,
-		positionCodeMap[player.position],
-		'White',
-		skills7,
-		player.swosValue
-	].join(',');
-}
-
-
-function playerNationalTeamLine (player , nationalTeamName) {
+function playerLine (player , nationalTeamName) {
 	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
 	//const country = player.flags[0];
+	let country ;
+	if (nationalTeamName) {
+		country = countryCodeMap[nationalTeamName] || nationalTeamName.substr(0, 3).toUpperCase() ; 
+	} else {
+		const countryFromFlags = player.flags[0];
+		country = countryCodeMap[countryFromFlags] || countryFromFlags.substr(0, 3).toUpperCase() ;
+	}
 	player.swosValue = capGoalkeeperPrice(player.swosValue); 
 	const playerName = normalize.normalizeDiacritics(player.name) ; 
 	const skills7 = '0,0,0,0,0,0,0'; 
 
 	return [
-		countryCodeMap[nationalTeamName] || nationalTeamName.substr(0, 3).toUpperCase(),
+		country,
 		player.index,
 		playerName,
 		positionCodeMap[player.position],
@@ -119,13 +107,7 @@ function capGoalkeeperPrice(swosValue) {
 		swosValue= '4.5M ; '
 	}
 	return swosValue ; 
-	/*if ((swosValue ==='8M') || (swosValue ==='7M')
-	(swosValue ==='6M') || (swosValue ==='5M') ) {
-		swosValue = '4.5M' ; 
-		return swosValue ; 
-	} else {
-		return swosValue ; 
-	}*/
+	
 }
 
 function petarsWeirdSelection (players) {
@@ -213,7 +195,7 @@ function writeNationalTeam (nationalTeam, club) {
 
 	petarsWeirdSelection(club.players)
 		.forEach(player => {
-			lines.push(playerNationalTeamLine(player , nationalTeam.name));
+			lines.push(playerLine(player , nationalTeam.name));
 		});
 
 	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));
@@ -233,7 +215,7 @@ function writeClub (league, club) {
 
 	petarsWeirdSelection(club.players)
 		.forEach(player => {
-			lines.push(playerLine(player));
+			lines.push(playerLine(player , null));
 		});
 
 	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));

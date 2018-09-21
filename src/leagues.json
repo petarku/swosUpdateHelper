@@ -3,5 +3,7 @@
 	{ "name": "italy",   "url": "/serie-a/startseite/wettbewerb/IT1" },
 	{ "name": "england", "url": "/premier-league/startseite/wettbewerb/GB1" },
 	{ "name": "germany", "url": "/1-bundesliga/startseite/wettbewerb/L1" },
-	{ "name": "spain",   "url": "/primera-division/startseite/wettbewerb/ES1" }
+	{ "name": "spain",   "url": "/primera-division/startseite/wettbewerb/ES1" } , 
+	{ "name": "spain2",   "url": "/segunda-division/startseite/wettbewerb/ES2" } 
+	
 ]
