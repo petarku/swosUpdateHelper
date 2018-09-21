@@ -11,8 +11,8 @@ function getLeague (league) {
 	superliga
 		.getClubs(league.url)
 		.then(clubs => {
-			const playersPromises = clubs.map(club.getPlayers);
-			// const playersPromises = [ club.getPlayers(clubs[0]) ];		// get 1 club for tests
+			//const playersPromises = clubs.map(club.getPlayers);
+			 const playersPromises = [ club.getPlayers(clubs[0]) ];		// get 1 club for tests
 			return Promise.all(playersPromises);
 		})
 		.then(res => {
@@ -33,11 +33,12 @@ function getNationalTeams (nationalTeam) {
 	});
 }
 //console.log(nationalTeams) ; 
+
 // leagues.forEach(getLeague);	// get all leagues
 getLeague(leagues[5]); // get 1 league - for tests
-//nationalTeams.forEach(getNationalTeams(nationalTeam)); 
-//getNationalTeams(nationalTeams[0]) ;
 
+
+//getNationalTeams(nationalTeams[0]) ;
 /*var arrayLength = nationalTeams.length;
 
 for (var i = 0; i < arrayLength; i++) {
