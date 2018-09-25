@@ -65,6 +65,35 @@ const formationCodeMap = {
 
 };
 
+function calculateSkills(desiredSUM) { 
+	const RANGE = { from: 0, to: 7 };
+	const res = [4, 0, 0, 3, 0, 0, 0];
+
+
+	const rand = (min, max) => {
+		return Math.floor(Math.random() * (max - min + 1) + min);
+	};
+
+
+	const remainder = () => desiredSUM - res.reduce((p, c) => c += p, 0);
+
+	res.forEach((n, i) => {
+		if (res[i]) return;
+		const rem = remainder();
+		const idx = i + 1;
+		const remainingNumbers = res.length - i;
+
+		let to = RANGE.to;
+		let from = rem - (remainingNumbers - 1) * RANGE.to;
+		if (from < 0) from = RANGE.from;
+		if (rem < to) to = rem;
+
+		res[i] = rand(from, to);
+	});
+
+	console.log(res, 20 - remainder());
+
+}
 
 function slugify (text) {
 	return text.toString().toLowerCase().trim()
