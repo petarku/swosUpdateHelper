@@ -40,6 +40,7 @@ async function takeScreenshotTest (league) {
 			await page.waitFor(5000);
 			
 			await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			console.log(`File ${pathString} created ` ) ; 
 
 		}
 	
@@ -50,6 +51,10 @@ async function screenshotDOMElement(page, selector, padding = 0, pathString) {
     const rect = await page.evaluate(selector => {
 
 	  const element = document.querySelector(selector) ;
+	  if (!element) {
+		  console.log('Element couldnt be found for ' + pathString) ; 
+		return null ; 
+	  } 
       const { x, y, width, height } = element.getBoundingClientRect();
       return { left: x, top: y, width, height, id: element.id };
     }, selector);
@@ -63,7 +68,8 @@ async function screenshotDOMElement(page, selector, padding = 0, pathString) {
         width: rect.width + padding * 2,
         height: rect.height + padding * 2,
       },
-    });
+	});
+	
   }
 
 
@@ -82,6 +88,7 @@ async function takeScreenshot (league) {
 			await page.waitFor(5000);
 			
 			await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			console.log('File ' + pathString + ' created') ; 
 
 		}
 	
@@ -132,7 +139,7 @@ function run () {
 	const keys = {
 		testNational: () => getNationalTeams(nationalTeams[0]),
 		testLeague: () => getBestTeamInLeague(leagues[5]),
-		makeScreenshot: () => takeScreenshot(getLeagueByLeagueName(name)), 
+		makeScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)), 
 		leagueName: name => getLeague(getLeagueByLeagueName(name)),
 		allNational: () => {
 			const arrayLength = nationalTeams.length;
@@ -143,6 +150,7 @@ function run () {
 		help () {
 			console.log('you can use node . -testNational to get 1 national team');
 			console.log('you can use node . -testLeague to get 1  team from league');
+			console.log('you can use node . -makeScreenshot to get screenshot for provided league ');
 			console.log('you can use node . -leagueName serbia to get teams from league of serbia');
 			console.log('you can use node . -allNational to get all national teams');
 		},
