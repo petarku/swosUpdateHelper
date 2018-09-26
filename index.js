@@ -24,6 +24,75 @@ function getLeague (league) {
 		});
 }
 
+async function takeScreenshotTest (league) {
+	let browser = await puppeteer.launch({ headless: true });
+	let page = await browser.newPage();
+	await page.setViewport({ width: 1920, height: 1080 });
+	const clubs = await superliga.getClubs(league.url)
+
+
+	var arrayLength = clubs.length;
+	//'data-csv/' + fname
+		for (var i = 0; i < 1; i++) {
+			//pathName = 'data-csv/' + leagueData.name + '-' + ${clubs[i].name} ; 
+			let pathString = 'data-csv/' +  `${league.name}-${clubs[i].name}.png` ; 
+			await page.goto(clubs[i].url);
+			await page.waitFor(5000);
+			
+			await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+
+		}
+	
+    await browser.close();
+}
+
+async function screenshotDOMElement(page, selector, padding = 0, pathString) {
+    const rect = await page.evaluate(selector => {
+		
+
+	  //const element = document.querySelector(selector);
+	  //const elementArray =document.querySelectorAll('.large-7.columns.small-12.aufstellung-vereinsseite');
+	  const element = document.querySelector(selector) ;
+      const { x, y, width, height } = element.getBoundingClientRect();
+      return { left: x, top: y, width, height, id: element.id };
+    }, selector);
+    console.log('rect: ', rect);
+
+    return await page.screenshot({
+      path: pathString,
+      clip: {
+        x: rect.left - padding,
+        y: rect.top - padding,
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2,
+      },
+    });
+  }
+
+
+async function takeScreenshot (league) {
+	let browser = await puppeteer.launch({ headless: true });
+	let page = await browser.newPage();
+	await page.setViewport({ width: 1920, height: 1080 });
+	const clubs = await superliga.getClubs(league.url)
+
+
+	var arrayLength = clubs.length;
+	//'data-csv/' + fname
+		for (var i = 0; i < arrayLength; i++) {
+			//pathName = 'data-csv/' + leagueData.name + '-' + ${clubs[i].name} ; 
+			let pathString =  `data/club-${clubs[i].name}.png` ; 
+			await page.goto(clubs[i].url);
+			await page.waitFor(5000);
+			
+			await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+
+		}
+	
+    await browser.close();
+}
+
+
 function getBestTeamInLeague (league) {
 	superliga
 		.getClubs(league.url)
@@ -60,9 +129,11 @@ function getLeagueByLeagueName(leagueName) {
 	
 }
 
+const puppeteer = require('puppeteer');
+
+var rmdir = require('rmdir');
 
 
-//getLeaguebyLeagueName('serbia') ; 
 
 const cmdline = require('node-cmdline-parser');
 
@@ -75,7 +146,8 @@ switch (true) {
 	   break;
 	case cmdline.keyexists('leagueName'):
 		const leagueName = cmdline.get('leagueName')
-		getLeague(getLeagueByLeagueName(leagueName))
+		//getLeague(getLeagueByLeagueName(leagueName))
+		takeScreenshotTest(getLeagueByLeagueName(leagueName)); 
 	   break;
 	case cmdline.keyexists('allNational'):
 		var arrayLength = nationalTeams.length;
@@ -84,6 +156,15 @@ switch (true) {
 			getNationalTeams(nationalTeams[i]) ;
 		}
 		break; 
+	case cmdline.keyexists('clearCSV'):
+		var path = 'data-csv';
+
+		rmdir(path , function (err, dirs, files) {
+		console.log(dirs);
+		console.log(files);
+		console.log('all files are removed');
+		});
+		 break ; 
 	case cmdline.keyexists('help'):
 		console.log('you can use node . -testNational to get 1 national team') ; 
 		console.log('you can use node . -testLeague to get 1  team from league') ; 
