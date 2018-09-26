@@ -6,7 +6,7 @@ const swosRange = require('./swos-range.json');
 //const BASE_URL = 'https://www.transfermarkt.com';
 const BASE_URL = 'https://www.transfermarkt.co.uk';
 
-const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ; 
+const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ;
 
 async function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
@@ -53,7 +53,7 @@ async function parseNationalPlayerRow (row) {
 
 	const timeInPlay = await parseNationalPlayerStats(url);
 
-	
+
 
 	return { number, name, position, value, swosValue, age, timeInPlay , valueStripped };
 }
@@ -180,7 +180,7 @@ function getPlayers (club) {
 		.then(res => res.text())
 		.then(parseTable)
 		.then(res => {
-			club.url = club.url + ORDER_URL ; 
+			club.url = club.url + ORDER_URL ;
 			club.coach = res.coach;
 			club.formation = res.formation;
 			club.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
