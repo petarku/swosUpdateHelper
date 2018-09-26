@@ -32,9 +32,9 @@ async function takeScreenshotTest (league) {
 
 
 	var arrayLength = clubs.length;
-	//'data-csv/' + fname
+	
 		for (var i = 0; i < 1; i++) {
-			//pathName = 'data-csv/' + leagueData.name + '-' + ${clubs[i].name} ; 
+			
 			let pathString = 'data-csv/' +  `${league.name}-${clubs[i].name}.png` ; 
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
@@ -48,10 +48,7 @@ async function takeScreenshotTest (league) {
 
 async function screenshotDOMElement(page, selector, padding = 0, pathString) {
     const rect = await page.evaluate(selector => {
-		
 
-	  //const element = document.querySelector(selector);
-	  //const elementArray =document.querySelectorAll('.large-7.columns.small-12.aufstellung-vereinsseite');
 	  const element = document.querySelector(selector) ;
       const { x, y, width, height } = element.getBoundingClientRect();
       return { left: x, top: y, width, height, id: element.id };
@@ -78,10 +75,9 @@ async function takeScreenshot (league) {
 
 
 	var arrayLength = clubs.length;
-	//'data-csv/' + fname
 		for (var i = 0; i < arrayLength; i++) {
-			//pathName = 'data-csv/' + leagueData.name + '-' + ${clubs[i].name} ; 
-			let pathString =  `data/club-${clubs[i].name}.png` ; 
+			 
+			let pathString = 'data-csv/' +  `${league.name}-${clubs[i].name}.png` ; 
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
