@@ -12,7 +12,7 @@ function getLeague (league) {
 		.getClubs(league.url)
 		.then(clubs => {
 			const playersPromises = clubs.map(club.getPlayers);
-			 
+
 			return Promise.all(playersPromises);
 		})
 		.then(res => {
@@ -29,7 +29,7 @@ function getBestTeamInLeague (league) {
 		.getClubs(league.url)
 		.then(clubs => {
 			//const playersPromises = clubs.map(club.getPlayers);
-			 const playersPromises = [ club.getPlayers(clubs[0]) ];		// get 1 club for tests
+			const playersPromises = [club.getPlayers(clubs[0])]; // get 1 club for tests
 			return Promise.all(playersPromises);
 		})
 		.then(res => {
@@ -46,52 +46,47 @@ function getNationalTeams (nationalTeam) {
 		const str = JSON.stringify(res, null, 2);
 		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
 		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-		csvWriter.writeTeam(null, res, nationalTeam) ; 
+		csvWriter.writeTeam(null, res, nationalTeam);
 	});
 }
 
-function getLeagueByLeagueName(leagueName) { 
+function getLeagueByLeagueName (leagueName) {
 	for (var i in leagues) {
 		if (leagues[i].name.indexOf(leagueName) !== -1) {
-			//console.log(leagues[i]);
-		 	return leagues[i] ;  
+			return leagues[i];
 		}
-	  }
-	
+	}
 }
 
 
+function run () {
+	const cmdline = require('node-cmdline-parser');
+	const keys = {
+		testNational: () => getNationalTeams(nationalTeams[0]),
+		testLeague: () => getBestTeamInLeague(leagues[5]),
+		leagueName: name => getLeague(getLeagueByLeagueName(name)),
+		allNational: () => {
+			const arrayLength = nationalTeams.length;
+			for (var i = 0; i < arrayLength; i++) {
+				getNationalTeams(nationalTeams[i]);
+			}
+		},
+		help () {
+			console.log('you can use node . -testNational to get 1 national team');
+			console.log('you can use node . -testLeague to get 1  team from league');
+			console.log('you can use node . -leagueName serbia to get teams from league of serbia');
+			console.log('you can use node . -allNational to get all national teams');
+		},
+		default () {
+			console.log('no command parameter is not found ');
+			console.log('run node . -help to get list of all parameters you can use  ');
+		},
+	};
 
-//getLeaguebyLeagueName('serbia') ; 
+	for (const [key, fn] of Object.entries(keys)) {
+		if (cmdline.keyexists(key)) return fn(cmdline.get(key));
+	}
+	return keys.default();
+}
 
-const cmdline = require('node-cmdline-parser');
-
-switch (true) {
-	case cmdline.keyexists('testNational'):
-		getNationalTeams(nationalTeams[0]) ;
-	   break;
-	case cmdline.keyexists('testLeague'):
-		getBestTeamInLeague(leagues[5]);
-	   break;
-	case cmdline.keyexists('leagueName'):
-		const leagueName = cmdline.get('leagueName')
-		getLeague(getLeagueByLeagueName(leagueName))
-	   break;
-	case cmdline.keyexists('allNational'):
-		var arrayLength = nationalTeams.length;
-
-		for (var i = 0; i < arrayLength; i++) {
-			getNationalTeams(nationalTeams[i]) ;
-		}
-		break; 
-	case cmdline.keyexists('help'):
-		console.log('you can use node . -testNational to get 1 national team') ; 
-		console.log('you can use node . -testLeague to get 1  team from league') ; 
-		console.log('you can use node . -leagueName serbia to get teams from league of serbia') ; 
-		console.log('you can use node . -allNational to get all national teams') ; 
-		break; 
-	default:
-		console.log('no command parameter is not found ') ; 
-		console.log('run node . -help to get list of all parameters you can use  ') ;    
-	  
-  }
+run();

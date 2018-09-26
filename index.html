@@ -8,15 +8,13 @@
 	.club { border-collapse: collapse; }
 	.player-row td { border: 1px solid #999; vertical-align: top; padding: 3px 5px; }
 	.player-row img { width: 48px; }
+	thead .player-row td { background: #eee; padding: 10px 5px; vertical-align: middle; font-weight: bold; }
 </style>
 </head>
 <body>
 <main></main>
 <script>
-	function getLeagueList () {
-		return fetch('src/leagues.json').then(res => res.json());
-	}
-
+	const getLeagueList = () => fetch('src/leagues.json').then(res => res.json());
 
 	function getLeagueData (league) {
 		return new Promise(resolve => {			// wrap in a promise to catch the missing file and return  empty
@@ -27,9 +25,7 @@
 		})
 	}
 
-
 	function getPlayerHtml (player, i) {
-		console.log(player);
 		return `<tr class="player-row">
 			<td>${i}</td>
 			<td><img src="${player.imgUrl}"></td>
@@ -39,34 +35,60 @@
 			<td>${player.swosValue}</td>
 			<td>${player.flags}</td>
 			<td>${player.age}</td>
-
 		</tr>`;
 	}
 
 	function getClubHtml (club) {
 		const players = club.players.map(getPlayerHtml).join('');
 		return `<h1>Club Name : <a href="${club.url}" target="_blank">${club.name}</a></h1>
-		<h2>Coach: : ${club.coach}</h2>
-		<h2>Formation: : ${club.formation}</h2>
-	
-			<table class="club">${players}</table>`
-		
+			<h2>Coach: : ${club.coach}</h2>
+			<h2>Formation: : ${club.formation}</h2>
+			<table class="club">
+				<thead><tr class="player-row">
+					<td></td>
+					<td>Photo</td>
+					<td>Name</td>
+					<td><a href="#timeInPlay" class="sort">Time in play</a></td>
+					<td>Position</td>
+					<td><a href="#valueStripped" class="sort">SWOS</a></td>
+					<td>Flags</td>
+					<td>Age</td>
+				</tr></thead>
+				${players}
+			</table>`;
 	}
 
-	function getListHtml (list) {
-		return list.map(getClubHtml).join('');
+	const getListHtml = list => list.map(getClubHtml).join('');
+	const writeTable = lists => document.querySelector('main').innerHTML = lists.map(getListHtml).join('');
+
+	function sort (lists, field, order) {
+		const fn = (order === 'ASC' ? (a, b) => a[field] - b[field] : (a, b) => b[field] - a[field]);
+		lists.forEach(list => list.forEach(club => club.players.sort(fn)));
+		writeTable(lists);
 	}
 
-	function writeTable (lists) {
-		const main = document.querySelector('main');
-		main.innerHTML = lists.map(getListHtml).join('');
+	function init () {
+		let LISTS = [], SORT_BY, SORT_ORDER;
+		getLeagueList()
+			.then(list => Promise.all(list.map(getLeagueData)))
+			.then(list => list.filter(i => !!i))  // filter out empty lists
+			.then(lists => {
+				LISTS = lists;
+				writeTable(lists);
+			});
+
+		document.addEventListener('click', event => {
+			const sortBtn = event.target.closest('.sort');
+			if (sortBtn) {
+				const sortBy = sortBtn.getAttribute('href').substr(1);
+				SORT_ORDER = SORT_BY === sortBy ? (SORT_ORDER === 'ASC' ? 'DESC' : 'ASC') : 'DESC';
+				SORT_BY = sortBy;
+				sort(LISTS, SORT_BY, SORT_ORDER);
+			}
+		});
 	}
 
-
-	getLeagueList()
-		.then(list => Promise.all(list.map(getLeagueData)))
-		.then(list => list.filter(i => !!i))  // filter out empty lists
-		.then(writeTable);
+	init();
 
 </script>
 </body>
