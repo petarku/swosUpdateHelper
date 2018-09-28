@@ -4,6 +4,7 @@
 	{ "name": "england", "url": "/premier-league/startseite/wettbewerb/GB1" },
 	{ "name": "germany", "url": "/1-bundesliga/startseite/wettbewerb/L1" },
 	{ "name": "spain",   "url": "/primera-division/startseite/wettbewerb/ES1" } , 
-	{ "name": "spain2",   "url": "/segunda-division/startseite/wettbewerb/ES2" } 
+	{ "name": "spain2",   "url": "/segunda-division/startseite/wettbewerb/ES2" },
+	{ "name": "croatia", "url":"/1-hnl/startseite/wettbewerb/KR1" }
 	
 ]

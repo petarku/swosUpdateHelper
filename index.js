@@ -64,7 +64,7 @@ async function screenshotDOMElement(page, selector, padding = 0, pathString) {
 		console.log('Dom element couldnt be found ') ; 
 		return null ; 
 	}
-    console.log('rect: ', rect);
+   // console.log('rect: ', rect);
 
     return await page.screenshot({
       path: pathString,
