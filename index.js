@@ -6,6 +6,8 @@ const fs = require('fs');
 const leagues = require('./src/leagues.json');
 const nationalTeams = require('./src/nationalTeams.json');
 const csvWriter = require('./src/csv-writer.js');
+const puppeteer = require('puppeteer');
+const del = require('delete');
 
 function getLeague (league) {
 	superliga
@@ -130,17 +132,26 @@ function getLeagueByLeagueName (leagueName) {
 	}
 }
 
-const puppeteer = require('puppeteer');
+function deleteAssets () {
+	del(['data-csv/*.csv'], function(err, deleted) {
+		if (err) throw err;
+		console.log("Following files are deleted : ")
+		console.log(deleted);
+	  });
+}
 
-var rmdir = require('rmdir');
+
+
 
 function run () {
 	const cmdline = require('node-cmdline-parser');
+	
 	const keys = {
 		testNational: () => getNationalTeams(nationalTeams[0]),
 		testLeague: () => getBestTeamInLeague(leagues[5]),
 		makeScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)), 
 		leagueName: name => getLeague(getLeagueByLeagueName(name)),
+		deleteAssets:() => deleteAssets(), 
 		allNational: () => {
 			const arrayLength = nationalTeams.length;
 			for (var i = 0; i < arrayLength; i++) {
