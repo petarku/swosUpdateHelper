@@ -35,7 +35,7 @@ async function takeScreenshotTest (league) {
 	
 		for (var i = 0; i < 1; i++) {
 			
-			let pathString = 'data-csv/' +  `${league.name}-${clubs[i].name}.png` ; 
+			let pathString = 'data-png/' +  `${league.name}-${clubs[i].name}.png` ; 
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
@@ -83,7 +83,7 @@ async function takeScreenshot (league) {
 	var arrayLength = clubs.length;
 		for (var i = 0; i < arrayLength; i++) {
 			 
-			let pathString = 'data-csv/' +  `${league.name}-${clubs[i].name}.png` ; 
+			let pathString = 'data-png/' +  `${clubs[i].name}.png` ; 
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
