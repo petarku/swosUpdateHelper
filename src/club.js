@@ -117,11 +117,19 @@ async function parsePlayerStats (url) {
 		.closest('.box')
 		.querySelector('.table-header')
 		.textContent.trim();
-	if (heading.indexOf('Performance') === -1) return 0;
-
+		//console.log(heading); 
+	/*const compare = heading.replace('/', '');	
+	//console.log(compare); 
+	if (compare.indexOf('Stats 1819') === -1) {
+		console.log("Header for time in play not found ")
+		return 0;
+		
+	}*/
 	let timeInPlay = document.querySelector('#yw1 .items td:last-child');
-	if (!timeInPlay) return 0;
-
+	if (!timeInPlay) {
+		console.log("TD for time in play not found ")
+		return 0;
+	}
 	timeInPlay = timeInPlay.textContent.replace('.', '');
 	//timeInPlay = timeInPlay.textContent.replace('-', '0');
 
