@@ -54,12 +54,16 @@ async function screenshotDOMElement(page, selector, padding = 0, pathString) {
 
 	  const element = document.querySelector(selector) ;
 	  if (!element) {
-		  console.log('Element couldnt be found for ' + pathString) ; 
 		return null ; 
 	  } 
       const { x, y, width, height } = element.getBoundingClientRect();
       return { left: x, top: y, width, height, id: element.id };
-    }, selector);
+	}, selector);
+	
+	if (!rect) {
+		console.log('Dom element couldnt be found ') ; 
+		return null ; 
+	}
     console.log('rect: ', rect);
 
     return await page.screenshot({
@@ -89,8 +93,12 @@ async function takeScreenshot (league) {
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
-			await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
-			console.log('File ' + pathString + ' created') ; 
+			let result = await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			if (!result) {
+				console.log(`Formation picture not found for  ${clubs[i].name}`) ; 
+			}	else {
+				console.log('Png created for ' + pathString) ; 
+			}
 
 		}
 	
