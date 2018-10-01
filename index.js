@@ -37,7 +37,7 @@ async function takeScreenshotTest (league) {
 	
 		for (var i = 0; i < 1; i++) {
 			
-			let pathString = 'data-png/' +  `${league.name}-${clubs[i].name}.png` ; 
+			let pathString = 'data-test/' +  `${league.name}-${clubs[i].name}.png` ; 
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
@@ -116,8 +116,8 @@ function getBestTeamInLeague (league) {
 		})
 		.then(res => {
 			const str = JSON.stringify(res, null, 2);
-			fs.writeFileSync(`data/league-${league.name}.json`, str);
-			console.log(`File data/league-${league.name}.json created!`);
+			fs.writeFileSync(`data-test/league-${league.name}.json`, str);
+			console.log(`File data-test/league-${league.name}.json created!`);
 
 			csvWriter.writeLeague(league, res);
 		});
@@ -157,7 +157,8 @@ function run () {
 	const keys = {
 		testNational: () => getNationalTeams(nationalTeams[0]),
 		testLeague: () => getBestTeamInLeague(leagues[5]),
-		makeScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)), 
+		makeScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		leagueName: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
 		allNational: () => {
@@ -170,6 +171,7 @@ function run () {
 			console.log('you can use node . -testNational to get 1 national team');
 			console.log('you can use node . -testLeague to get 1  team from league');
 			console.log('you can use node . -makeScreenshot to get screenshot for provided league ');
+			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
 			console.log('you can use node . -leagueName serbia to get teams from league of serbia');
 			console.log('you can use node . -allNational to get all national teams');
 		},
