@@ -78,6 +78,33 @@ async function screenshotDOMElement(page, selector, padding = 0, pathString) {
 	
   }
 
+  async function takeNationalScreenshot () {
+	let browser = await puppeteer.launch({ headless: true });
+	let page = await browser.newPage();
+	await page.setViewport({ width: 1920, height: 1080 });
+	
+	const BASE_URL = 'https://www.transfermarkt.co.uk';
+	
+
+
+	var arrayLength = nationalTeams.length;
+		for (var i = 0; i < arrayLength; i++) {
+			 
+			let pathString = 'data-png/' +  `${nationalTeams[i].name}.png` ; 
+			await page.goto(BASE_URL + nationalTeams[i].url);
+			await page.waitFor(5000);
+			
+			let result = await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			if (!result) {
+				console.log(`Formation picture not found for  ${nationalTeams[i].name}`) ; 
+			}	else {
+				console.log('Png created for ' + pathString) ; 
+			}
+
+		}
+	
+    await browser.close();
+}
 
 async function takeScreenshot (league) {
 	let browser = await puppeteer.launch({ headless: true });
@@ -140,12 +167,26 @@ function getLeagueByLeagueName (leagueName) {
 	}
 }
 
+function getNationalTeamByName (nationalTeamName) {
+	for (var i in nationalTeams) {
+		if (nationalTeams[i].name.indexOf(nationalTeamName) !== -1) {
+			return nationalTeams[i];
+		}
+	}
+}
+
 function deleteAssets () {
 	del(['data-csv/*.csv'], function(err, deleted) {
 		if (err) throw err;
 		console.log("Following files are deleted : ")
 		console.log(deleted);
 	  });
+	  del(['data-png/*.png'], function(err, deleted) {
+		if (err) throw err;
+		console.log("Following files are deleted : ")
+		console.log(deleted);
+	  });
+
 }
 
 
@@ -155,9 +196,10 @@ function run () {
 	const cmdline = require('node-cmdline-parser');
 	
 	const keys = {
-		testNational: () => getNationalTeams(nationalTeams[0]),
+		getNational: name => getNationalTeams(getNationalTeamByName(name)),
 		testLeague: () => getBestTeamInLeague(leagues[5]),
-		makeScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+		makeLeagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+		makeNationalTeamsScreenshots: () => takeNationalScreenshot(),
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		leagueName: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
@@ -168,11 +210,12 @@ function run () {
 			}
 		},
 		help () {
-			console.log('you can use node . -testNational to get 1 national team');
+			console.log('you can use node . -getNational {SERBIA} to get Serbian national team ');
 			console.log('you can use node . -testLeague to get 1  team from league');
-			console.log('you can use node . -makeScreenshot to get screenshot for provided league ');
+			console.log('you can use node . -makeLeagueScreenshot {serbia} to get screenshot for provided league ');
+			console.log('you can use node . -makeNationalTeamsScreenshots to get screenshot for all national teams ');
 			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
-			console.log('you can use node . -leagueName serbia to get teams from league of serbia');
+			console.log('you can use node . -leagueName {serbia} to get teams from league of serbia');
 			console.log('you can use node . -allNational to get all national teams');
 		},
 		default () {
