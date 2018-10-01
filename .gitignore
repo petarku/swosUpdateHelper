@@ -6,3 +6,5 @@ node_modules/
 *-lock.json
 superliga.json
 nationalTeam-*.json
+
+.vscode/launch.json
