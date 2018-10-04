@@ -8,7 +8,18 @@
 	{ "name": "BRAZIL",   "url": "/brasilien/startseite/verein/3439" }, 
 	{ "name": "ARGENTINA",   "url": "/argentinien/startseite/verein/3437" }, 
 	{ "name": "PORTUGAL",   "url": "/portugal/startseite/verein/3300" }, 
-	{ "name": "GERMANY",   "url": "/deutschland/startseite/verein/3262" }
+	{ "name": "GERMANY",   "url": "/deutschland/startseite/verein/3262" }, 
+	{ "name": "SWISS",   "url": "/schweiz/startseite/verein/3384" }, 
+	{ "name": "POLAND",   "url": "/polen/startseite/verein/3442" }, 
+	{ "name": "ICELAND",   "url": "/island/startseite/verein/3574" }, 
+	{ "name": "HOLLAND",   "url": "/niederlande/startseite/verein/3379" }, 
+	{ "name": "UKRAINE",   "url": "/ukraine/startseite/verein/3699" }, 
+	{ "name": "URUGUAY",   "url": "/uruguay/startseite/verein/3449" }, 
+	{ "name": "CHILE",   "url": "/chile/startseite/verein/3700" }, 
+	{ "name": "COLOMBIA",   "url": "/kolumbien/startseite/verein/3816" }, 
+	{ "name": "MEXICO",   "url": "/mexiko/startseite/verein/6303" }, 
+	{ "name": "RUSSIA",   "url": "/russland/startseite/verein/3448" }
+
 
 
 ]
