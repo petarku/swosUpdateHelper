@@ -188,6 +188,24 @@ function deleteAssets () {
 	  });
 
 }
+function showLeagueData(leagueName) { 
+	 
+const server = http.createServer((request, response) => {
+	// You pass two more arguments for config and middleware
+	// More details here: https://github.com/zeit/serve-handler#options
+	return handler(request, response);
+  })
+   
+  server.listen(3000, () => {
+	console.log('Running at http://localhost:3000');
+	open("http://localhost:3000/" + '&'  + leagueName);
+  
+  });
+
+}
+const handler = require('serve-handler');
+const http = require('http');
+var open = require("open");
 
 
 
@@ -203,6 +221,7 @@ function run () {
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		leagueName: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
+		showLeagueData:name => showLeagueData(name), 
 		allNational: () => {
 			const arrayLength = nationalTeams.length;
 			for (var i = 0; i < arrayLength; i++) {
