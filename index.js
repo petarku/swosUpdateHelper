@@ -198,8 +198,8 @@ const server = http.createServer((request, response) => {
    
   server.listen(3000, () => {
 	console.log('Running at http://localhost:3000');
-	open("http://localhost:3000/" + '&'  + leagueName);
-  
+	//open("http://localhost:3000/index.html" + '&'  + leagueName);
+  open("http://localhost:3000/index.html&" + leagueName);
   });
 
 }
@@ -214,12 +214,12 @@ function run () {
 	const cmdline = require('node-cmdline-parser');
 	
 	const keys = {
-		getNational: name => getNationalTeams(getNationalTeamByName(name)),
+		national: name => getNationalTeams(getNationalTeamByName(name)),
 		testLeague: () => getBestTeamInLeague(leagues[5]),
-		makeLeagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
-		makeNationalTeamsScreenshots: () => takeNationalScreenshot(),
+		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+		nationalScreenshots: () => takeNationalScreenshot(),
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
-		leagueName: name => getLeague(getLeagueByLeagueName(name)),
+		league: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
 		showLeagueData:name => showLeagueData(name), 
 		allNational: () => {
@@ -229,12 +229,12 @@ function run () {
 			}
 		},
 		help () {
-			console.log('you can use node . -getNational {SERBIA} to get Serbian national team ');
+			console.log('you can use node . -national {SERBIA} to get Serbian national team ');
 			console.log('you can use node . -testLeague to get 1  team from league');
-			console.log('you can use node . -makeLeagueScreenshot {serbia} to get screenshot for provided league ');
-			console.log('you can use node . -makeNationalTeamsScreenshots to get screenshot for all national teams ');
+			console.log('you can use node . -leagueScreenshot {serbia} to get screenshot for provided league ');
+			console.log('you can use node . -nationalScreenshots to get screenshot for all national teams ');
 			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
-			console.log('you can use node . -leagueName {serbia} to get teams from league of serbia');
+			console.log('you can use node . -league {serbia} to get teams from league of serbia');
 			console.log('you can use node . -allNational to get all national teams');
 		},
 		default () {

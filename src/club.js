@@ -34,7 +34,7 @@ async function parsePlayerRow (row) {
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
 	const swosValue = getTheSwosValue(valueStripped);
 
-	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age , valueStripped };
+	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age };
 }
 
 async function parseNationalPlayerRow (row) {
@@ -55,7 +55,7 @@ async function parseNationalPlayerRow (row) {
 
 
 
-	return { number, name, position, value, swosValue, age, timeInPlay , valueStripped };
+	return { number, name, position, value, swosValue, age, timeInPlay  };
 }
 
 function getTheSwosValue (valueStripped) {
@@ -119,15 +119,12 @@ async function parsePlayerStats (url) {
 		.textContent.trim();
 	
 	if (heading !== 'Stats 18/19') {
-		console.log("No this year stat for " + url); 
+		console.error("No this year stat for " + url); 
 		return 0;
 		
 	}
 	let timeInPlay = document.querySelector('#yw1 .items td:last-child');
-	if (!timeInPlay) {
-		console.log("TD for time in play not found ")
-		return 0;
-	}
+	
 	timeInPlay = timeInPlay.textContent.replace('.', '');
 	//timeInPlay = timeInPlay.textContent.replace('-', '0');
 
