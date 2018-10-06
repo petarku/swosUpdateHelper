@@ -54,6 +54,7 @@ const formationCodeMap = {
 	'4-2-3-1':'4-5-1',
 	'3-5-2 flat':'3-5-2', 
 	'4-3-3 off.':'4-3-3', 
+	'4-3-3 Attacking':'4-3-3', 
 	'5-3-2':'5-3-2', 
 	'4-1-3-2':'4-4-2', 
 	'4-3-2-1':'4-5-1',
@@ -61,6 +62,7 @@ const formationCodeMap = {
 	'4-4-2 double 6':'4-4-2', 
 	'3-4-2-1': '3-4-3', 
 	'4-1-4-1':'5-4-1',
+	'4-4-1-1':'4-4-2',
 	'3-5-2':'3-5-2', 
 
 };
@@ -224,7 +226,12 @@ function writeTeam (leagueData, playersData , nationalTeamData) {
 	}
 	
 	const clubCoach = normalize.normalizeDiacritics(playersData.coach); 
-	const clubFormation = formationCodeMap[playersData.formation] || '4-4-2'; 
+	const clubFormation = formationCodeMap[playersData.formation]; 
+	if (!clubFormation) {
+		console.error(`Formation  ${playersData.formation} for club ${clubName} not found `) ;
+		console.log("Defaulting to 4-4-2") ; 
+		clubFormation = "4-4-2" ; 
+	}
 	
 	let fname ; 
 	if (nationalTeamData) {
