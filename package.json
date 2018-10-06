@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -s",
+    "start": "http-server -os",
     "update": "node index.js"
   },
   "author": "",

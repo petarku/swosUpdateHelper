@@ -34,7 +34,7 @@ async function parsePlayerRow (row) {
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
 	const swosValue = getTheSwosValue(valueStripped);
 
-	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age };
+	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age , valueStripped};
 }
 
 async function parseNationalPlayerRow (row) {
@@ -55,7 +55,7 @@ async function parseNationalPlayerRow (row) {
 
 
 
-	return { number, name, position, value, swosValue, age, timeInPlay  };
+	return { number, name, position, value, swosValue, age, timeInPlay , valueStripped };
 }
 
 function getTheSwosValue (valueStripped) {
