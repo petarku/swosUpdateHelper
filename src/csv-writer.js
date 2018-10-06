@@ -6,7 +6,7 @@ const countryCodeMap = {
 	Serbia: 'YUG',
 	Spain:'ESP', 
 	Netherlands:'HOL',
-	Camerun:'CMR', 
+	Cameroon:'CMR', 
 	Ireland:'IRL' , 
 	Azerbaijan:'AZB', 
 	Belarus:'BLS', 
@@ -115,7 +115,10 @@ function playerLine (player , nationalTeamName) {
 		const countryFromFlags = player.flags[0];
 		country = countryCodeMap[countryFromFlags] || countryFromFlags.substr(0, 3).toUpperCase() ;
 	}
-	player.swosValue = capGoalkeeperPrice(player.swosValue); 
+	if (player.position === 'Goalkeeper') {
+	
+		player.swosValue = capGoalkeeperPrice(player.swosValue); 
+	}	
 	const playerName = normalize.normalizeDiacritics(player.name) ; 
 	const skills7 = '0,0,0,0,0,0,0'; 
 
@@ -133,7 +136,7 @@ function playerLine (player , nationalTeamName) {
 function capGoalkeeperPrice(swosValue) {
 
 	if (['8M', '7M', '6M', '5M'].indexOf(swosValue) >= 0) {
-		swosValue= '4.5M ; '
+		swosValue= '4.5M' ; 
 	}
 	return swosValue ; 
 	
