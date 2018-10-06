@@ -31,6 +31,8 @@ const countryCodeMap = {
 	'Cape Verde':'CUS',
 	'Comoros':'CUS', 
 	 Morocco:'MAR', 
+	 'DR Congo':'CON', 
+	 'St. Lucia:':'CUS', 
 
 };
 
@@ -64,6 +66,8 @@ const formationCodeMap = {
 	'4-1-4-1':'5-4-1',
 	'4-4-1-1':'4-4-2',
 	'3-5-2':'3-5-2', 
+	'3-4-1-2':'3-4-3', 
+	'4-4-2':'4-4-2'
 
 };
 
@@ -226,7 +230,7 @@ function writeTeam (leagueData, playersData , nationalTeamData) {
 	}
 	
 	const clubCoach = normalize.normalizeDiacritics(playersData.coach); 
-	const clubFormation = formationCodeMap[playersData.formation]; 
+	let clubFormation = formationCodeMap[playersData.formation]; 
 	if (!clubFormation) {
 		console.error(`Formation  ${playersData.formation} for club ${clubName} not found `) ;
 		console.log("Defaulting to 4-4-2") ; 
