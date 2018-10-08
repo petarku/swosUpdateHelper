@@ -9,16 +9,19 @@
 	.player-row td { border: 1px solid #999; vertical-align: top; padding: 3px 5px; }
 	.player-row img { width: 48px; }
 	thead .player-row td { background: #eee; padding: 10px 5px; vertical-align: middle; font-weight: bold; }
+	.hide { display: none;}
 </style>
 </head>
 <body>
 <main></main>
 <script>
+	let search  ; 
+	let providedleagueName ;
 	const getLeagueList = () => fetch('src/leagues.json').then(res => res.json());
 
 	function getLeagueData (league) {
 		return new Promise(resolve => {			// wrap in a promise to catch the missing file and return  empty
-			fetch(`data/league-${league.name}.json`)
+			fetch(`data/league-${providedleagueName}.json`)
 				.then(res => res.json())
 				.then(resolve)
 				.catch(() => resolve());
@@ -35,6 +38,7 @@
 			<td>${player.swosValue}</td>
 			<td>${player.flags}</td>
 			<td>${player.age}</td>
+			<td class="hide">${player.valueStripped}</td>
 		</tr>`;
 	}
 
@@ -69,6 +73,9 @@
 	}
 
 	function init () {
+
+		 search =  window.location.search ; 
+		providedleagueName = search.replace('?', '');
 		let LISTS = [], SORT_BY, SORT_ORDER;
 		getLeagueList()
 			.then(list => Promise.all(list.map(getLeagueData)))

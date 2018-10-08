@@ -199,7 +199,7 @@ const server = http.createServer((request, response) => {
   server.listen(3000, () => {
 	console.log('Running at http://localhost:3000');
 	//open("http://localhost:3000/index.html" + '&'  + leagueName);
-  open("http://localhost:3000/index.html" );
+  open(`http://localhost:3000?${leagueName}` );
   });
 
 }
@@ -221,7 +221,7 @@ function run () {
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		league: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
-		showLeagueData:name => showLeagueData(name), 
+		showLeague:name => showLeagueData(name), 
 		allNational: () => {
 			const arrayLength = nationalTeams.length;
 			for (var i = 0; i < arrayLength; i++) {
@@ -236,6 +236,7 @@ function run () {
 			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
 			console.log('you can use node . -league {serbia} to get teams from league of serbia');
 			console.log('you can use node . -allNational to get all national teams');
+			console.log('you can use node . -showLeague {serbia} to show league data in browser ');
 		},
 		default () {
 			console.log('no command parameter is not found ');
