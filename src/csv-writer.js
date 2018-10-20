@@ -2,7 +2,7 @@ const fs = require('fs');
 const normalize = require('normalize-text');
 
 const countryCodeMap = {
-	Albania: 'ALB',
+		Albania: 'ALB',
 	Austria: 'AUT',
 	Belgium: 'BEL',
 	Bulgaria: 'BUL',
@@ -109,49 +109,49 @@ const countryCodeMap = {
 	Ethiopia	ETH
 	Gabon	GAB
 	Sierra Leone	SIE
-Benin	BEN
-Congo	CON
-Guinea	GUI
-Sierra Leone	SRL
-Morocco	MAR
-Gambia	GAM
-Malawi	MLW
-Japan	JAP
-Taiwan	TAI
-India	IND
-Indonesia	
+	Benin	BEN
+	Congo	CON
+	Guinea	GUI
+	Sierra Leone	SRL
+	Morocco	MAR
+	Gambia	GAM
+	Malawi	MLW
+	Japan	JAP
+	Taiwan	TAI
+	India	IND
+	Indonesia	
 	
-Bangladesh	BAN
-Brunei	BRU
-Iraq	IRA
-Jordan	JOR
-Sri Lanka	SRI
-Syria	SYR
-South Korea	KOR
-Iran	IRN
-Vietnam	VIE
-Malaysia	MLY
-Saudi Arabia	SAU
-Yemen	YEM
-Kuwait	KUW
-Laos	LAO
-North Korea	NKR
-Oman	OMA
-Pakistan	PAK
-Philippines	PHI
-China	CHI
-Singapore	SGP
-Mauritius	MAU
-Myanmar	MYA
-Papua New Guinea	PAP
-Tajikistan	TAD
-Uzbekistan	UZB
-Qatar	QAT
-United Arab Emis	UAE
-Australia	AUS
-New Zealand	NZL
-Fiji	FIJ
-Solomon Islands	SOL
+	Bangladesh	BAN
+	Brunei	BRU
+	Iraq	IRA
+	Jordan	JOR
+	Sri Lanka	SRI
+	Syria	SYR
+	South Korea	KOR
+	Iran	IRN
+	Vietnam	VIE
+	Malaysia	MLY
+	Saudi Arabia	SAU
+	Yemen	YEM
+	Kuwait	KUW
+	Laos	LAO
+	North Korea	NKR
+	Oman	OMA
+	Pakistan	PAK
+	Philippines	PHI
+	China	CHI
+	Singapore	SGP
+	Mauritius	MAU
+	Myanmar	MYA
+	Papua New Guinea	PAP
+	Tajikistan	TAD
+	Uzbekistan	UZB
+	Qatar	QAT
+	United Arab Emis	UAE
+	Australia	AUS
+	New Zealand	NZL
+	Fiji	FIJ
+	Solomon Islands	SOL
 
 	
 	
