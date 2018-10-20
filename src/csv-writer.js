@@ -38,7 +38,7 @@ const countryCodeMap = {
 	Ukraine:	'UKR',
 	Wales:	'WAL',
 	Armenia:	'ARM',
-	Bosnia:	'BOS',
+	'Bosnia-Herzegovina':	'BOS',
 	Georgia:	'GEO',
 	
 
