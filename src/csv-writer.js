@@ -28,7 +28,7 @@ const countryCodeMap = {
 	Lithuania:	'LIT',
 	Luxembourg:	'LUX',
 	Malta:	'MLT',
-	Holland:	'HOL',
+	Netherlands:	'HOL',
 	'Northern Ireland':	'NIR',
 	Norway:	'NOR',
 	Poland:	'POL',
