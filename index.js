@@ -218,6 +218,7 @@ function run () {
 		testLeague: () => getBestTeamInLeague(leagues[5]),
 		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
 		nationalScreenshots: () => takeNationalScreenshot(),
+		takeScreenshot:name => takeScreenshot(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		league: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
@@ -233,6 +234,7 @@ function run () {
 			console.log('you can use node . -testLeague to get 1  team from league');
 			console.log('you can use node . -leagueScreenshot {serbia} to get screenshot for provided league ');
 			console.log('you can use node . -nationalScreenshots to get screenshot for all national teams ');
+			console.log('you can use node . -takeScreenshot {serbia} to get screenshot for provided league ');
 			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
 			console.log('you can use node . -league {serbia} to get teams from league of serbia');
 			console.log('you can use node . -allNational to get all national teams');
