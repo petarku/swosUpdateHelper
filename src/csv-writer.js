@@ -203,7 +203,10 @@ const formationCodeMap = {
 	'3-4-3': '3-4-3',
 	'5-4-1': '5-4-1',
 	'4-5-1 flat': '4-5-1', 
-	'3-5-2 Attacking':'3-5-2'
+	'3-5-2 Attacking':'3-5-2', 
+	'4-4-2 Diamond': '4-4-2' , 
+	'4-3-3 Defending' : '4-5-1' 
+
 
 };
 
