@@ -26,28 +26,90 @@ function getLeague (league) {
 		});
 }
 
-async function takeScreenshotTest (league) {
+async function takeLineUpScreenshots (league) {
 	let browser = await puppeteer.launch({ headless: true });
 	let page = await browser.newPage();
 	await page.setViewport({ width: 1920, height: 1080 });
 	const clubs = await superliga.getClubs(league.url)
 
-
+	
 	var arrayLength = clubs.length;
 	
-		for (var i = 0; i < 1; i++) {
+		for (var i = 0; i < arrayLength; i++) {
 			
-			let pathString = 'data-test/' +  `${league.name}-${clubs[i].name}.png` ; 
+			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
+	
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
-			await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
-			console.log(`File ${pathString} created ` ) ; 
+			const url = await findElement( page , ".footer > a");
+			await page.goto(url);
+			await page.waitFor(5000);
+			const lineUpsPageUrls = await findMatchDataURLS(page, ".ergebnis-link") ; 
+			const urlArray = lineUpsPageUrls.urlElements; 
+			for (var j = 0; j < 4; j++) {
+				await page.goto(urlArray[j]); 
+				let pathString = 'data-png/' +  `${league.name}-${clubs[i].name}${j}.png` ;
+				console.log(`Taking screnshot for ${pathString}`); 
+				let result = await screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
+			}
+		
 
 		}
 	
     await browser.close();
 }
+
+async function findMatchDataURLS(page, selector) {
+    const rect = await page.evaluate(selector => {
+
+		
+	  const elements = document.querySelectorAll(selector) ;
+	  	
+	   
+	  if (!elements) {
+		return null ; 
+	  } 
+	  let arrayOfURLS=[]; 
+	  for (var j = 0; j < elements.length; j++) {
+		arrayOfURLS.push(elements[j].href)
+	
+		}
+     
+      return { urlElements : arrayOfURLS };
+	}, selector);
+	
+	if (!rect) {
+		console.log('Dom element couldnt be found ') ; 
+		return null ; 
+	}
+	
+	//console.log(rect[0].href); 
+   return rect ; 
+    
+	
+  }
+
+async function findElement(page, selector) {
+    const rect = await page.evaluate(selector => {
+
+	  const element = document.querySelector(selector) ;
+	  if (!element) {
+		return null ; 
+	  } 
+     
+      return { href: element.href };
+	}, selector);
+	
+	if (!rect) {
+		console.log('Dom element couldnt be found ') ; 
+		return null ; 
+	}
+	
+   return rect.href ; 
+    
+	
+  }
 
 async function screenshotDOMElement(page, selector, padding = 0, pathString) {
     const rect = await page.evaluate(selector => {
@@ -218,7 +280,7 @@ function run () {
 		testLeague: () => getBestTeamInLeague(leagues[5]),
 		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
 		nationalScreenshots: () => takeNationalScreenshot(),
-		takeScreenshot:name => takeScreenshot(getLeagueByLeagueName(name)), 
+		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		league: name => getLeague(getLeagueByLeagueName(name)),
 		deleteAssets:() => deleteAssets(), 
