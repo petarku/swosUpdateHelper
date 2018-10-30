@@ -296,13 +296,13 @@ function run () {
 		
 	
 		help () {
-			console.log('you can use node . -league {serbia} to get teams from league of serbia');
-			console.log('you can use node . -national {SERBIA} to get Serbian national team ');
-			console.log('you can use node . -allNational to get all national teams');
-			console.log('you can use node . -showLeague {serbia} to show league data in browser ');
-			console.log('you can use node . -leagueScreenshot {serbia} to get screenshot for provided league ');
+			console.log('you can use node . -league serbia --to scrap transfermarkt for league of serbia');
+			console.log('you can use node . -national SERBIA --to get Serbian national team ');
+			console.log('you can use node . -allNational --to scrap all national teams');
+			console.log('you can use node . -showLeague serbia --to show league data in browser ');
+			console.log('you can use node . -leagueScreenshot serbia to get formation screenshots for serbian league ');
 			console.log('you can use node . -nationalScreenshots to get screenshot for all national teams ');
-			
+
 			console.log('you can use node . -testLeague to get 1  team from league');
 			console.log('you can use node . -takeScreenshot {serbia} to get screenshot for provided league ');
 			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
