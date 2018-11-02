@@ -8,6 +8,20 @@ const BASE_URL = 'https://www.transfermarkt.co.uk';
 
 const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ;
 
+function getTheSwosValue (valueStripped) {
+	var swosResult = {};
+	for (let i = 0; i < swosRange.length; i++) {
+		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
+			swosResult.swosValue = swosRange[i].swosValue;
+			swosResult.desiredSum = swosRange[i].desiredSum ; 
+			return swosResult;
+		}
+	}
+	swosResult.swosValue = 'no Set Price';
+	swosResult.desiredSum = 0 ; 
+	return swosResult ; 
+}
+
 async function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
 	const number = row.querySelector('.rn_nummer').innerHTML;
@@ -32,9 +46,12 @@ async function parsePlayerRow (row) {
 
 	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
-	const swosValue = getTheSwosValue(valueStripped);
+	const swosData = getTheSwosValue(valueStripped);
 
-	return { number, name, position, flags, value, timeInPlay, swosValue, imgUrl, age , valueStripped};
+	const swosValue = swosData.swosValue ; 
+	const desiredSum = swosData.desiredSum ; 
+
+	return { number, name, position, flags, value, timeInPlay, swosValue,desiredSum, imgUrl, age , valueStripped};
 }
 
 async function parseNationalPlayerRow (row) {
@@ -45,7 +62,10 @@ async function parseNationalPlayerRow (row) {
 	const value = row.querySelector('.rechts.hauptlink').textContent.trim();
 
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
-	const swosValue = getTheSwosValue(valueStripped);
+	const swosData = getTheSwosValue(valueStripped);
+
+	const swosValue = swosData.swosValue ; 
+	const desiredSum = swosData.desiredSum 
 	const zenTriertArray = row.querySelectorAll('.zentriert');
 	const age = zenTriertArray[1].textContent;
 	const playerLink = row.querySelector('.spielprofil_tooltip').href;
@@ -55,17 +75,19 @@ async function parseNationalPlayerRow (row) {
 
 
 
-	return { number, name, position, value, swosValue, age, timeInPlay , valueStripped };
+	return { number, name, position, value, swosValue, desiredSum, age, timeInPlay , valueStripped };
 }
 
-function getTheSwosValue (valueStripped) {
+
+
+/*function getTheSwosValue (valueStripped) {
 	for (let i = 0; i < swosRange.length; i++) {
 		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
 			return swosRange[i].swosValue;
 		}
 	}
 	return 'no Set Price';
-}
+}*/
 
 function convertStringValuetoNumber (original, substr, substr2, currency) {
 	original = original.replace(currency, '');
@@ -177,6 +199,79 @@ async function parseNationalTeamTable (res) {
 	return Promise.all(promises).then(players => ({ players, coach, formation }));
 }
 
+function sortPlayersSwosStyle(players) {
+
+
+	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
+	let gkIndex = 1;
+	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
+		gk.index = gkIndex;
+		gkIndex += 11;
+	});
+	let firstgoalkeeper = goalkeepers.slice(0, 1);
+	let secondGoalkeeper = goalkeepers.slice(1, 2);
+
+	var positionPriority = [
+		'Goalkeeper',
+		'Right-Back',
+		'Centre-Back',
+		'Left-Back',
+		'Right Winger',
+		'Central Midfield',
+		'Left Midfield',
+		'Right Midfield',
+		'Defensive Midfield',
+		'Attacking Midfield',
+		'Left Winger',
+		'Second Striker',
+		'Centre-Forward',
+	]
+
+	let firstTeam = players
+		.filter(p => p.position !== 'Goalkeeper')   
+		.slice(0, 10) ;                                       // pick first 10 for first team                              // add the 2 goalkeepers
+
+	let reserveTeam = players
+		.filter(p => p.position !== 'Goalkeeper')         // filter out GK
+		.slice(10, 14);                                     // take 4 reserves                               // add the 2 goalkeepers
+
+
+
+	firstTeam = firstTeam.sort(function (a, b) {
+		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
+	});   // sort positions by predefine list 
+
+	let idx = 2;
+	firstTeam.forEach(player => {                             // give the numbers starting from 2
+		if (player.index) return;							// don't number if GK is first
+		player.index = idx;
+		idx += 1;
+
+	});
+
+	reserveTeam = reserveTeam.sort(function (a, b) {
+		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
+	});
+
+	idx = 13;
+	reserveTeam.forEach(player => {                             // number other players
+		if (player.index) return;							// don't number if GK is first
+		player.index = idx;
+		idx += 1;
+
+	});
+
+	let restOfPlayers = players        // filter out GK
+		.slice(16, players.length) ; 
+		
+
+	let orderedTeam = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam.concat(restOfPlayers))));
+
+	//console.log(orderedTeam); 
+	return orderedTeam;
+
+}
+
 function getPlayers (club) {
 	console.log(`Getting players' details for ${club.name}...`);
 	return fetch(club.url)
@@ -186,7 +281,9 @@ function getPlayers (club) {
 			club.url = club.url + ORDER_URL ;
 			club.coach = res.coach;
 			club.formation = res.formation;
-			club.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			//club.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			club.players = sortPlayersSwosStyle(res.players); 
 			return club;
 		});
 }

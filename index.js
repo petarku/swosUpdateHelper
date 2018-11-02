@@ -22,7 +22,7 @@ function getLeague (league) {
 			fs.writeFileSync(`data/league-${league.name}.json`, str);
 			console.log(`File data/league-${league.name}.json created!`);
 
-			csvWriter.writeLeague(league, res);
+			csvWriter.writeLeague(league, res , 'data-csv/');
 		});
 }
 
@@ -208,7 +208,7 @@ function getBestTeamInLeague (league) {
 			fs.writeFileSync(`data-test/league-${league.name}.json`, str);
 			console.log(`File data-test/league-${league.name}.json created!`);
 
-			csvWriter.writeLeague(league, res);
+			csvWriter.writeLeague(league, res , 'data-test/');
 		});
 }
 
@@ -217,7 +217,7 @@ function getNationalTeams (nationalTeam) {
 		const str = JSON.stringify(res, null, 2);
 		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
 		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-		csvWriter.writeTeam(null, res, nationalTeam);
+		csvWriter.writeTeam(null, res, nationalTeam , 'data-csv/');
 	});
 }
 
@@ -289,7 +289,7 @@ function run () {
 		nationalScreenshots: () => takeNationalScreenshot(),
 		
 		
-		testLeague: () => getBestTeamInLeague(leagues[5]),
+		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		deleteAssets:() => deleteAssets(), 

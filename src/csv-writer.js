@@ -1,5 +1,6 @@
 const fs = require('fs');
 const normalize = require('normalize-text');
+const swosRange = require('./swos-range.json');
 
 const countryCodeMap = {
 	
@@ -212,7 +213,7 @@ const formationCodeMap = {
 
 function calculateSkills(desiredSUM) {
 	const RANGE = { from: 0, to: 7 };
-	const res = [4, 0, 0, 3, 0, 0, 0];
+	const res = [0,0,0,0,0,0,0];
 
 
 	const rand = (min, max) => {
@@ -236,7 +237,7 @@ function calculateSkills(desiredSUM) {
 		res[i] = rand(from, to);
 	});
 
-	console.log(res, 20 - remainder());
+	return res ; 
 
 }
 
@@ -248,6 +249,20 @@ function slugify(text) {
 		.replace(/^-+/, '')             // Trim - from start of text
 		.replace(/-+$/, '');            // Trim - from end of text
 }
+
+/*function getTheSwosValue (valueStripped) {
+	var swosResult = {};
+	for (let i = 0; i < swosRange.length; i++) {
+		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
+			swosResult.swosValue = swosRange[i].swosValue;
+			swosResult.desiredSum = swosRange[i].desiredSum ; 
+			return swosResult;
+		}
+	}
+	swosResult.swosValue = 'no Set Price';
+	swosResult.desiredSum = 0 ; 
+	return swosResult ; 
+}*/
 
 
 function playerLine(player, nationalTeamName) {
@@ -264,8 +279,11 @@ function playerLine(player, nationalTeamName) {
 
 		player.swosValue = capGoalkeeperPrice(player.swosValue);
 	}
+
+	///let swosData = getTheSwosValue(player.valueStripped);
+
 	const playerName = normalize.normalizeDiacritics(player.name);
-	const skills7 = '0,0,0,0,0,0,0';
+	const skills7 = calculateSkills(player.desiredSum);
 
 	return [
 		country,
@@ -287,78 +305,9 @@ function capGoalkeeperPrice(swosValue) {
 
 }
 
-function petarsWeirdSelection(players) {
-
-	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
-	let gkIndex = 1;
-	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
-		gk.index = gkIndex;
-		gkIndex += 11;
-	});
-	let firstgoalkeeper = goalkeepers.slice(0, 1);
-	let secondGoalkeeper = goalkeepers.slice(1, 2);
-
-	var positionPriority = [
-		'Goalkeeper',
-		'Right-Back',
-		'Centre-Back',
-		'Left-Back',
-		'Right Winger',
-		'Central Midfield',
-		'Left Midfield',
-		'Right Midfield',
-		'Defensive Midfield',
-		'Attacking Midfield',
-		'Left Winger',
-		'Second Striker',
-		'Centre-Forward',
-	]
-
-	let firstTeam = players
-		.filter(p => p.position !== 'Goalkeeper')           // filter out GK
-		.slice(0, 10)                                       // pick first 10 for first team                              // add the 2 goalkeepers
-		.sort((a, b) => b.timeInPlay - a.timeInPlay);    // sorted per timeINPlay 
 
 
-
-	let reserveTeam = players
-		.filter(p => p.position !== 'Goalkeeper')         // filter out GK
-		.slice(10, 14);                                     // take 4 reserves                               // add the 2 goalkeepers
-
-
-
-	firstTeam = firstTeam.sort(function (a, b) {
-		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
-	});   // sort positions by predefine list 
-
-	let idx = 2;
-	firstTeam.forEach(player => {                             // give the numbers starting from 2
-		if (player.index) return;							// don't number if GK is first
-		player.index = idx;
-		idx += 1;
-
-	});
-
-	reserveTeam = reserveTeam.sort(function (a, b) {
-		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
-	});
-
-	idx = 13;
-	reserveTeam.forEach(player => {                             // number other players
-		if (player.index) return;							// don't number if GK is first
-		player.index = idx;
-		idx += 1;
-
-	});
-
-
-	let teamCSV = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam)));
-
-	return teamCSV;
-
-}
-
-function writeTeam(leagueData, playersData, nationalTeamData) {
+function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	let clubName;
 	let nationalTeamName;
 	if (nationalTeamData) {
@@ -392,17 +341,18 @@ function writeTeam(leagueData, playersData, nationalTeamData) {
 	// first line: club name, nation number, team number, formation, coach name
 	lines.push([clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', ''].join(','));
 
-	petarsWeirdSelection(playersData.players)
+	playersData.players
+		.slice(0, 16)   
 		.forEach(player => {
 			lines.push(playerLine(player, nationalTeamName));
 		});
 
-	fs.writeFileSync('data-csv/' + fname, lines.join('\r\n'));
+	fs.writeFileSync(location + fname, lines.join('\r\n'));
 }
 
-function writeLeague(league, data) {
+function writeLeague(league, data, location ) {
 	data.forEach(club => {
-		writeTeam(league, club, null);
+		writeTeam(league, club, null, location);
 	});
 }
 
