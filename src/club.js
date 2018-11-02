@@ -298,7 +298,8 @@ function getNationalTeamPlayers (nationalTeam) {
 			nationalTeam.url = BASE_URL + nationalTeam.url;
 			nationalTeam.coach = res.coach;
 			nationalTeam.formation = res.formation;
-			nationalTeam.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			nationalTeam.players = sortPlayersSwosStyle(res.players); 
 			return nationalTeam;
 		});
 }

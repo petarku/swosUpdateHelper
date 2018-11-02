@@ -221,6 +221,15 @@ function getNationalTeams (nationalTeam) {
 	});
 }
 
+function getOneNationalTeam (nationalTeam) {
+	club.getNationalTeamPlayers(nationalTeam).then(res => {
+		const str = JSON.stringify(res, null, 2);
+		fs.writeFileSync(`data-test/nationalTeam-${nationalTeam.name}.json`, str);
+		console.log(`File data-test/nationalTeam-${nationalTeam.name}.json created!`);
+		csvWriter.writeTeam(null, res, nationalTeam , 'data-test/');
+	});
+}
+
 function getLeagueByLeagueName (leagueName) {
 	for (var i in leagues) {
 		if (leagues[i].name.indexOf(leagueName) !== -1) {
@@ -290,6 +299,7 @@ function run () {
 		
 		
 		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),
+		testNationalTeam: () => getOneNationalTeam(nationalTeams[0]), 
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		deleteAssets:() => deleteAssets(), 
