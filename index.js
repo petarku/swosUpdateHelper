@@ -111,6 +111,8 @@ async function findElement(page, selector) {
 	
   }
 
+ 
+
 async function screenshotDOMElement(page, selector, padding = 0, pathString) {
     const rect = await page.evaluate(selector => {
 
@@ -280,6 +282,31 @@ var open = require("open");
 
 
 
+async function test() {
+
+	let selector = '' ; 
+	let browser = await puppeteer.launch({ headless: true });
+	let page = await browser.newPage();
+	await page.setViewport({ width: 1920, height: 1080 });
+	
+	const BASE_URL = 'https://www.fifaindex.com/team/241/fc-barcelona/';
+
+	await page.goto(BASE_URL);
+	await page.waitFor(5000);
+
+	//const name = await page.$eval('table', el => el.innerText)
+
+	//const name = await page.$$eval('table tr', trs => {return trs.map(tr => tr.textContent) })
+	const name = await page.$$eval('table tr', trs => {return trs.map(tr => {tr.$$eval('')    }) })
+	console.log(name)
+
+	
+	await browser.close();
+	
+	
+  }
+
+
 
 function run () {
 	const cmdline = require('node-cmdline-parser');
@@ -303,6 +330,7 @@ function run () {
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		deleteAssets:() => deleteAssets(), 
+		test:() => test(), 
 		
 	
 		help () {
