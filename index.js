@@ -47,9 +47,9 @@ async function takeLineUpScreenshots (league) {
 			await page.waitFor(5000);
 			const lineUpsPageUrls = await findMatchDataURLS(page, ".ergebnis-link") ; 
 			const urlArray = lineUpsPageUrls.urlElements; 
-			for (var j = 0; j < 4; j++) {
+			for (var j = 0; j < 3; j++) {
 				await page.goto(urlArray[j]); 
-				let pathString = 'data-png/' +  `${league.name}-${clubs[i].name}${j}.png` ;
+				let pathString = 'data-png/' +  `${clubs[i].name}${j}.png` ;
 				console.log(`Taking screnshot for ${pathString}`); 
 				let result = await screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
 			}
