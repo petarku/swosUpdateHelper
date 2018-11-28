@@ -19,7 +19,7 @@ const countryCodeMap = {
 	Finland:	'FIN',
 	France:	'FRA',
 	Germany:	'GER',
-	Greek:	'GRE',
+	Greece:	'GRE',
 	Hungary:	'HUN',
 	Iceland:	'ISL',
 	Israel:	'ISR',
@@ -165,7 +165,6 @@ const countryCodeMap = {
 	
 
 };
-
 
 
 
