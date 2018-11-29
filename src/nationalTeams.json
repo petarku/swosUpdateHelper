@@ -9,7 +9,7 @@
 	{ "name": "Argentina",   "url": "/argentinien/startseite/verein/3437" }, 
 	{ "name": "Portugal",   "url": "/portugal/startseite/verein/3300" }, 
 	{ "name": "Germany",   "url": "/deutschland/startseite/verein/3262" }, 
-	{ "name": "Swiss",   "url": "/schweiz/startseite/verein/3384" }, 
+	{ "name": "Switzerland",   "url": "/schweiz/startseite/verein/3384" }, 
 	{ "name": "Poland",   "url": "/polen/startseite/verein/3442" }, 
 	{ "name": "Iceland",   "url": "/island/startseite/verein/3574" }, 
 	{ "name": "Netherlands",   "url": "/niederlande/startseite/verein/3379" }, 
@@ -32,7 +32,23 @@
 	{ "name": "Hungary",   "url": "/ungarn/startseite/verein/3468" }, 
 	{ "name": "Israel",   "url": "/israel/startseite/verein/5547" }, 
 	{ "name": "Ireland",   "url": "/irland/startseite/verein/3509" }, 
-	{ "name": "Latvia",   "url": "/lettland/startseite/verein/3555" }
+	{ "name": "Latvia",   "url": "/lettland/startseite/verein/3555" },
+	{ "name": "Lithuania",   "url": "/litauen/startseite/verein/3851" }, 
+	{ "name": "Luxembourg",   "url": "/luxemburg/startseite/verein/3580" }, 
+	{ "name": "Malta",   "url": "/malta/startseite/verein/3587" }, 
+	{ "name": "Northern Ireland",   "url": "/nordirland/startseite/verein/5674" },
+	{ "name": "Norway",   "url": "/norwegen/startseite/verein/3440" }, 
+	{ "name": "Romania",   "url": "/rumanien/startseite/verein/3447" }, 
+	{ "name": "San Marino",   "url": "/san-marino/startseite/verein/10521" }, 
+	{ "name": "Scotland",   "url": "/schottland/startseite/verein/3380" } , 
+	{ "name": "Slovenia",   "url": "/slowenien/startseite/verein/3588" }, 
+	{ "name": "Sweden",   "url": "/schweden/startseite/verein/3557" }, 
+	{ "name": "Turkey",   "url": "/turkei/startseite/verein/3381" }, 
+	{ "name": "Wales",   "url": "/wales/startseite/verein/3864" }, 
+	{ "name": "Belarus",   "url": "/weissrussland/startseite/verein/3450" }, 
+	{ "name": "Slovakia",   "url": "/slowakei/startseite/verein/3503" }, 
+	{ "name": "Armenia",   "url": "/armenien/startseite/verein/6219" }, 
+	{ "name": "Azerbaijan",   "url": "/aserbaidschan/startseite/verein/8605" }
 
 
 ]
