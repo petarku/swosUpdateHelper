@@ -8,6 +8,9 @@ const nationalTeams = require('./src/nationalTeams.json');
 const csvWriter = require('./src/csv-writer.js');
 const puppeteer = require('puppeteer');
 const del = require('delete');
+const handler = require('serve-handler');
+const http = require('http');
+var open = require("open");
 
 function getLeague (league) {
 	superliga
@@ -263,22 +266,41 @@ function deleteAssets () {
 }
 function showLeagueData(leagueName) { 
 	 
-const server = http.createServer((request, response) => {
-	// You pass two more arguments for config and middleware
-	// More details here: https://github.com/zeit/serve-handler#options
-	return handler(request, response);
-  })
-   
-  server.listen(3000, () => {
-	console.log('Running at http://localhost:3000');
-	//open("http://localhost:3000/index.html" + '&'  + leagueName);
-  open(`http://localhost:3000?${leagueName}` );
-  });
+	const server = http.createServer((request, response) => {
+		// You pass two more arguments for config and middleware
+		// More details here: https://github.com/zeit/serve-handler#options
+		return handler(request, response, {
+			cleanUrls: false
+		});
+	})
+	
+	server.listen(3000, () => {
+		console.log('Running at http://localhost:3000');
+		//open("http://localhost:3000/index.html" + '?'  + leagueName);
+	open(`http://localhost:3000?${leagueName}` );
+	});
 
 }
-const handler = require('serve-handler');
-const http = require('http');
-var open = require("open");
+
+function showNationalData(leagueName) { 
+	 
+	const server = http.createServer((request, response) => {
+		// You pass two more arguments for config and middleware
+		// More details here: https://github.com/zeit/serve-handler#options
+		return handler(request, response, {
+			cleanUrls: false
+		});
+	})
+	
+	server.listen(3000, () => {
+		console.log('Running at http://localhost:3000');
+		open("http://localhost:3000/index2.html?" + leagueName);
+	//open(`http://localhost:3000?${leagueName}` );
+	});
+
+}
+
+
 
 
 
@@ -321,6 +343,7 @@ function run () {
 		},
 		national: name => getNationalTeams(getNationalTeamByName(name)),
 		showLeague:name => showLeagueData(name), 
+		showNational:name => showNationalData(name), 
 		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
 		nationalScreenshots: () => takeNationalScreenshot(),
 		
