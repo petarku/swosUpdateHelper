@@ -317,7 +317,7 @@ function showLeagueData(leagueName) {
 		// You pass two more arguments for config and middleware
 		// More details here: https://github.com/zeit/serve-handler#options
 		return handler(request, response, {
-			cleanUrls: false
+			//cleanUrls: false
 		});
 	})
 	
@@ -342,7 +342,7 @@ function showNationalData(leagueName) {
 	server.listen(3000, () => {
 		console.log('Running at http://localhost:3000');
 		open("http://localhost:3000/index2.html?" + leagueName);
-	//open(`http://localhost:3000?${leagueName}` );
+	     // open(`http://localhost:3000?${leagueName}` );
 	});
 
 }
