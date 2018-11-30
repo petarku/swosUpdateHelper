@@ -210,6 +210,7 @@ function sortPlayersSwosStyle(players) {
 	});
 	let firstgoalkeeper = goalkeepers.slice(0, 1);
 	let secondGoalkeeper = goalkeepers.slice(1, 2);
+	let otherGoalkeepers = goalkeepers.slice(2,goalkeepers.length); 
 
 	var positionPriority = [
 		'Goalkeeper',
@@ -261,11 +262,12 @@ function sortPlayersSwosStyle(players) {
 
 	});
 
-	let restOfPlayers = players        // filter out GK
-		.slice(16, players.length) ; 
+	let restOfPlayers = players       
+		.slice(16, players.length)
+		.filter(p => p.position !== 'Goalkeeper') 
 		
 
-	let orderedTeam = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam.concat(restOfPlayers))));
+	let orderedTeam = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam.concat(restOfPlayers.concat(otherGoalkeepers)))));
 
 	//console.log(orderedTeam); 
 	return orderedTeam;
