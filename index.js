@@ -30,14 +30,14 @@ function getLeagueOld (league) {
 }
 
 async function getLeague (league) {
-	console.log(league.url); 
+	
 	let clubsArray = await superliga.getClubs(league.url) ; 
 	 
 	
 	let clubPlayersArray = new Array() ; 
 	for (const clubItem of clubsArray) {
 		let clubPlayers = await club.getPlayers(clubItem); 
-		console.log(clubPlayers); 
+		
 		clubPlayersArray.push(clubPlayers); 
 	}
 	const str = JSON.stringify(clubPlayersArray, null, 2);
@@ -48,21 +48,22 @@ async function getLeague (league) {
 			
 }
 
-async function getAllNationalTeams () {
+async function getAllNationalTeams (indexRange) {
 	 
+	let range = indexRange.split('-')
 	
-	let nationalTeamsArray = nationalTeams ; 
-	 
+	let nationalTeamsArray = nationalTeams; 
+	nationalTeamsArray = nationalTeamsArray.slice(range[0],range[1]) ; 
 	
 	let nationalPlayersArray = new Array() ; 
 	for (const nationalItem of nationalTeamsArray) {
 		let nationalPlayers = await club.getNationalTeamPlayers(nationalItem); 
-		console.log(nationalPlayers); 
+		
 		nationalPlayersArray.push(nationalPlayers); 
 	}
 	const str = JSON.stringify(nationalPlayersArray, null, 2);
-	fs.writeFileSync(`data/league-nationalTeams.json`, str);
-	console.log(`File data/league-nationalTeams.json created!`);
+	fs.writeFileSync(`data/league-nationalTeams-${indexRange}.json`, str);
+	console.log(`File data/league-nationalTeams-${indexRange}.json created!`);
 
 	
 	
@@ -350,9 +351,15 @@ function showNationalData(leagueName) {
 
 
 
-async function test() {
+async function test(indexString) {
+	console.log(indexString) ; 
 
-	let selector = '' ; 
+	result = indexString.split('-')
+	console.log(result[0]) ; 
+	console.log(result[1]) ; 
+	
+
+	/*let selector = '' ; 
 	let browser = await puppeteer.launch({ headless: true });
 	let page = await browser.newPage();
 	await page.setViewport({ width: 1920, height: 1080 });
@@ -371,7 +378,7 @@ async function test() {
 	
 	await browser.close();
 	
-	
+	*/
   }
 
 
@@ -381,7 +388,7 @@ function run () {
 	
 	const keys = {
 		league: name => getLeague(getLeagueByLeagueName(name)),
-		allNational: () => getAllNationalTeams(),
+		allNational: rangeIndex => getAllNationalTeams(rangeIndex),
 	
 		national: name => getNationalTeams(getNationalTeamByName(name)),
 		showLeague:name => showLeagueData(name), 
@@ -395,13 +402,13 @@ function run () {
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		deleteAssets:() => deleteAssets(), 
-		test:() => test(), 
+		test:indexString => test(indexString), 
 		
 	
 		help () {
 			console.log('you can use node . -league serbia --to scrap transfermarkt for league of serbia');
 			console.log('you can use node . -national SERBIA --to get Serbian national team ');
-			console.log('you can use node . -allNational --to scrap all national teams');
+			console.log('you can use node . -allNational indexRange -- for example "0-20" ');
 			console.log('you can use node . -showLeague serbia --to show league data in browser ');
 			console.log('you can use node . -leagueScreenshot serbia to get formation screenshots for serbian league ');
 			console.log('you can use node . -nationalScreenshots to get screenshot for all national teams ');
