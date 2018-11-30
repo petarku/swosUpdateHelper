@@ -73,9 +73,13 @@ async function parseNationalPlayerRow (row) {
 
 	const timeInPlay = await parseNationalPlayerStats(url);
 
+	const playerSubtable = row.querySelectorAll('.inline-table  tbody tr');
+	const imgUrl = playerSubtable[0]
+		.querySelector('td:first-child img')
+		.getAttribute('data-src')
+		.replace('small', 'medium');
 
-
-	return { number, name, position, value, swosValue, desiredSum, age, timeInPlay , valueStripped };
+	return { number, name, position, value, swosValue, desiredSum, imgUrl, age, timeInPlay , valueStripped };
 }
 
 
