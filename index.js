@@ -12,7 +12,7 @@ const handler = require('serve-handler');
 const http = require('http');
 var open = require("open");
 
-function getLeague (league) {
+function getLeagueOld (league) {
 	superliga
 		.getClubs(league.url)
 		.then(clubs => {
@@ -27,6 +27,60 @@ function getLeague (league) {
 
 			csvWriter.writeLeague(league, res , 'data-csv/');
 		});
+}
+
+async function getLeague (league) {
+	console.log(league.url); 
+	let clubsArray = await superliga.getClubs(league.url) ; 
+	 
+	
+	let clubPlayersArray = new Array() ; 
+	for (const clubItem of clubsArray) {
+		let clubPlayers = await club.getPlayers(clubItem); 
+		console.log(clubPlayers); 
+		clubPlayersArray.push(clubPlayers); 
+	}
+	const str = JSON.stringify(clubPlayersArray, null, 2);
+	fs.writeFileSync(`data/league-${league.name}.json`, str);
+	console.log(`File data/league-${league.name}.json created!`);
+
+	csvWriter.writeLeague(league, clubPlayersArray , 'data-csv/');
+			
+}
+
+async function getAllNationalTeams () {
+	 
+	
+	let nationalTeamsArray = nationalTeams ; 
+	 
+	
+	let nationalPlayersArray = new Array() ; 
+	for (const nationalItem of nationalTeamsArray) {
+		let nationalPlayers = await club.getNationalTeamPlayers(nationalItem); 
+		console.log(nationalPlayers); 
+		nationalPlayersArray.push(nationalPlayers); 
+	}
+	const str = JSON.stringify(nationalPlayersArray, null, 2);
+	fs.writeFileSync(`data/league-nationalTeams.json`, str);
+	console.log(`File data/league-nationalTeams.json created!`);
+
+	
+	
+	for (var i = 0; i < nationalTeamsArray.length; i++) {
+	
+		csvWriter.writeTeam(null, nationalPlayersArray[i], nationalTeamsArray[i] , 'data-csv/');
+	}
+			
+}
+
+
+function getNationalTeams (nationalTeam) {
+	club.getNationalTeamPlayers(nationalTeam).then(res => {
+		const str = JSON.stringify(res, null, 2);
+		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
+		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
+		csvWriter.writeTeam(null, res, nationalTeam , 'data-csv/');
+	});
 }
 
 async function takeLineUpScreenshots (league) {
@@ -217,14 +271,6 @@ function getBestTeamInLeague (league) {
 		});
 }
 
-function getNationalTeams (nationalTeam) {
-	club.getNationalTeamPlayers(nationalTeam).then(res => {
-		const str = JSON.stringify(res, null, 2);
-		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
-		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-		csvWriter.writeTeam(null, res, nationalTeam , 'data-csv/');
-	});
-}
 
 function getOneNationalTeam (nationalTeam) {
 	club.getNationalTeamPlayers(nationalTeam).then(res => {
@@ -335,12 +381,8 @@ function run () {
 	
 	const keys = {
 		league: name => getLeague(getLeagueByLeagueName(name)),
-		allNational: () => {
-			const arrayLength = nationalTeams.length;
-			for (var i = 0; i < arrayLength; i++) {
-				getNationalTeams(nationalTeams[i]);
-			}
-		},
+		allNational: () => getAllNationalTeams(),
+	
 		national: name => getNationalTeams(getNationalTeamByName(name)),
 		showLeague:name => showLeagueData(name), 
 		showNational:name => showNationalData(name), 
