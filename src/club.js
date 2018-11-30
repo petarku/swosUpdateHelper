@@ -17,7 +17,7 @@ function getTheSwosValue (valueStripped) {
 			return swosResult;
 		}
 	}
-	swosResult.swosValue = 'no Set Price';
+	swosResult.swosValue = '25K';
 	swosResult.desiredSum = 0 ; 
 	return swosResult ; 
 }

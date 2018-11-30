@@ -274,15 +274,17 @@ function playerLine(player, nationalTeamName) {
 		const countryFromFlags = player.flags[0];
 		country = countryCodeMap[countryFromFlags] || 'CUS';
 	}
-	if (player.position === 'Goalkeeper') {
 
-		player.swosValue = capGoalkeeperPrice(player.swosValue);
-	}
-
-	///let swosData = getTheSwosValue(player.valueStripped);
 
 	const playerName = normalize.normalizeDiacritics(player.name);
-	const skills7 = calculateSkills(player.desiredSum);
+	let skills7 ; 
+	if (player.position === 'Goalkeeper') {
+		player.swosValue = capGoalkeeperPrice(player.swosValue);
+		skills7 = '0,0,0,0,0,0,0' ; 
+	} else { 
+	 	skills7 = calculateSkills(player.desiredSum);
+	} 
+
 
 	return [
 		country,
