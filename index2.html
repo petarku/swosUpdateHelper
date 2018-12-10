@@ -2,7 +2,6 @@
 <head>
 <meta charset=UTF-8>
 <title>Superliga</title>
-<link href="//unpkg.com/fiori-fundamentals@1.3.1/dist/fiori-fundamentals.min.css" rel="stylesheet">
 <style>
 	html, body { margin: 0; padding: 0; box-sizing: border-box; font: normal 14px sans-serif; }
 	body * { box-sizing: inherit; }
@@ -44,11 +43,11 @@
 	function getPlayerHtml (player, i) {
 		return `<tr class="player-row">
 			<td>${i+1}</td>
-			
+			<td><img src="${player.imgUrl}"></td>
+			<td>${player.name}</td>
 			<td>${player.timeInPlay}</td>
 			<td>${player.position}</td>
 			<td>${player.swosValue}</td>
-			<td>${player.flags}</td>
 			<td>${player.age}</td>
 			<td class="hide">${player.valueStripped}</td>
 		</tr>`;
@@ -65,11 +64,11 @@
 			<table class="club">
 				<thead><tr class="player-row">
 					<td></td>
-					
+					<td>Photo</td>
+					<td>Name</td>
 					<td><a href="#timeInPlay" class="sort">Time in play</a></td>
 					<td>Position</td>
 					<td><a href="#valueStripped" class="sort">SWOS</a></td>
-					<td>Flags</td>
 					<td>Age</td>
 				</tr></thead>
 				${players}
