@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const superliga = require('./src/leagues');
+const helper = require('./src/puppetteer-helper.js');
 const club = require('./src/club');
 const fs = require('fs');
 const leagues = require('./src/leagues.json');
@@ -123,16 +124,16 @@ async function takeLineUpScreenshots (league) {
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
-			const url = await findElement( page , ".footer > a");
+			const url = await helper.findElement( page , ".footer > a");
 			await page.goto(url);
 			await page.waitFor(5000);
-			const lineUpsPageUrls = await findMatchDataURLS(page, ".ergebnis-link") ; 
+			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
 			const urlArray = lineUpsPageUrls.urlElements; 
 			for (var j = 0; j < 3; j++) {
 				await page.goto(urlArray[j]); 
 				let pathString = 'data-png/' +  `${clubs[i].name}${j}.png` ;
 				console.log(`Taking screnshot for ${pathString}`); 
-				let result = await screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
+				let result = await helper.screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
 			}
 		
 
@@ -141,87 +142,11 @@ async function takeLineUpScreenshots (league) {
     await browser.close();
 }
 
-async function findMatchDataURLS(page, selector) {
-    const rect = await page.evaluate(selector => {
 
-		
-	  const elements = document.querySelectorAll(selector) ;
-	  	
-	   
-	  if (!elements) {
-		return null ; 
-	  } 
-	  let arrayOfURLS=[]; 
-	  for (var j = 0; j < elements.length; j++) {
-		arrayOfURLS.push(elements[j].href)
-	
-		}
-     
-      return { urlElements : arrayOfURLS };
-	}, selector);
-	
-	if (!rect) {
-		console.log('Dom element couldnt be found ') ; 
-		return null ; 
-	}
-	
-	//console.log(rect[0].href); 
-   return rect ; 
-    
-	
-  }
-
-async function findElement(page, selector) {
-    const rect = await page.evaluate(selector => {
-
-	  const element = document.querySelector(selector) ;
-	  if (!element) {
-		return null ; 
-	  } 
-     
-      return { href: element.href };
-	}, selector);
-	
-	if (!rect) {
-		console.log('Dom element couldnt be found ') ; 
-		return null ; 
-	}
-	
-   return rect.href ; 
-    
-	
-  }
 
  
 
-async function screenshotDOMElement(page, selector, padding = 0, pathString) {
-    const rect = await page.evaluate(selector => {
 
-	  const element = document.querySelector(selector) ;
-	  if (!element) {
-		return null ; 
-	  } 
-      const { x, y, width, height } = element.getBoundingClientRect();
-      return { left: x, top: y, width, height, id: element.id };
-	}, selector);
-	
-	if (!rect) {
-		console.log('Dom element couldnt be found ') ; 
-		return null ; 
-	}
-   // console.log('rect: ', rect);
-
-    return await page.screenshot({
-      path: pathString,
-      clip: {
-        x: rect.left - padding,
-        y: rect.top - padding,
-        width: rect.width + padding * 2,
-        height: rect.height + padding * 2,
-      },
-	});
-	
-  }
 
   async function takeNationalScreenshot () {
 	let browser = await puppeteer.launch({ headless: true });
@@ -239,7 +164,7 @@ async function screenshotDOMElement(page, selector, padding = 0, pathString) {
 			await page.goto(BASE_URL + nationalTeams[i].url);
 			await page.waitFor(5000);
 			
-			let result = await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			let result = await helper.screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
 			if (!result) {
 				console.log(`Formation picture not found for  ${nationalTeams[i].name}`) ; 
 			}	else {
@@ -265,7 +190,7 @@ async function takeScreenshot (league) {
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
-			let result = await screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			let result = await helper.screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
 			if (!result) {
 				console.log(`Formation picture not found for  ${clubs[i].name}`) ; 
 			}	else {
