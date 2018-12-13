@@ -48,6 +48,29 @@ async function getLeague (league) {
 			
 }
 
+async function testLeagueScraping () {
+
+	let league = getLeagueByLeagueName('england'); 
+	let clubsArray = await superliga.getClubs(league.url) ; 
+	 
+	
+	let clubPlayersArray = new Array() ; 
+	
+	
+	for (var i = 0; i < 2; i++) {
+
+	
+		let clubPlayers = await club.getPlayers(clubsArray[i]); 
+		
+		clubPlayersArray.push(clubPlayers); 
+	}
+	const str = JSON.stringify(clubPlayersArray, null, 2);
+	fs.writeFileSync(`data-test/league-test.json`, str);
+	console.log(`File data/league-test.json created!`);
+
+	csvWriter.writeLeague(league, clubPlayersArray , 'data-test/');
+}
+
 async function getAllNationalTeams (indexRange) {
 	 
 	let range = indexRange.split('-')
@@ -402,7 +425,7 @@ function run () {
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		deleteAssets:() => deleteAssets(), 
-		test:indexString => test(indexString), 
+		test:() => testLeagueScraping(), 
 		
 	
 		help () {
