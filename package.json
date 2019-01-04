@@ -5,19 +5,24 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -os",
-    "update": "node index.js"
+    "update": "node index.js", 
+    
+      "test": "mocha"
+   
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "delete": "^1.1.0",
     "jsdom": "^11.12.0",
+    "mocha": "^5.2.0",
     "node-cmdline-parser": "^1.0.2",
     "node-fetch": "^2.2.0",
     "normalize-text": "^0.4.4",
     "open": "0.0.5",
     "puppeteer": "^1.8.0",
-    "serve": "^10.0.2"
+    "serve": "^10.0.2",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "http-server": "^0.11.1"

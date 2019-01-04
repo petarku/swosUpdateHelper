@@ -295,39 +295,14 @@ function showNationalData(leagueName) {
 
 }
 
+module.exports = {
+	getBestTeamInLeague , getLeagueByLeagueName
+} ; 
 
 
+function test() { 
 
-
-async function test(indexString) {
-	console.log(indexString) ; 
-
-	result = indexString.split('-')
-	console.log(result[0]) ; 
-	console.log(result[1]) ; 
-	
-
-	/*let selector = '' ; 
-	let browser = await puppeteer.launch({ headless: true });
-	let page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
-	
-	const BASE_URL = 'https://www.fifaindex.com/team/241/fc-barcelona/';
-
-	await page.goto(BASE_URL);
-	await page.waitFor(5000);
-
-	//const name = await page.$eval('table', el => el.innerText)
-
-	//const name = await page.$$eval('table tr', trs => {return trs.map(tr => tr.textContent) })
-	const name = await page.$$eval('table tr', trs => {return trs.map(tr => {tr.$$eval('')    }) })
-	console.log(name)
-
-	
-	await browser.close();
-	
-	*/
-  }
+}
 
 
 
@@ -350,7 +325,7 @@ function run () {
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		deleteAssets:() => deleteAssets(), 
-		test:() => testLeagueScraping(), 
+		test:() => test(), 
 		
 	
 		help () {

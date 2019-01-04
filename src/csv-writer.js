@@ -1,6 +1,7 @@
 const fs = require('fs');
 const normalize = require('normalize-text');
 const swosRange = require('./swos-range.json');
+var _ = require("underscore");
 
 const countryCodeMap = {
 	
@@ -210,11 +211,9 @@ const formationCodeMap = {
 
 };
 
-function calculateSkills(desiredSUM) {
-	const RANGE = { from: 0, to: 7 };
-	const res = [0,0,0,0,0,0,0];
-
-
+function randomizeSkills (desiredSUM , res , RANGE) {
+	//swos skills  P,V,H,T,C,S,F  
+	
 	const rand = (min, max) => {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	};
@@ -230,15 +229,149 @@ function calculateSkills(desiredSUM) {
 
 		let to = RANGE.to;
 		let from = rem - (remainingNumbers - 1) * RANGE.to;
-		if (from < 0) from = RANGE.from;
+		if (from < RANGE.from) from = RANGE.from;
 		if (rem < to) to = rem;
 
 		res[i] = rand(from, to);
 	});
 
-	return res ; 
+	return res; 
 
 }
+
+
+function calculateSkills (desiredSUM , position) {
+	
+		let P = 0; 
+		let V = 0 ; 
+		let H = 0  ; 
+		let T = 0; 
+		let C = 0; 
+		let S = 0 ; 
+		let F = 0 ; 
+
+		//let res = [P,V,H,T,C,S,F];
+
+		let res; 
+		let minRange = 0 ; 
+		let maxRange = 7 ; 
+
+		if (desiredSUM <= 14) {
+			minRange = 0 ; 
+			maxRange = 3 ; 
+		}
+
+		if (desiredSUM < 25 && desiredSUM > 14) {
+			minRange = 1 ; 
+			maxRange = 5 ; 
+		}
+
+		if (desiredSUM < 34 && desiredSUM >= 25) {
+			minRange = 2 ; 
+			maxRange = 6 ; 
+		}
+
+	if (desiredSUM > 33) {
+		minRange = 3 ; 
+	} 
+	
+
+	const RANGE = { from: minRange, to: maxRange };
+ 
+	let randomRes = [0,0,0,0,0,0,0] ; 
+	randomRes = randomizeSkills(desiredSUM , randomRes , RANGE)
+	randomRes.sort(function(a, b){return b-a});
+	
+
+	if (position === 'Attacking Midfield') {
+		P = randomRes[0] ; 
+		C = randomRes[1] ; 
+
+		let secundaryCharArray = randomRes.slice(2,6); 
+		 
+		secundaryCharArray = _.shuffle(secundaryCharArray); 
+ 
+		V = secundaryCharArray[0] ; 
+		S = secundaryCharArray[1] ; 
+		F = secundaryCharArray[2] ;  
+		T = secundaryCharArray[3] ; 
+		H = randomRes[6] ; 
+	} else if (positionCodeMap[position] === 'M') {
+		P = randomRes[0] ; 
+		T = randomRes[1] ; 
+		
+		let secundaryCharArray = randomRes.slice(2,6); 
+		
+		secundaryCharArray = _.shuffle(secundaryCharArray); 
+
+		V = secundaryCharArray[0] ; 
+		S = secundaryCharArray[1] ; 
+		C = secundaryCharArray[2] ; 
+		H = secundaryCharArray[3] ; 
+		F = randomRes[6] ; 
+	} else if (positionCodeMap[position] === 'A') {
+		F = randomRes[0] ; 
+		H = randomRes[1] ; 
+		
+		let secundaryCharArray = randomRes.slice(2,4); 
+		
+		secundaryCharArray = _.shuffle(secundaryCharArray); 
+
+		V = secundaryCharArray[0] ; 
+		S = secundaryCharArray[1] ; 
+		C = randomRes[4] ; 
+		P = randomRes[5] ; 
+		T = randomRes[6] ; 
+	}else if (positionCodeMap[position] === 'D') {
+		T = randomRes[0] ; 
+		H = randomRes[1] ; 
+		let secundaryCharArray = randomRes.slice(2,4); 
+		
+		secundaryCharArray = _.shuffle(secundaryCharArray); 
+
+		P = secundaryCharArray[0] ; 
+		S = secundaryCharArray[1] ; 
+		
+		C = randomRes[4] ; 
+		V = randomRes[5] ; 
+		F = randomRes[6] ; 
+	} else if ( (positionCodeMap[position] === 'LB') || ((positionCodeMap[position] === 'RB')) ){
+		T = randomRes[0] ; 
+		S = randomRes[1] ; 
+		let secundaryCharArray = randomRes.slice(2,5); 
+		
+		secundaryCharArray = _.shuffle(secundaryCharArray); 
+
+		P = secundaryCharArray[0] ; 
+		C = secundaryCharArray[1] ; 
+		
+		V = secundaryCharArray[2] ; 
+		H = randomRes[5] ; 
+		F = randomRes[6] ; 
+	} else if ( (positionCodeMap[position] === 'LW') || ((positionCodeMap[position] === 'RW')) ){
+		S = randomRes[0] ; 
+		C = randomRes[1] ; 
+		let secundaryCharArray = randomRes.slice(2,6); 
+		
+		secundaryCharArray = _.shuffle(secundaryCharArray); 
+	
+		F = secundaryCharArray[0] ; 
+		V = secundaryCharArray[1] ; 
+		
+		T = secundaryCharArray[2] ; 
+		P = secundaryCharArray[3] ; 
+		H = randomRes[6] ; 
+	}
+
+	res = [P,V,H,T,C,S,F] ; 
+		
+
+	
+		return res; 
+
+}
+
+
 
 function slugify(text) {
 	return text.toString().toLowerCase().trim()
@@ -249,19 +382,6 @@ function slugify(text) {
 		.replace(/-+$/, '');            // Trim - from end of text
 }
 
-/*function getTheSwosValue (valueStripped) {
-	var swosResult = {};
-	for (let i = 0; i < swosRange.length; i++) {
-		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
-			swosResult.swosValue = swosRange[i].swosValue;
-			swosResult.desiredSum = swosRange[i].desiredSum ; 
-			return swosResult;
-		}
-	}
-	swosResult.swosValue = 'no Set Price';
-	swosResult.desiredSum = 0 ; 
-	return swosResult ; 
-}*/
 
 
 function playerLine(player, nationalTeamName) {
@@ -279,10 +399,10 @@ function playerLine(player, nationalTeamName) {
 	const playerName = normalize.normalizeDiacritics(player.name);
 	let skills7 ; 
 	if (player.position === 'Goalkeeper') {
-		player.swosValue = capGoalkeeperPrice(player.swosValue);
+		player.swosValue = capGoalkeeperPrice(player.desiredSum, player.swosValue);
 		skills7 = '0,0,0,0,0,0,0' ; 
 	} else { 
-	 	skills7 = calculateSkills(player.desiredSum);
+	 	skills7 = calculateSkills(player.desiredSum, player.position);
 	} 
 
 
@@ -297,9 +417,9 @@ function playerLine(player, nationalTeamName) {
 	].join(',');
 }
 
-function capGoalkeeperPrice(swosValue) {
+function capGoalkeeperPrice(charSum, swosValue) {
 
-	if (['8M', '7M', '6M', '5M'].indexOf(swosValue) >= 0) {
+	if (charSum > 40) {
 		swosValue = '4.5M';
 	}
 	return swosValue;
@@ -361,5 +481,5 @@ function writeLeague(league, data, location ) {
 
 
 module.exports = {
-	writeLeague, writeTeam
+	writeLeague, writeTeam , calculateSkills
 };
