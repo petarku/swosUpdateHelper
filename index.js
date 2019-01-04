@@ -203,21 +203,23 @@ async function takeScreenshot (league) {
 }
 
 
-function getBestTeamInLeague (league) {
-	superliga
-		.getClubs(league.url)
-		.then(clubs => {
-			//const playersPromises = clubs.map(club.getPlayers);
-			const playersPromises = [club.getPlayers(clubs[0])]; // get 1 club for tests
-			return Promise.all(playersPromises);
-		})
-		.then(res => {
-			const str = JSON.stringify(res, null, 2);
-			fs.writeFileSync(`data-test/league-${league.name}.json`, str);
-			console.log(`File data-test/league-${league.name}.json created!`);
+async function getBestTeamInLeague (league) {
+	
+	let clubsArray = await superliga.getClubs(league.url) ; 
+	let clubsArrayTest = clubsArray.slice(0,2); 
+	
+	let clubPlayersArray = new Array() ; 
+	for (const clubItem of clubsArrayTest) {
+		let clubPlayers = await club.getPlayers(clubItem); 
+		
+		clubPlayersArray.push(clubPlayers); 
+	}
+	const str = JSON.stringify(clubPlayersArray, null, 2);
+	fs.writeFileSync(`data-test/league-${league.name}.json`, str);
+	console.log(`File data-test/league-${league.name}.json created!`);
 
-			csvWriter.writeLeague(league, res , 'data-test/');
-		});
+	csvWriter.writeLeague(league, clubPlayersArray , 'data-test/');
+	return ('./'+ `data-test/league-${league.name}.json`) ; 
 }
 
 
@@ -246,19 +248,7 @@ function getNationalTeamByName (nationalTeamName) {
 	}
 }
 
-function deleteAssets () {
-	del(['data-csv/*.csv'], function(err, deleted) {
-		if (err) throw err;
-		console.log("Following files are deleted : ")
-		console.log(deleted);
-	  });
-	  del(['data-png/*.png'], function(err, deleted) {
-		if (err) throw err;
-		console.log("Following files are deleted : ")
-		console.log(deleted);
-	  });
 
-}
 function showLeagueData(leagueName) { 
 	 
 	const server = http.createServer((request, response) => {
@@ -324,7 +314,6 @@ function run () {
 		testNationalTeam: () => getOneNationalTeam(nationalTeams[0]), 
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
-		deleteAssets:() => deleteAssets(), 
 		test:() => test(), 
 		
 	

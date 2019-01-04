@@ -1,0 +1,836 @@
+[
+  {
+    "name": "Manchester City",
+    "url": "https://www.transfermarkt.co.uk/manchester-city/startseite/verein/281/saison_id/2018/ajax/yw1/sort/marktwert.desc",
+    "coach": "Pep Guardiola",
+    "formation": "4-3-3 Attacking",
+    "players": [
+      {
+        "number": "31",
+        "name": "Ederson",
+        "position": "Goalkeeper",
+        "flags": [
+          "Brazil",
+          "Portugal"
+        ],
+        "value": "£54.00m ",
+        "timeInPlay": 2430,
+        "swosValue": "4.5M",
+        "desiredSum": 40,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/238223-1474545573.jpg?lm=1474545581",
+        "age": "Aug 17, 1993 (25)",
+        "valueStripped": 54000000,
+        "index": 1
+      },
+      {
+        "number": "2",
+        "name": "Kyle Walker",
+        "position": "Right-Back",
+        "flags": [
+          "England"
+        ],
+        "value": "£45.00m ",
+        "timeInPlay": 1923,
+        "swosValue": "3.5M",
+        "desiredSum": 39,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/95424-1464866950.jpg?lm=1464866961",
+        "age": "May 28, 1990 (28)",
+        "valueStripped": 45000000,
+        "index": 2
+      },
+      {
+        "number": "14",
+        "name": "Aymeric Laporte",
+        "position": "Centre-Back",
+        "flags": [
+          "France",
+          "Spain"
+        ],
+        "value": "£54.00m ",
+        "timeInPlay": 2424,
+        "swosValue": "4.5M",
+        "desiredSum": 40,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/176553-1447151297.jpg?lm=1447151328",
+        "age": "May 27, 1994 (24)",
+        "valueStripped": 54000000,
+        "index": 3
+      },
+      {
+        "number": "5",
+        "name": "John Stones",
+        "position": "Centre-Back",
+        "flags": [
+          "England"
+        ],
+        "value": "£54.00m ",
+        "timeInPlay": 1945,
+        "swosValue": "4.5M",
+        "desiredSum": 40,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/186590-1462276526.jpg?lm=1462276548",
+        "age": "May 28, 1994 (24)",
+        "valueStripped": 54000000,
+        "index": 4
+      },
+      {
+        "number": "20",
+        "name": "Bernardo Silva",
+        "position": "Right Winger",
+        "flags": [
+          "Portugal"
+        ],
+        "value": "£58.50m ",
+        "timeInPlay": 2070,
+        "swosValue": "5M",
+        "desiredSum": 41,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/241641-1520189140.jpg?lm=1520189153",
+        "age": "Aug 10, 1994 (24)",
+        "valueStripped": 58500000,
+        "index": 5
+      },
+      {
+        "number": "7",
+        "name": "Raheem Sterling",
+        "position": "Right Winger",
+        "flags": [
+          "England",
+          "Jamaica"
+        ],
+        "value": "£108.00m ",
+        "timeInPlay": 2049,
+        "swosValue": "12M",
+        "desiredSum": 47,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/134425-1444713982.jpg?lm=1444714029",
+        "age": "Dec 8, 1994 (24)",
+        "valueStripped": 108000000,
+        "index": 6
+      },
+      {
+        "number": "26",
+        "name": "Riyad Mahrez",
+        "position": "Right Winger",
+        "flags": [
+          "Algeria",
+          "France"
+        ],
+        "value": "£54.00m ",
+        "timeInPlay": 1497,
+        "swosValue": "4.5M",
+        "desiredSum": 40,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/171424-1461578220.jpg?lm=1461578253",
+        "age": "Feb 21, 1991 (27)",
+        "valueStripped": 54000000,
+        "index": 7
+      },
+      {
+        "number": "25",
+        "name": "Fernandinho",
+        "position": "Defensive Midfield",
+        "flags": [
+          "Brazil"
+        ],
+        "value": "£13.50m ",
+        "timeInPlay": 2205,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/26267-1477040739.jpg?lm=1477040759",
+        "age": "May 4, 1985 (33)",
+        "valueStripped": 13500000,
+        "index": 8
+      },
+      {
+        "number": "21",
+        "name": "David Silva",
+        "position": "Attacking Midfield",
+        "flags": [
+          "Spain"
+        ],
+        "value": "£22.50m ",
+        "timeInPlay": 1752,
+        "swosValue": "2.75M",
+        "desiredSum": 37,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/35518-1538642653.jpg?lm=1538642664",
+        "age": "Jan 8, 1986 (32)",
+        "valueStripped": 22500000,
+        "index": 9
+      },
+      {
+        "number": "19",
+        "name": "Leroy Sané",
+        "position": "Left Winger",
+        "flags": [
+          "Germany",
+          "France"
+        ],
+        "value": "£90.00m ",
+        "timeInPlay": 1589,
+        "swosValue": "10M",
+        "desiredSum": 46,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/192565-1533720545.jpg?lm=1533720579",
+        "age": "Jan 11, 1996 (22)",
+        "valueStripped": 90000000,
+        "index": 10
+      },
+      {
+        "number": "10",
+        "name": "Sergio Agüero",
+        "position": "Centre-Forward",
+        "flags": [
+          "Argentina",
+          "Spain"
+        ],
+        "value": "£67.50m ",
+        "timeInPlay": 1621,
+        "swosValue": "7M",
+        "desiredSum": 43,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/26399-1453896269.jpg?lm=1453896241",
+        "age": "Jun 2, 1988 (30)",
+        "valueStripped": 67500000,
+        "index": 11
+      },
+      {
+        "number": "49",
+        "name": "Arijanet Muric",
+        "position": "Goalkeeper",
+        "flags": [
+          "Kosovo",
+          "Montenegro"
+        ],
+        "value": "£900k ",
+        "timeInPlay": 480,
+        "swosValue": "350K",
+        "desiredSum": 17,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/371021-1535002529.jpg?lm=1535002559",
+        "age": "Nov 7, 1998 (20)",
+        "valueStripped": 900000,
+        "index": 12
+      },
+      {
+        "number": "30",
+        "name": "Nicolás Otamendi",
+        "position": "Centre-Back",
+        "flags": [
+          "Argentina"
+        ],
+        "value": "£31.50m ",
+        "timeInPlay": 1026,
+        "swosValue": "2.75M",
+        "desiredSum": 37,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/54781-1447246780.jpg?lm=1447246795",
+        "age": "Feb 12, 1988 (30)",
+        "valueStripped": 31500000,
+        "index": 13
+      },
+      {
+        "number": "22",
+        "name": "Benjamin Mendy",
+        "position": "Left-Back",
+        "flags": [
+          "France",
+          "Senegal"
+        ],
+        "value": "£40.50m ",
+        "timeInPlay": 990,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/157495-1454601008.png?lm=1454601044",
+        "age": "Jul 17, 1994 (24)",
+        "valueStripped": 40500000,
+        "index": 14
+      },
+      {
+        "number": "8",
+        "name": "Ilkay Gündogan",
+        "position": "Central Midfield",
+        "flags": [
+          "Germany"
+        ],
+        "value": "£36.00m ",
+        "timeInPlay": 1183,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/53622-1519915654.jpg?lm=1519915682",
+        "age": "Oct 24, 1990 (28)",
+        "valueStripped": 36000000,
+        "index": 15
+      },
+      {
+        "number": "33",
+        "name": "Gabriel Jesus",
+        "position": "Centre-Forward",
+        "flags": [
+          "Brazil"
+        ],
+        "value": "£63.00m ",
+        "timeInPlay": 1251,
+        "swosValue": "6M",
+        "desiredSum": 42,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/363205-1533284263.jpg?lm=1533284289",
+        "age": "Apr 3, 1997 (21)",
+        "valueStripped": 63000000,
+        "index": 16
+      },
+      {
+        "number": "4",
+        "name": "Vincent Kompany",
+        "position": "Centre-Back",
+        "flags": [
+          "Belgium",
+          "DR Congo"
+        ],
+        "value": "£9.00m ",
+        "timeInPlay": 840,
+        "swosValue": "1.9M",
+        "desiredSum": 34,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/9594-1454414462.jpg?lm=1454414467",
+        "age": "Apr 10, 1986 (32)",
+        "valueStripped": 9000000
+      },
+      {
+        "number": "35",
+        "name": "Oleksandr Zinchenko",
+        "position": "Left-Back",
+        "flags": [
+          "Ukraine"
+        ],
+        "value": "£13.50m ",
+        "timeInPlay": 748,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/203853-1539784797.jpg?lm=1539784821",
+        "age": "Dec 15, 1996 (22)",
+        "valueStripped": 13500000
+      },
+      {
+        "number": "3",
+        "name": "Danilo",
+        "position": "Right-Back",
+        "flags": [
+          "Brazil"
+        ],
+        "value": "£18.00m ",
+        "timeInPlay": 569,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/145707-1462894787.jpg?lm=1462894805",
+        "age": "Jul 15, 1991 (27)",
+        "valueStripped": 18000000
+      },
+      {
+        "number": "47",
+        "name": "Phil Foden",
+        "position": "Central Midfield",
+        "flags": [
+          "England"
+        ],
+        "value": "£18.00m ",
+        "timeInPlay": 528,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/406635-1493884292.jpg?lm=1493884312",
+        "age": "May 28, 2000 (18)",
+        "valueStripped": 18000000
+      },
+      {
+        "number": "17",
+        "name": "Kevin De Bruyne",
+        "position": "Attacking Midfield",
+        "flags": [
+          "Belgium"
+        ],
+        "value": "£135.00m ",
+        "timeInPlay": 420,
+        "swosValue": "15M",
+        "desiredSum": 48,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/88755-1515761259.jpg?lm=1515761270",
+        "age": "Jun 28, 1991 (27)",
+        "valueStripped": 135000000
+      },
+      {
+        "number": "34",
+        "name": "Philippe Sandler",
+        "position": "Centre-Back",
+        "flags": [
+          "Netherlands"
+        ],
+        "value": "£2.25m ",
+        "timeInPlay": 241,
+        "swosValue": "650K",
+        "desiredSum": 22,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/340460-1502113775.jpg?lm=1502113793",
+        "age": "Feb 10, 1997 (21)",
+        "valueStripped": 2250000
+      },
+      {
+        "number": "55",
+        "name": "Brahim Díaz",
+        "position": "Attacking Midfield",
+        "flags": [
+          "Spain",
+          "Morocco"
+        ],
+        "value": "£4.50m ",
+        "timeInPlay": 214,
+        "swosValue": "1.1M",
+        "desiredSum": 29,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/314678-1511341376.jpg?lm=1511341399",
+        "age": "Aug 3, 1999 (19)",
+        "valueStripped": 4500000
+      },
+      {
+        "number": "15",
+        "name": "Eliaquim Mangala",
+        "position": "Centre-Back",
+        "flags": [
+          "France",
+          "Belgium"
+        ],
+        "value": "£9.00m ",
+        "timeInPlay": 99,
+        "swosValue": "1.9M",
+        "desiredSum": 34,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/90681-1465213549.jpg?lm=1465213569",
+        "age": "Feb 13, 1991 (27)",
+        "valueStripped": 9000000
+      },
+      {
+        "number": "-",
+        "name": "Marlos Moreno",
+        "position": "Left Winger",
+        "flags": [
+          "Colombia"
+        ],
+        "value": "£450k ",
+        "timeInPlay": 0,
+        "swosValue": "180K",
+        "desiredSum": 13,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/345654-1459496346.jpg?lm=1459496371",
+        "age": "Sep 20, 1996 (22)",
+        "valueStripped": 450000
+      },
+      {
+        "number": "1",
+        "name": "Claudio Bravo",
+        "position": "Goalkeeper",
+        "flags": [
+          "Chile",
+          "Spain"
+        ],
+        "value": "£2.25m ",
+        "timeInPlay": 90,
+        "swosValue": "650K",
+        "desiredSum": 22,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/40423-1471339256.jpg?lm=1471339269",
+        "age": "Apr 13, 1983 (35)",
+        "valueStripped": 2250000,
+        "index": 23
+      }
+    ]
+  },
+  {
+    "name": "Liverpool FC",
+    "url": "https://www.transfermarkt.co.uk/fc-liverpool/startseite/verein/31/saison_id/2018/ajax/yw1/sort/marktwert.desc",
+    "coach": "Jürgen Klopp",
+    "formation": "4-3-3 Attacking",
+    "players": [
+      {
+        "number": "13",
+        "name": "Alisson",
+        "position": "Goalkeeper",
+        "flags": [
+          "Brazil"
+        ],
+        "value": "£58.50m ",
+        "timeInPlay": 2430,
+        "swosValue": "5M",
+        "desiredSum": 41,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/105470-1447747290.jpg?lm=1447747302",
+        "age": "Oct 2, 1992 (26)",
+        "valueStripped": 58500000,
+        "index": 1
+      },
+      {
+        "number": "66",
+        "name": "Trent Alexander-Arnold",
+        "position": "Right-Back",
+        "flags": [
+          "England"
+        ],
+        "value": "£40.50m ",
+        "timeInPlay": 1820,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/314353-1473342620.jpg?lm=1473342641",
+        "age": "Oct 7, 1998 (20)",
+        "valueStripped": 40500000,
+        "index": 2
+      },
+      {
+        "number": "4",
+        "name": "Virgil van Dijk",
+        "position": "Centre-Back",
+        "flags": [
+          "Netherlands",
+          "Suriname"
+        ],
+        "value": "£67.50m ",
+        "timeInPlay": 2395,
+        "swosValue": "7M",
+        "desiredSum": 43,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/139208-1519830937.jpg?lm=1519830949",
+        "age": "Jul 8, 1991 (27)",
+        "valueStripped": 67500000,
+        "index": 3
+      },
+      {
+        "number": "12",
+        "name": "Joe Gomez",
+        "position": "Centre-Back",
+        "flags": [
+          "England",
+          "The Gambia"
+        ],
+        "value": "£31.50m ",
+        "timeInPlay": 1452,
+        "swosValue": "2.75M",
+        "desiredSum": 37,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/256178-1459258052.jpg?lm=1459258089",
+        "age": "May 23, 1997 (21)",
+        "valueStripped": 31500000,
+        "index": 4
+      },
+      {
+        "number": "26",
+        "name": "Andrew Robertson",
+        "position": "Left-Back",
+        "flags": [
+          "Scotland"
+        ],
+        "value": "£40.50m ",
+        "timeInPlay": 2227,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/234803-1491477643.jpg?lm=1491477674",
+        "age": "Mar 11, 1994 (24)",
+        "valueStripped": 40500000,
+        "index": 5
+      },
+      {
+        "number": "11",
+        "name": "Mohamed Salah",
+        "position": "Right Winger",
+        "flags": [
+          "Egypt"
+        ],
+        "value": "£135.00m ",
+        "timeInPlay": 2280,
+        "swosValue": "15M",
+        "desiredSum": 48,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/148455-1546611604.jpg?lm=1546611628",
+        "age": "Jun 15, 1992 (26)",
+        "valueStripped": 135000000,
+        "index": 6
+      },
+      {
+        "number": "5",
+        "name": "Georginio Wijnaldum",
+        "position": "Central Midfield",
+        "flags": [
+          "Netherlands",
+          "Suriname"
+        ],
+        "value": "£36.00m ",
+        "timeInPlay": 2109,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/49499-1469085417.jpg?lm=1469085438",
+        "age": "Nov 11, 1990 (28)",
+        "valueStripped": 36000000,
+        "index": 7
+      },
+      {
+        "number": "7",
+        "name": "James Milner",
+        "position": "Central Midfield",
+        "flags": [
+          "England"
+        ],
+        "value": "£13.50m ",
+        "timeInPlay": 1602,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/3333-1544607198.jpg?lm=1544607213",
+        "age": "Jan 4, 1986 (33)",
+        "valueStripped": 13500000,
+        "index": 8
+      },
+      {
+        "number": "14",
+        "name": "Jordan Henderson",
+        "position": "Central Midfield",
+        "flags": [
+          "England"
+        ],
+        "value": "£25.20m ",
+        "timeInPlay": 1334,
+        "swosValue": "2.75M",
+        "desiredSum": 37,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/61651-1528450339.jpg?lm=1528450353",
+        "age": "Jun 17, 1990 (28)",
+        "valueStripped": 25200000,
+        "index": 9
+      },
+      {
+        "number": "10",
+        "name": "Sadio Mané",
+        "position": "Left Winger",
+        "flags": [
+          "Senegal"
+        ],
+        "value": "£67.50m ",
+        "timeInPlay": 2187,
+        "swosValue": "7M",
+        "desiredSum": 43,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/200512-1476695109.jpg?lm=1476695127",
+        "age": "Apr 10, 1992 (26)",
+        "valueStripped": 67500000,
+        "index": 10
+      },
+      {
+        "number": "9",
+        "name": "Roberto Firmino",
+        "position": "Second Striker",
+        "flags": [
+          "Brazil"
+        ],
+        "value": "£72.00m ",
+        "timeInPlay": 2024,
+        "swosValue": "8M",
+        "desiredSum": 44,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/131789-1520605270.jpg?lm=1520605283",
+        "age": "Oct 2, 1991 (27)",
+        "valueStripped": 72000000,
+        "index": 11
+      },
+      {
+        "number": "22",
+        "name": "Simon Mignolet",
+        "position": "Goalkeeper",
+        "flags": [
+          "Belgium"
+        ],
+        "value": "£8.10m ",
+        "timeInPlay": 90,
+        "swosValue": "1.8M",
+        "desiredSum": 33,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/50219-1459255662.jpg?lm=1459255728",
+        "age": "Mar 6, 1988 (30)",
+        "valueStripped": 8100000,
+        "index": 12
+      },
+      {
+        "number": "6",
+        "name": "Dejan Lovren",
+        "position": "Centre-Back",
+        "flags": [
+          "Croatia"
+        ],
+        "value": "£18.00m ",
+        "timeInPlay": 990,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/37838-1459256073.jpg?lm=1459256175",
+        "age": "Jul 5, 1989 (29)",
+        "valueStripped": 18000000,
+        "index": 13
+      },
+      {
+        "number": "23",
+        "name": "Xherdan Shaqiri",
+        "position": "Right Winger",
+        "flags": [
+          "Switzerland",
+          "Kosovo"
+        ],
+        "value": "£22.50m ",
+        "timeInPlay": 995,
+        "swosValue": "2.75M",
+        "desiredSum": 37,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/86792-1528356287.jpg?lm=1528356309",
+        "age": "Oct 10, 1991 (27)",
+        "valueStripped": 22500000,
+        "index": 14
+      },
+      {
+        "number": "8",
+        "name": "Naby Keïta",
+        "position": "Central Midfield",
+        "flags": [
+          "Guinea"
+        ],
+        "value": "£58.50m ",
+        "timeInPlay": 885,
+        "swosValue": "5M",
+        "desiredSum": 41,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/302215-1503302375.jpg?lm=1503303908",
+        "age": "Feb 10, 1995 (23)",
+        "valueStripped": 58500000,
+        "index": 15
+      },
+      {
+        "number": "3",
+        "name": "Fabinho",
+        "position": "Defensive Midfield",
+        "flags": [
+          "Brazil"
+        ],
+        "value": "£36.00m ",
+        "timeInPlay": 1002,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/225693-1448024915.jpg?lm=1448025027",
+        "age": "Oct 23, 1993 (25)",
+        "valueStripped": 36000000,
+        "index": 16
+      },
+      {
+        "number": "15",
+        "name": "Daniel Sturridge",
+        "position": "Centre-Forward",
+        "flags": [
+          "England"
+        ],
+        "value": "£13.50m ",
+        "timeInPlay": 506,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/47082-1538297993.jpg?lm=1538298018",
+        "age": "Sep 1, 1989 (29)",
+        "valueStripped": 13500000
+      },
+      {
+        "number": "20",
+        "name": "Adam Lallana",
+        "position": "Attacking Midfield",
+        "flags": [
+          "England"
+        ],
+        "value": "£13.50m ",
+        "timeInPlay": 303,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/43530-1464867934.jpg?lm=1464867979",
+        "age": "May 10, 1988 (30)",
+        "valueStripped": 13500000
+      },
+      {
+        "number": "2",
+        "name": "Nathaniel Clyne",
+        "position": "Right-Back",
+        "flags": [
+          "England",
+          "Grenada"
+        ],
+        "value": "£13.50m ",
+        "timeInPlay": 288,
+        "swosValue": "2.25M",
+        "desiredSum": 36,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/85177-1459244656.jpg?lm=1459244691",
+        "age": "Apr 5, 1991 (27)",
+        "valueStripped": 13500000
+      },
+      {
+        "number": "18",
+        "name": "Alberto Moreno",
+        "position": "Left-Back",
+        "flags": [
+          "Spain"
+        ],
+        "value": "£8.10m ",
+        "timeInPlay": 254,
+        "swosValue": "1.8M",
+        "desiredSum": 33,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/207917-1459255994.jpg?lm=1459256016",
+        "age": "Jul 5, 1992 (26)",
+        "valueStripped": 8100000
+      },
+      {
+        "number": "29",
+        "name": "Dominic Solanke",
+        "position": "Centre-Forward",
+        "flags": [
+          "England",
+          "Nigeria"
+        ],
+        "value": "£9.00m ",
+        "timeInPlay": 180,
+        "swosValue": "1.9M",
+        "desiredSum": 34,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/258889-1546590491.jpg?lm=1546590508",
+        "age": "Sep 14, 1997 (21)",
+        "valueStripped": 9000000
+      },
+      {
+        "number": "27",
+        "name": "Divock Origi",
+        "position": "Centre-Forward",
+        "flags": [
+          "Belgium",
+          "Kenya"
+        ],
+        "value": "£9.00m ",
+        "timeInPlay": 173,
+        "swosValue": "1.9M",
+        "desiredSum": 34,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/148368-1515619681.JPG?lm=1515619715",
+        "age": "Apr 18, 1995 (23)",
+        "valueStripped": 9000000
+      },
+      {
+        "number": "50",
+        "name": "Lazar Markovic",
+        "position": "Right Winger",
+        "flags": [
+          "Serbia"
+        ],
+        "value": "£4.50m ",
+        "timeInPlay": 123,
+        "swosValue": "1.1M",
+        "desiredSum": 29,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/144303-1478085154.jpg?lm=1478085268",
+        "age": "Mar 2, 1994 (24)",
+        "valueStripped": 4500000
+      },
+      {
+        "number": "-",
+        "name": "Connor Randall",
+        "position": "Right-Back",
+        "flags": [
+          "England"
+        ],
+        "value": "£450k ",
+        "timeInPlay": 110,
+        "swosValue": "180K",
+        "desiredSum": 13,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/262545-1459258434.jpg?lm=1459258474",
+        "age": "Oct 21, 1995 (23)",
+        "valueStripped": 450000
+      },
+      {
+        "number": "21",
+        "name": "Alex Oxlade-Chamberlain",
+        "position": "Right Midfield",
+        "flags": [
+          "England",
+          "Jamaica"
+        ],
+        "value": "£36.00m ",
+        "timeInPlay": 0,
+        "swosValue": "3M",
+        "desiredSum": 38,
+        "imgUrl": "https://tmssl.akamaized.net//images/portrait/medium/143424-1471253943.jpg?lm=1471253979",
+        "age": "Aug 15, 1993 (25)",
+        "valueStripped": 36000000
+      }
+    ]
+  }
+]
