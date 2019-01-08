@@ -285,8 +285,27 @@ function showNationalData(leagueName) {
 
 }
 
+async function writeCSVTeamsFromJson(leagueName , inputDir, outputDir) { 
+
+	let inputPath = inputDir + `league-${leagueName}.json`; 
+
+	const data = await fs.readFileSync(inputPath, 'utf8'); 
+		 
+	const result = await JSON.parse(data);
+	let league = new Array() ; 
+	league.name = leagueName ; 
+	
+
+	csvWriter.writeLeague(league , result , outputDir )
+}
+
+async function writeCSVTeams(leagueName ) { 
+	writeCSVTeamsFromJson(leagueName, "./data/" , "./data-csv/")
+	
+}
+
 module.exports = {
-	getBestTeamInLeague , getLeagueByLeagueName
+	getBestTeamInLeague , getLeagueByLeagueName , writeCSVTeamsFromJson
 } ; 
 
 
@@ -308,6 +327,7 @@ function run () {
 		showNational:name => showNationalData(name), 
 		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
 		nationalScreenshots: () => takeNationalScreenshot(),
+		writeCSV:name => writeCSVTeams(name), 
 		
 		
 		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),

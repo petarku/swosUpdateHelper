@@ -7,29 +7,7 @@ const fs = require('fs');
 
 var assert = require('assert');
 
-function deleteTestAssets () {
-	del(["./data-test/*.csv"] ,{force: true}, function(err, deleted) {
-		if (err) throw err;
-		console.log("Following files are deleted : ")
-		console.log(deleted);
-	  });
-	  del(['./data-test/*.json'], function(err, deleted) {
-		if (err) throw err;
-		console.log("Following files are deleted : ")
-		console.log(deleted);
-	  });
 
-}
-
-function deleteCSVFiles () {
-	del(["./test-input/*.csv"] ,{force: true}, function(err, deleted) {
-		if (err) throw err;
-		console.log("Following files are deleted : ")
-		console.log(deleted);
-	  });
-	
-
-}
 
 describe('Calculate skills tests ', function () {
 	it('should return all 7 when sum is 49', function () {
@@ -47,45 +25,40 @@ describe('Calculate skills tests ', function () {
 });
 
 
-/*describe('Scrape for 2 teams ', async function () {
+describe('Scrape for 2 teams ', async function () {
 	it('should return 1 json with 2 files', async function()  {
 		this.timeout(25000);
-		deleteTestAssets(); 
+		 del.sync(['./data-test/*.json'])
+		 del.sync(["./data-test/*.csv"])
+		 
 		const path = await index.getBestTeamInLeague(index.getLeagueByLeagueName('england')) ; 
-		//const path = "./data-test/league-england.json"; 
-		
 
-		const stat = fs.statSync(path);
+		fs.statSync(path);
 		const data = fs.readFileSync(path, 'utf8'); 
 		 
 		const result = JSON.parse(data);
 
 		//console.log(result) ; 
 		assert.equal(result[0].name,'Manchester City'); 
+		assert.equal(result[1].name,'Liverpool FC'); 
 	
 	});
-});*/
+});
 
-describe('Read json file ', function () {
+describe('Write csv from json ', function () {
 	it('should return 1 json with 2 files',async function()  {
-		deleteCSVFiles(); 
-		
-		 
-		const path = "./test-input/league-test.json"; 
-		
+		//await deleteCSVFiles(); 
+		del.sync(["./test-input/*.csv"]);
 
-		const stat = fs.statSync(path);
-		const data = fs.readFileSync(path, 'utf8'); 
-		 
-		const result = JSON.parse(data);
+		await index.writeCSVTeamsFromJson ("test" , "./test-input/", "./test-input/" ); 
+	
+		path = "./test-input/test-liverpool-fc.csv"; 
 
-		//console.log(result) ; 
-		let league = new Array() ; 
-		league.name = 'england' ; 
-		//assert.equal(result[0].name,'Manchester City'); 
-		//  assert.equal(result[0].players[0].name,'Ederson'); 
+		let csvData = fs.readFileSync(path, 'utf8'); 
 
-		csvWriter.writeLeague(league , result , './test-input/' )
+		path = "./test-input/test-manchester-city.csv"; 
+
+		csvData = fs.readFileSync(path, 'utf8');
 	
 	});
 });
