@@ -25,7 +25,7 @@ describe('Calculate skills tests ', function () {
 });
 
 
-describe('Scrape for 2 teams ', async function () {
+/*describe('Scrape for 2 teams ', async function () {
 	it('should return 1 json with 2 files', async function()  {
 		this.timeout(25000);
 		 del.sync(['./data-test/*.json'])
@@ -43,7 +43,7 @@ describe('Scrape for 2 teams ', async function () {
 		assert.equal(result[1].name,'Liverpool FC'); 
 	
 	});
-});
+});*/
 
 describe('Write csv from json ', function () {
 	it('should return 1 json with 2 files',async function()  {
@@ -59,6 +59,14 @@ describe('Write csv from json ', function () {
 		path = "./test-input/test-manchester-city.csv"; 
 
 		csvData = fs.readFileSync(path, 'utf8');
+	
+	});
+});
+
+describe('Fifa index page ', function () {
+	it('return name of clubs',async function()  {
+		this.timeout(25000);
+		await index.getFifaLeague("/teams/?league=13&order=desc")
 	
 	});
 });

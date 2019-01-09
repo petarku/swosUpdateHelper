@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 const superliga = require('./src/leagues');
+const fifaLeagues = require('./src/leaguesFifa');
 const helper = require('./src/puppetteer-helper.js');
 const club = require('./src/club');
+const clubFifa = require('./src/clubFifa');
 const fs = require('fs');
 const leagues = require('./src/leagues.json');
 const nationalTeams = require('./src/nationalTeams.json');
@@ -46,6 +48,26 @@ async function getLeague (league) {
 	console.log(`File data/league-${league.name}.json created!`);
 
 	csvWriter.writeLeague(league, clubPlayersArray , 'data-csv/');
+			
+}
+
+async function getFifaLeague (leagueUrl) {
+	
+	let clubsArray = await fifaLeagues.getFifaClubs(leagueUrl) ; 
+	//let clubsArraySliced = clubsArray.slice(0,1); 
+	//console.log(clubsArray) ; 
+	
+	let clubPlayersArray = new Array() ; 
+	for (const clubItem of clubsArray) {
+		let clubPlayers = await clubFifa.getFifaPlayers(clubItem); 
+		console.log(clubPlayers) ; 
+		clubPlayersArray.push(clubPlayers); 
+	}
+	const str = JSON.stringify(clubPlayersArray, null, 2);
+	fs.writeFileSync(`data/league-fifa.json`, str);
+	//console.log(`File data/league-${league.name}.json created!`);
+
+	//csvWriter.writeLeague(league, clubPlayersArray , 'data-csv/');
 			
 }
 
@@ -305,7 +327,7 @@ async function writeCSVTeams(leagueName ) {
 }
 
 module.exports = {
-	getBestTeamInLeague , getLeagueByLeagueName , writeCSVTeamsFromJson
+	getBestTeamInLeague , getLeagueByLeagueName , writeCSVTeamsFromJson , getFifaLeague
 } ; 
 
 
