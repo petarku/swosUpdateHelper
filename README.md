@@ -18,7 +18,7 @@ if you are not happy with proposed 16 based of the minutes they played you can v
 
 - It scrapes the formation data from transfermarket and translates it into swos formation - 4-3-2-1 becomes 4-5-1. If it needs to be mapped to 4-3-3 always it is easy to do the change. 
 
-- it can get the last formation screenshot for the team to help see the squad. 
+- it can get the last formation screenshot for the team to help see the squad formation and player positions. 
 
 - it can get several screenshot per team per league - this still needs some testing. 
 
