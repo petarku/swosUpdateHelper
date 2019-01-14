@@ -19,6 +19,7 @@ it can get several screenshot per team per league - this still needs some testin
 ## Environment
 
 download node - latest version 
+
 clone the code from this repository : https://github.com/petarku/swosUpdateHelper 
 
 
