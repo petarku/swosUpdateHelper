@@ -7,7 +7,7 @@ This is basically transfermarket scraper that takes league url of transfermarket
 At minimum you would need to edit skin color , often player position need to updated. 
 if you are not happy with proposed 16 based of the minutes they played you can view the scraped squad in browser and edit based on that. 
 
-Features : 
+## Features : 
 
 It will choose players that played the most minutes on their positions based on the transfermarket data.  
 
