@@ -9,7 +9,7 @@ if you are not happy with proposed 16 based of the minutes they played you can v
 
 ## Features : 
 
-It will choose players that played the most minutes on their positions based on the transfermarket data.  
+It will pick players that played the most minutes on their positions based on the transfermarket data and put them in the csv file for import.  
 
 Conversion rate from transfermarket to swos values are done based on the rules that were set in 16/17 community update (ok i altered them a bit as the prices started to be to crazy ), but it can be easily updated as it is only one json file that need to be changed. 
 
