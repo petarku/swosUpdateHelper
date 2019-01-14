@@ -1,6 +1,6 @@
 # Swos Update Helper
 
-Season after Season great sensible soccer community is updating the names and skills for the beautiful game . It is not an easy job as it requires a lot of time but the guys are still doing it. There are some excellent tools to help like armando's skill generator that is working in excel but updating teams one by one. 
+Season after Season great sensible soccer community is updating the names and skills for the beautiful game . It is not an easy job as it requires a lot of time but the guys are still doing it. There are some excellent tools to help like armando's skill generator that is limited on team by team updates in excel. 
 My idea creating this code was to help automating some of the data gathering from the transfermarket. 
 
 This is basically transfermarket scraper that takes league url and scrapes the data and creates SWOES2 editor friendly csv files per team that can be imported.  
@@ -40,4 +40,4 @@ if you want to see all scraped data for the league , together with player faces 
 ```sh
 > node . -showLeague england 
 ```
-it will open the browser data with 
+it will open the browser data with data for league - all teams and players from transfermarket for desired league
