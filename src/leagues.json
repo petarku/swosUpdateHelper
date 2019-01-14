@@ -27,6 +27,15 @@
 	{ "name": "czech",   "url": "/gambrinus-liga/startseite/wettbewerb/TS1" },
 	{ "name": "belarus",   "url": "/wyschejschaja-liha/startseite/wettbewerb/WER1" },
 	{ "name": "poland",   "url": "/ekstraklasa/startseite/wettbewerb/PL1" },
-	{ "name": "croatia", "url":"/1-hnl/startseite/wettbewerb/KR1" }
+	{ "name": "croatia", "url":"/1-hnl/startseite/wettbewerb/KR1" }, 
+	{ "name": "ireland", "url":"/league-of-ireland/startseite/wettbewerb/IR1" }, 
+	{ "name": "scotland", "url":"/scottish-premiership/startseite/wettbewerb/SC1" }, 
+	{ "name": "scotland1", "url":"/scottish-championship/startseite/wettbewerb/SC2" }, 
+	{ "name": "scotland2", "url":"/scottish-league-one/startseite/wettbewerb/SC3" }, 
+	{ "name": "scotland3", "url":"/scottish-league-two/startseite/wettbewerb/SC4" },
+	{ "name": "island", "url":"/pepsideild/startseite/wettbewerb/IS1" },
+	{ "name": "lithuania", "url":"/a-lyga/startseite/wettbewerb/LI1" }
+
+
 	
 ]
