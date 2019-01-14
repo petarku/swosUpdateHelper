@@ -1,5 +1,8 @@
 # Swos Update Helper
 
+## Environment
+
+download node - latest version 
 
 ## Install
 ```sh
