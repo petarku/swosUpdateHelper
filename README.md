@@ -5,7 +5,7 @@ My idea creating this code was to help automating some of the data gathering fro
 
 This is basically transfermarket scraper that takes league url of transfermarket and scrapes the data and creates SWOES2 editor friendly csv files per team that can be imported and edited after.
 
-when you are using this code t minimum you would need to edit skin color of the players , often player position need to updated. 
+when you are using this code at minimum you would need to edit skin color of the players , often player position need to updated. 
 if you are not happy with proposed 16 based of the minutes they played you can view the scraped squad in browser and edit based on that. 
 
 ## Features : 
