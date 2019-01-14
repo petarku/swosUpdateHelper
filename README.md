@@ -3,17 +3,25 @@
 Season after Season great sensible soccer community is updating the names and skills for the beautiful game . It is not an easy job as it requires a lot of time but the guys are still doing it. There are some excellent tools to help like armando's skill generator that is limited on team by team updates in excel. 
 My idea creating this code was to help automating some of the data gathering from the transfermarket. 
 
-This is basically transfermarket scraper that takes league url and scrapes the data and creates SWOES2 editor friendly csv files per team that can be imported.  
+This is basically transfermarket scraper that takes league url of transfermarket and scrapes the data and creates SWOES2 editor friendly csv files per team that can be imported and edited after.
+At minimum you would need to edit skin color , often player position need to updated. 
+if you are not happy with proposed 16 based of the minutes they played you can view the scraped squad in browser and edit based on that. 
+
 Features : 
 
 It will choose players that played the most minutes on their positions based on the transfermarket data.  
+
 Conversion rate from transfermarket to swos values are done based on the rules that were set in 16/17 community update (ok i altered them a bit as the prices started to be to crazy ), but it can be easily updated as it is only one json file that need to be changed. 
+
 Goalkeeper price is capped on 4.5M 
+
 It scrapes the formation data from transfermarket and translates it into swos formation - 4-3-2-1 becomes 4-5-1. If it needs to be mapped to 4-3-3 always it is easy to do the change. 
+
 it can get the last formation screenshot for the team to help see the squad. 
+
 it can get several screenshot per team per league - this still needs some testing. 
 
-
+it can scrape the data for national teams - experimental phase for europe 
 
 
 ## Environment
