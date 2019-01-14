@@ -4,29 +4,30 @@ Season after Season great sensible soccer community is updating the names and sk
 My idea creating this code was to help automating some of the data gathering from the transfermarket. 
 
 This is basically transfermarket scraper that takes league url of transfermarket and scrapes the data and creates SWOES2 editor friendly csv files per team that can be imported and edited after.
-At minimum you would need to edit skin color , often player position need to updated. 
+
+when you are using this code t minimum you would need to edit skin color of the players , often player position need to updated. 
 if you are not happy with proposed 16 based of the minutes they played you can view the scraped squad in browser and edit based on that. 
 
 ## Features : 
 
-It will pick players that played the most minutes on their positions based on the transfermarket data and put them in the csv file for import.  
+- It will pick players that played the most minutes on their positions based on the transfermarket data and put them in the csv file for import.  
 
-Conversion rate from transfermarket to swos values are done based on the rules that were set in 16/17 community update (ok i altered them a bit as the prices started to be to crazy ), but it can be easily updated as it is only one json file that need to be changed. 
+- Conversion rate from transfermarket to swos values are done based on the rules that were set in 16/17 community update (ok i altered them a bit as the prices started to be to crazy ), but it can be easily updated as it is only one json file that need to be changed. 
 
-Goalkeeper price is capped on 4.5M 
+- Goalkeeper price is capped on 4.5M 
 
-It scrapes the formation data from transfermarket and translates it into swos formation - 4-3-2-1 becomes 4-5-1. If it needs to be mapped to 4-3-3 always it is easy to do the change. 
+- It scrapes the formation data from transfermarket and translates it into swos formation - 4-3-2-1 becomes 4-5-1. If it needs to be mapped to 4-3-3 always it is easy to do the change. 
 
-it can get the last formation screenshot for the team to help see the squad. 
+- it can get the last formation screenshot for the team to help see the squad. 
 
-it can get several screenshot per team per league - this still needs some testing. 
+- it can get several screenshot per team per league - this still needs some testing. 
 
-it can scrape the data for national teams - experimental phase for europe 
+- it can scrape the data for national teams - experimental phase for europe 
 
 
 ## Environment
 
-download node - latest version 
+download node - latest version for your environment from https://nodejs.org/en/download/ 
 
 clone the code from this repository : https://github.com/petarku/swosUpdateHelper 
 
