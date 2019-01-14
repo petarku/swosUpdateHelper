@@ -51,3 +51,9 @@ if you want to see all scraped data for the league , together with player faces 
 > node . -showLeague england 
 ```
 it will open the browser data with data for league - all teams and players from transfermarket for desired league
+
+## get latest screenshot of the formation
+```sh
+> node . -leagueScreenshot england
+```
+it will create png files per team of the league into data-png
