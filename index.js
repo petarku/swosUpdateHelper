@@ -15,22 +15,6 @@ const handler = require('serve-handler');
 const http = require('http');
 var open = require("open");
 
-function getLeagueOld (league) {
-	superliga
-		.getClubs(league.url)
-		.then(clubs => {
-			const playersPromises = clubs.map(club.getPlayers);
-
-			return Promise.all(playersPromises);
-		})
-		.then(res => {
-			const str = JSON.stringify(res, null, 2);
-			fs.writeFileSync(`data/league-${league.name}.json`, str);
-			console.log(`File data/league-${league.name}.json created!`);
-
-			csvWriter.writeLeague(league, res , 'data-csv/');
-		});
-}
 
 async function getLeague (league) {
 	
@@ -47,9 +31,88 @@ async function getLeague (league) {
 	fs.writeFileSync(`data/league-${league.name}.json`, str);
 	console.log(`File data/league-${league.name}.json created!`);
 
-	csvWriter.writeLeague(league, clubPlayersArray , 'data-csv/');
+	writeCSVTeams(league.name) ; 
 			
 }
+
+function showLeagueData(leagueName) { 
+	 
+	const server = http.createServer((request, response) => {
+
+		return handler(request, response, {
+			//cleanUrls: false
+		});
+	})
+	
+	server.listen(3000, () => {
+		console.log('Running at http://localhost:3000');
+	
+	open(`http://localhost:3000?${leagueName}` );
+	});
+
+}
+
+async function takeScreenshot (league) {
+	let browser = await puppeteer.launch({ headless: true });
+	let page = await browser.newPage();
+	await page.setViewport({ width: 1920, height: 1080 });
+	const clubs = await superliga.getClubs(league.url)
+
+
+	var arrayLength = clubs.length;
+		for (var i = 0; i < arrayLength; i++) {
+			 
+			let pathString = 'data-png/' +  `${clubs[i].name}.png` ; 
+			await page.goto(clubs[i].url);
+			await page.waitFor(5000);
+			
+			let result = await helper.screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
+			if (!result) {
+				console.log(`Formation picture not found for  ${clubs[i].name}`) ; 
+			}	else {
+				console.log('Png created for ' + pathString) ; 
+			}
+
+		}
+	
+    await browser.close();
+}
+
+async function takeLineUpScreenshots (league) {
+	let browser = await puppeteer.launch({ headless: true });
+	let page = await browser.newPage();
+	await page.setViewport({ width: 1920, height: 1080 });
+	const clubs = await superliga.getClubs(league.url)
+
+	
+	var arrayLength = clubs.length;
+	
+		for (var i = 0; i < arrayLength; i++) {
+			
+			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
+	
+			await page.goto(clubs[i].url);
+			await page.waitFor(5000);
+			
+			const url = await helper.findElement( page , ".footer > a");
+			await page.goto(url);
+			await page.waitFor(5000);
+			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
+			const urlArray = lineUpsPageUrls.urlElements; 
+			for (var j = 0; j < 3; j++) {
+				await page.goto(urlArray[j]); 
+				let pathString = 'data-png/' +  `${clubs[i].name}${j}.png` ;
+				console.log(`Taking screnshot for ${pathString}`); 
+				let result = await helper.screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
+			}
+		
+
+		}
+	
+    await browser.close();
+}
+
+
 
 async function getFifaLeague (leagueUrl) {
 	
@@ -120,15 +183,16 @@ async function getAllNationalTeams (indexRange) {
 			
 }
 
+async function getNationalTeam (nationalTeamItem) {
 
-function getNationalTeams (nationalTeam) {
-	club.getNationalTeamPlayers(nationalTeam).then(res => {
-		const str = JSON.stringify(res, null, 2);
-		fs.writeFileSync(`data/nationalTeam-${nationalTeam.name}.json`, str);
-		console.log(`File data/nationalTeam-${nationalTeam.name}.json created!`);
-		csvWriter.writeTeam(null, res, nationalTeam , 'data-csv/');
-	});
+	let nationalPlayers = await club.getNationalTeamPlayers(nationalTeamItem); 
+
+	const str = JSON.stringify(nationalPlayers, null, 2);
+	fs.writeFileSync(`data/league-nationalTeams-${nationalTeamItem.name}.json`, str);
+	console.log(`File data/league-nationalTeams-${nationalTeamItem.name}.json created!`);
+		
 }
+
 
 async function takeLineUpScreenshots (league) {
 	let browser = await puppeteer.launch({ headless: true });
@@ -165,11 +229,6 @@ async function takeLineUpScreenshots (league) {
 }
 
 
-
- 
-
-
-
   async function takeNationalScreenshot () {
 	let browser = await puppeteer.launch({ headless: true });
 	let page = await browser.newPage();
@@ -198,31 +257,7 @@ async function takeLineUpScreenshots (league) {
     await browser.close();
 }
 
-async function takeScreenshot (league) {
-	let browser = await puppeteer.launch({ headless: true });
-	let page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
-	const clubs = await superliga.getClubs(league.url)
 
-
-	var arrayLength = clubs.length;
-		for (var i = 0; i < arrayLength; i++) {
-			 
-			let pathString = 'data-png/' +  `${clubs[i].name}.png` ; 
-			await page.goto(clubs[i].url);
-			await page.waitFor(5000);
-			
-			let result = await helper.screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
-			if (!result) {
-				console.log(`Formation picture not found for  ${clubs[i].name}`) ; 
-			}	else {
-				console.log('Png created for ' + pathString) ; 
-			}
-
-		}
-	
-    await browser.close();
-}
 
 
 async function getBestTeamInLeague (league) {
@@ -245,14 +280,6 @@ async function getBestTeamInLeague (league) {
 }
 
 
-function getOneNationalTeam (nationalTeam) {
-	club.getNationalTeamPlayers(nationalTeam).then(res => {
-		const str = JSON.stringify(res, null, 2);
-		fs.writeFileSync(`data-test/nationalTeam-${nationalTeam.name}.json`, str);
-		console.log(`File data-test/nationalTeam-${nationalTeam.name}.json created!`);
-		csvWriter.writeTeam(null, res, nationalTeam , 'data-test/');
-	});
-}
 
 function getLeagueByLeagueName (leagueName) {
 	for (var i in leagues) {
@@ -262,7 +289,7 @@ function getLeagueByLeagueName (leagueName) {
 	}
 }
 
-function getNationalTeamByName (nationalTeamName) {
+function getNationalTeamItemByName (nationalTeamName) {
 	for (var i in nationalTeams) {
 		if (nationalTeams[i].name.indexOf(nationalTeamName) !== -1) {
 			return nationalTeams[i];
@@ -271,25 +298,10 @@ function getNationalTeamByName (nationalTeamName) {
 }
 
 
-function showLeagueData(leagueName) { 
-	 
-	const server = http.createServer((request, response) => {
-		// You pass two more arguments for config and middleware
-		// More details here: https://github.com/zeit/serve-handler#options
-		return handler(request, response, {
-			//cleanUrls: false
-		});
-	})
-	
-	server.listen(3000, () => {
-		console.log('Running at http://localhost:3000');
-		//open("http://localhost:3000/index.html" + '?'  + leagueName);
-	open(`http://localhost:3000?${leagueName}` );
-	});
 
-}
 
 function showNationalData(leagueName) { 
+
 	 
 	const server = http.createServer((request, response) => {
 		// You pass two more arguments for config and middleware
@@ -317,12 +329,15 @@ async function writeCSVTeamsFromJson(leagueName , inputDir, outputDir) {
 	let league = new Array() ; 
 	league.name = leagueName ; 
 	
+	if (!fs.existsSync(outputDir)){
+    fs.mkdirSync(outputDir);
+	}
 
 	csvWriter.writeLeague(league , result , outputDir )
 }
 
 async function writeCSVTeams(leagueName ) { 
-	writeCSVTeamsFromJson(leagueName, "./data/" , "./data-csv/")
+	writeCSVTeamsFromJson(leagueName, "./data/" , `./data-csv/${leagueName}/`)
 	
 }
 
@@ -341,13 +356,18 @@ function run () {
 	const cmdline = require('node-cmdline-parser');
 	
 	const keys = {
+		//league 
 		league: name => getLeague(getLeagueByLeagueName(name)),
+		showLeague:name => showLeagueData(name), 
+		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+
+		// national 
 		allNational: rangeIndex => getAllNationalTeams(rangeIndex),
 	
-		national: name => getNationalTeams(getNationalTeamByName(name)),
-		showLeague:name => showLeagueData(name), 
+		national: name => getNationalTeam(getNationalTeamItemByName(name)),
+		
 		showNational:name => showNationalData(name), 
-		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+		
 		nationalScreenshots: () => takeNationalScreenshot(),
 		writeCSV:name => writeCSVTeams(name), 
 		
@@ -364,6 +384,7 @@ function run () {
 			console.log('you can use node . -national SERBIA --to get Serbian national team ');
 			console.log('you can use node . -allNational indexRange -- for example "0-20" ');
 			console.log('you can use node . -showLeague serbia --to show league data in browser ');
+			console.log('you can use node . -showNational "0-20" data in browser ');
 			console.log('you can use node . -leagueScreenshot serbia to get formation screenshots for serbian league ');
 			console.log('you can use node . -nationalScreenshots to get screenshot for all national teams ');
 
