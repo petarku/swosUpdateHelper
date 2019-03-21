@@ -267,7 +267,7 @@ function sortPlayersSwosStyle(players) {
 	});
 
 	let restOfPlayers = players       
-		.slice(16, players.length)
+		.slice(15, players.length)
 		.filter(p => p.position !== 'Goalkeeper') 
 		
 
@@ -287,7 +287,7 @@ function getPlayers (club) {
 			club.url = club.url + ORDER_URL ;
 			club.coach = res.coach;
 			club.formation = res.formation;
-			//club.players = res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			console.log(res.players);
 			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
 			club.players = sortPlayersSwosStyle(res.players); 
 			return club;
