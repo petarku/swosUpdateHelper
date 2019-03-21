@@ -287,7 +287,6 @@ function getPlayers (club) {
 			club.url = club.url + ORDER_URL ;
 			club.coach = res.coach;
 			club.formation = res.formation;
-			console.log(res.players);
 			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
 			club.players = sortPlayersSwosStyle(res.players); 
 			return club;
