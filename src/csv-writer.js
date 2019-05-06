@@ -242,7 +242,7 @@ function randomizeSkills (desiredSUM , res , RANGE) {
 
 
 function calculateSkills (desiredSUM , position) {
-	
+
 		let P = 0; 
 		let V = 0 ; 
 		let H = 0  ; 
@@ -385,7 +385,7 @@ function slugify(text) {
 
 
 
-function playerLine(player, nationalTeamName) {
+function playerLine(player, nationalTeamName , teamStats) {
 	// player lines: country code, index number (1 - 16), name, position code, black, 0,0,0,0,0,0,0, swos value
 	//const country = player.flags[0];
 	let country;
@@ -406,6 +406,14 @@ function playerLine(player, nationalTeamName) {
 	 	skills7 = calculateSkills(player.desiredSum, player.position);
 	} 
 
+	teamStats.teamSum = teamStats.teamSum + player.desiredSum ;
+
+	if (player.position !== 'Goalkeeper') {
+		teamStats.teamSpeed = teamStats.teamSpeed + parseInt(skills7[5]) ; 
+	}
+	if (player.desiredSum > 39) {
+		teamStats.fiveStarPlayersNo = teamStats.fiveStarPlayersNo + 1 ; 
+	}
 
 	return [
 		country,
@@ -463,13 +471,34 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	// first line: club name, nation number, team number, formation, coach name
 	lines.push([clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', ''].join(','));
 
+
+	let teamStats = new Object(); 
+	teamStats.teamSum = 0 ;
+	teamStats.teamSpeed = 0 ; 
+	teamStats.fiveStarPlayersNo = 0 ; 
+
 	playersData.players
 		.slice(0, 16)   
 		.forEach(player => {
-			lines.push(playerLine(player, nationalTeamName));
+			lines.push(playerLine(player, nationalTeamName , teamStats));
 		});
 
+	checkForOverpoveredTeams(teamStats , clubName); 
+
 	fs.writeFileSync(location + fname, lines.join('\r\n'));
+}
+
+function checkForOverpoveredTeams(teamStats , clubName) {
+// 	555 max points per team , 82 max speed , max 7 players with 5 stars 
+	if (teamStats.teamSum > 555) {
+		console.log(`Stats for ${clubName} : team sum is bigger then 555 , it is ${teamStats.teamSum}`) ; 
+	}
+	if (teamStats.teamSpeed > 82) {
+		console.log(`Stats for ${clubName} : team speed is bigger then 82 , it is ${teamStats.teamSpeed}`) ; 
+	} 
+	if (teamStats.fiveStarPlayersNo > 7) {
+		console.log(`Stats for ${clubName} : five star players No is bigger than 7 , it is ${teamStats.fiveStarPlayersNo}`) ; 
+	}
 }
 
 function writeLeague(league, data, location ) {
@@ -477,8 +506,6 @@ function writeLeague(league, data, location ) {
 		writeTeam(league, club, null, location);
 	});
 }
-
-
 
 
 module.exports = {

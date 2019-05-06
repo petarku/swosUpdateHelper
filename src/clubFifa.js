@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const swosRange = require('./swos-range.json');
+const fifaRange = require('./fifa-range.json');
 
 async function parseFifaPlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
@@ -9,7 +9,10 @@ async function parseFifaPlayerRow (row) {
 	//console.log(name) ; 
 	const nationality = row.querySelector('td[data-title="Nationality"] > .link-nation').title;
 	//console.log(nationality) ;  
-	const overall = parseInt(row.querySelector('td[data-title="OVR / POT"] > span').textContent);
+	const overallArray = row.querySelectorAll('td[data-title="OVR / POT"] > span');
+	const overall = parseInt(overallArray[0].textContent) ; 
+	const potential = parseInt(overallArray[1].textContent) ; 
+	const swosResult = getTheSwosValue(overall , potential) ; 
 	//console.log(overall) ; 
 	const preferedPositionsList = row.querySelectorAll('td[data-title="Preferred Positions"] > a > span');
 	let positionList = new Array() 
@@ -17,8 +20,29 @@ async function parseFifaPlayerRow (row) {
 		positionList.push(rowPositions.textContent) ; 
 	}
 	//console.log(positionList) ; 
-	return {name, nationality , overall , positionList} ; 
+	return {name, nationality , overall , potential,  swosResult,  positionList } ; 
 
+}
+
+function getTheSwosValue (overall , potential) {
+	var swosResult = {};
+	console.log(overall) ; 
+	for (let i = 0; i < fifaRange.length; i++) {
+		if (overall >= fifaRange[i].minValue && overall < fifaRange[i].maxValue) {
+			let sum = fifaRange[i].desiredSum ; 
+			if ((sum > 39) && (sum < 48) && (potential > overall) ){
+				swosResult.swosValue = fifaRange[i+1].swosValue;
+				swosResult.desiredSum = fifaRange[i+1].desiredSum ;
+			} else {
+				swosResult.swosValue = fifaRange[i].swosValue;
+				swosResult.desiredSum = fifaRange[i].desiredSum ; 
+			}	
+			return swosResult;
+		}
+	}
+	swosResult.swosValue = '47';
+	swosResult.desiredSum = 0 ; 
+	return swosResult ; 
 }
 
 async function parseFifaTable (res) {
