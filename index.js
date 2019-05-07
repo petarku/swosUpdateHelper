@@ -87,7 +87,7 @@ async function takeLineUpScreenshots (league) {
 	
 	var arrayLength = clubs.length;
 	
-		for (var i = 0; i < arrayLength; i++) {
+	for (var i = 0; i < arrayLength; i++) {
 			
 			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
 	
@@ -184,13 +184,17 @@ async function getAllNationalTeams (indexRange) {
 }
 
 async function getNationalTeam (nationalTeamItem) {
-
+	let nationalPlayersArray = new Array() ; 
 	let nationalPlayers = await club.getNationalTeamPlayers(nationalTeamItem); 
-
-	const str = JSON.stringify(nationalPlayers, null, 2);
+	nationalPlayersArray.push(nationalPlayers);  
+	const str = JSON.stringify(nationalPlayersArray, null, 2);
 	fs.writeFileSync(`data/league-nationalTeams-${nationalTeamItem.name}.json`, str);
 	console.log(`File data/league-nationalTeams-${nationalTeamItem.name}.json created!`);
-		
+	
+	
+	
+		csvWriter.writeTeam(null, nationalPlayersArray[0], nationalTeamItem , 'data-csv/');
+	
 }
 
 
@@ -313,7 +317,7 @@ function showNationalData(leagueName) {
 	
 	server.listen(3000, () => {
 		console.log('Running at http://localhost:3000');
-		open("http://localhost:3000/index2.html?" + leagueName);
+		open("http://localhost:3000/index2.html?" + 'nationalTeams-' + leagueName);
 	     // open(`http://localhost:3000?${leagueName}` );
 	});
 
