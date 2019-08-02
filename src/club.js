@@ -141,10 +141,10 @@ async function parsePlayerStats (url) {
 
 	const heading = table
 		.closest('.box')
-		.querySelector('.table-header')
+		.querySelector('.subkategorie-header')
 		.textContent.trim();
 	
-	if (heading !== 'Stats 18/19') {
+	if (heading !== 'Stats 19/20') {
 		console.error("No this year stat for " + url); 
 		return 0;
 		
