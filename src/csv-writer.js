@@ -1,6 +1,15 @@
 const fs = require('fs');
 const normalize = require('normalize-text');
 const swosRange = require('./swos-range.json');
+const swosRangeRB = require('./swos-rangeRBLB.json');
+const swosRangeLB = swosRangeRB ;
+const swosRangeRW = require('./swos-rangeRWLW.json');
+const swosRangeLW = swosRangeRW ; 
+const swosRangeA = require('./swos-rangeA.json');
+const swosRangeD = require('./swos-rangeD.json');
+const swosRangeM = require('./swos-rangeM.json');
+const swosRangeGK = require('./swos-rangeGK.json');
+
 var _ = require("underscore");
 
 const countryCodeMap = {
@@ -383,6 +392,53 @@ function slugify(text) {
 		.replace(/-+$/, '');            // Trim - from end of text
 }
 
+function getTheSwosValue(valueStripped , playerPosition) {
+	const positionPrefix = positionCodeMap[playerPosition] ; 
+	console.log(positionPrefix) ; 
+	switch (positionPrefix) {
+		case 'GK':
+			return getValueFromFile(swosRangeGK, valueStripped)
+		case 'RB': 
+			return getValueFromFile(swosRangeRB , valueStripped)
+		case 'D': 
+		return getValueFromFile(swosRangeD, valueStripped)
+		case 'LB': 
+		return getValueFromFile(swosRangeLB , valueStripped)
+		case 'M': 
+		return getValueFromFile(swosRangeM, valueStripped)
+		case 'RW': 
+		return getValueFromFile(swosRangeRW, valueStripped)
+		case 'LW': 
+		return getValueFromFile(swosRangeLW, valueStripped)
+		case 'A': 
+		return getValueFromFile(swosRangeA, valueStripped)
+		
+		default:
+			
+		  
+	}
+	
+}
+
+function getValueFromFile (fileName , valueStripped) {
+	
+	var swosResult = {};
+
+	
+		for (let i = 0; i < fileName.length; i++) {
+			if (valueStripped >= fileName[i].minValue && valueStripped < fileName[i].maxValue) {
+				
+				swosResult.swosValue = fileName[i].swosValue;
+				swosResult.desiredSum = fileName[i].desiredSum ; 
+				return swosResult;
+			}
+		}
+	
+	
+	swosResult.swosValue = '25K';
+	swosResult.desiredSum = 0 ; 
+	return swosResult ; 
+}
 
 
 function playerLine(player, nationalTeamName , teamStats) {
@@ -398,6 +454,12 @@ function playerLine(player, nationalTeamName , teamStats) {
 
 
 	const playerName = normalize.normalizeDiacritics(player.name);
+
+	const swosData = getTheSwosValue(player.valueStripped , player.position);
+
+	 player.swosValue = swosData.swosValue ; 
+	 player.desiredSum = swosData.desiredSum ; 
+
 	let skills7 ; 
 	if (player.position === 'Goalkeeper') {
 		player.swosValue = capGoalkeeperPrice(player.desiredSum, player.swosValue);

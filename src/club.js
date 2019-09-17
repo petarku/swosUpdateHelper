@@ -8,7 +8,7 @@ const BASE_URL = 'https://www.transfermarkt.co.uk';
 
 const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ;
 
-function getTheSwosValue (valueStripped) {
+/*function getTheSwosValue (valueStripped) {
 	var swosResult = {};
 	for (let i = 0; i < swosRange.length; i++) {
 		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
@@ -20,7 +20,7 @@ function getTheSwosValue (valueStripped) {
 	swosResult.swosValue = '25K';
 	swosResult.desiredSum = 0 ; 
 	return swosResult ; 
-}
+}*/
 
 async function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
@@ -32,7 +32,7 @@ async function parsePlayerRow (row) {
 	const timeInPlay = await parsePlayerStats(url);
 	const position = playerSubtable[1].querySelector('td').innerHTML;
 	const zenTriertArray = row.querySelectorAll('.zentriert');
-	const age = zenTriertArray[1].textContent;
+	const age = zenTriertArray[1].textContent.match(/\(([^)]+)\)/)[1];
 	const imgUrl = playerSubtable[0]
 		.querySelector('td:first-child img')
 		.getAttribute('data-src')
@@ -46,12 +46,12 @@ async function parsePlayerRow (row) {
 
 	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
-	const swosData = getTheSwosValue(valueStripped);
+	//const swosData = getTheSwosValue(valueStripped);
 
-	const swosValue = swosData.swosValue ; 
-	const desiredSum = swosData.desiredSum ; 
+	//const swosValue = swosData.swosValue ; 
+	//const desiredSum = swosData.desiredSum ; 
 
-	return { number, name, position, flags, value, timeInPlay, swosValue,desiredSum, imgUrl, age , valueStripped};
+	return { number, name, position, flags, value, timeInPlay, imgUrl, age , valueStripped};
 }
 
 async function parseNationalPlayerRow (row) {
@@ -62,10 +62,10 @@ async function parseNationalPlayerRow (row) {
 	const value = row.querySelector('.rechts.hauptlink').textContent.trim();
 
 	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
-	const swosData = getTheSwosValue(valueStripped);
+	//const swosData = getTheSwosValue(valueStripped);
 
-	const swosValue = swosData.swosValue ; 
-	const desiredSum = swosData.desiredSum 
+	//const swosValue = swosData.swosValue ; 
+	//const desiredSum = swosData.desiredSum 
 	const zenTriertArray = row.querySelectorAll('.zentriert');
 	const age = zenTriertArray[1].textContent;
 	const playerLink = row.querySelector('.spielprofil_tooltip').href;
@@ -79,19 +79,9 @@ async function parseNationalPlayerRow (row) {
 		.getAttribute('data-src')
 		.replace('small', 'medium');
 
-	return { number, name, position, value, swosValue, desiredSum, imgUrl, age, timeInPlay , valueStripped };
+	return { number, name, position, value, imgUrl, age, timeInPlay , valueStripped };
 }
 
-
-
-/*function getTheSwosValue (valueStripped) {
-	for (let i = 0; i < swosRange.length; i++) {
-		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
-			return swosRange[i].swosValue;
-		}
-	}
-	return 'no Set Price';
-}*/
 
 function convertStringValuetoNumber (original, substr, substr2, currency) {
 	original = original.replace(currency, '');
