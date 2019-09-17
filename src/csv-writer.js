@@ -392,26 +392,48 @@ function slugify(text) {
 		.replace(/-+$/, '');            // Trim - from end of text
 }
 
-function getTheSwosValue(valueStripped , playerPosition) {
-	const positionPrefix = positionCodeMap[playerPosition] ; 
-	console.log(positionPrefix) ; 
+function ageRelatedIncrement(player) {
+	const age =  parseInt(player.age) ; 
+
+	console.log(age) ; 
+	console.log(player.valueStripped); 
+	if ((age) < 30 ){ 
+		player.valueStripped = player.valueStripped * 1 ; 
+	} else if ((age) < 32) {
+		player.valueStripped = player.valueStripped * 1.25 ; 
+	} else if ((age) < 35) {
+		player.valueStripped = player.valueStripped * 1.5 ; 
+	} else if ((age) < 38) {
+		player.valueStripped = player.valueStripped * 2 ; 
+	} else if ((age) < 40) {
+		player.valueStripped = player.valueStripped * 2.5 ; 
+	} else {
+		player.valueStripped = player.valueStripped * 3 ; 
+	}
+	
+}
+
+function getTheSwosValue(player) {
+	const positionPrefix = positionCodeMap[player.position] ; 
+	console.log(player.valueStripped)
+	ageRelatedIncrement(player) ; 
 	switch (positionPrefix) {
 		case 'GK':
-			return getValueFromFile(swosRangeGK, valueStripped)
+			return getValueFromFile(swosRangeGK, player.valueStripped)
 		case 'RB': 
-			return getValueFromFile(swosRangeRB , valueStripped)
+			return getValueFromFile(swosRangeRB , player.valueStripped)
 		case 'D': 
-		return getValueFromFile(swosRangeD, valueStripped)
+		return getValueFromFile(swosRangeD, player.valueStripped)
 		case 'LB': 
-		return getValueFromFile(swosRangeLB , valueStripped)
+		return getValueFromFile(swosRangeLB , player.valueStripped)
 		case 'M': 
-		return getValueFromFile(swosRangeM, valueStripped)
+		return getValueFromFile(swosRangeM, player.valueStripped)
 		case 'RW': 
-		return getValueFromFile(swosRangeRW, valueStripped)
+		return getValueFromFile(swosRangeRW, player.valueStripped)
 		case 'LW': 
-		return getValueFromFile(swosRangeLW, valueStripped)
+		return getValueFromFile(swosRangeLW, player.valueStripped)
 		case 'A': 
-		return getValueFromFile(swosRangeA, valueStripped)
+		return getValueFromFile(swosRangeA, player.valueStripped)
 		
 		default:
 			
@@ -421,6 +443,7 @@ function getTheSwosValue(valueStripped , playerPosition) {
 }
 
 function getValueFromFile (fileName , valueStripped) {
+	
 	
 	var swosResult = {};
 
@@ -455,7 +478,7 @@ function playerLine(player, nationalTeamName , teamStats) {
 
 	const playerName = normalize.normalizeDiacritics(player.name);
 
-	const swosData = getTheSwosValue(player.valueStripped , player.position);
+	const swosData = getTheSwosValue(player);
 
 	 player.swosValue = swosData.swosValue ; 
 	 player.desiredSum = swosData.desiredSum ; 
