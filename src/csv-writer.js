@@ -395,8 +395,7 @@ function slugify(text) {
 function ageRelatedIncrement(player) {
 	const age =  parseInt(player.age) ; 
 
-	console.log(age) ; 
-	console.log(player.valueStripped); 
+	
 	if ((age) < 30 ){ 
 		player.valueStripped = player.valueStripped * 1 ; 
 	} else if ((age) < 32) {
@@ -415,7 +414,7 @@ function ageRelatedIncrement(player) {
 
 function getTheSwosValue(player) {
 	const positionPrefix = positionCodeMap[player.position] ; 
-	console.log(player.valueStripped)
+	
 	ageRelatedIncrement(player) ; 
 	switch (positionPrefix) {
 		case 'GK':
