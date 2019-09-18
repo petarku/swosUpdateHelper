@@ -3,8 +3,8 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const swosRange = require('./swos-range.json');
 
-//const BASE_URL = 'https://www.transfermarkt.com';
-const BASE_URL = 'https://www.transfermarkt.co.uk';
+const BASE_URL = 'https://www.transfermarkt.com';
+//const BASE_URL = 'https://www.transfermarkt.co.uk';
 
 const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ;
 
@@ -45,7 +45,7 @@ async function parsePlayerRow (row) {
 	const value = cells[cells.length - 1].childNodes[0].textContent;
 
 	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
-	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
+	const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
 	//const swosData = getTheSwosValue(valueStripped);
 
 	//const swosValue = swosData.swosValue ; 
@@ -61,7 +61,9 @@ async function parseNationalPlayerRow (row) {
 	const position = row.querySelector('.inline-table tr:last-child > td').textContent;
 	const value = row.querySelector('.rechts.hauptlink').textContent.trim();
 
-	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
+	//const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
+	const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
+
 	//const swosData = getTheSwosValue(valueStripped);
 
 	//const swosValue = swosData.swosValue ; 

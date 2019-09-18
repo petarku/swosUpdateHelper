@@ -25,7 +25,7 @@
 	{ "minValue": 2510000,   "maxValue": 2760000,   "swosValue": "750K", 	"desiredSum":24 },
 	{ "minValue": 2760000,   "maxValue": 3100000,   "swosValue": "800K", 	"desiredSum":25 },
 	{ "minValue": 3100000,   "maxValue": 3260000,   "swosValue": "850K", 	"desiredSum":26 },
-	{ "minValue": 3260000,   "maxValue": 3500000,   "swosValue": "950K", 	"desiredSum":27 },
+	{ "minValue": 3260000,   "maxValue": 3510000,   "swosValue": "950K", 	"desiredSum":27 },
 	{ "minValue": 3510000,   "maxValue": 4100000,   "swosValue": "1M", 		"desiredSum":28   },
 	{ "minValue": 4100000,   "maxValue": 5260000,   "swosValue": "1.1M", 	"desiredSum":29 },
 	{ "minValue": 5260000,   "maxValue": 6100000,   "swosValue": "1.3M", 	"desiredSum":30 },
