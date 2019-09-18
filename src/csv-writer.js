@@ -62,7 +62,7 @@ const countryCodeMap = {
 	Azerbaijan:	'AZB',
 	Georgia:	'GEO',
 	Switzerland:	'SUI',
-	Macedonia:	'MAC',
+	'North Macedonia':	'MAC',
 	Turkmenistan:	'TRK',
 	Liechtenstein:	'LIE',
 	Moldova:	'MOL',
@@ -435,7 +435,10 @@ function getTheSwosValue(player) {
 		return getValueFromFile(swosRangeA, player.valueStripped)
 		
 		default:
-			
+			var swosResult = {};
+			swosResult.swosValue = '25K';
+			swosResult.desiredSum = 0 ; 
+			return swosResult ; 
 		  
 	}
 	
@@ -457,9 +460,9 @@ function getValueFromFile (fileName , valueStripped) {
 		}
 	
 	
-	swosResult.swosValue = '25K';
-	swosResult.desiredSum = 0 ; 
-	return swosResult ; 
+			swosResult.swosValue = '25K';
+			swosResult.desiredSum = 0 ; 
+			return swosResult ; 
 }
 
 
@@ -484,7 +487,7 @@ function playerLine(player, nationalTeamName , teamStats) {
 
 	let skills7 ; 
 	if (player.position === 'Goalkeeper') {
-		player.swosValue = capGoalkeeperPrice(player.desiredSum, player.swosValue);
+		//player.swosValue = capGoalkeeperPrice(player.desiredSum, player.swosValue);
 		skills7 = '0,0,0,0,0,0,0' ; 
 	} else { 
 	 	skills7 = calculateSkills(player.desiredSum, player.position);
@@ -570,6 +573,18 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	checkForOverpoveredTeams(teamStats , clubName); 
 
 	fs.writeFileSync(location + fname, lines.join('\r\n'));
+
+	const linesFull = [];
+	linesFull.push([clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', ''].join(','));
+	playersData.players
+		 
+		.forEach(player => {
+			linesFull.push(playerLine(player, nationalTeamName , teamStats));
+		});
+	let fnameFull = leagueData.name + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';
+	fs.writeFileSync(location + fnameFull, linesFull.join('\r\n'));
+
+
 }
 
 function checkForOverpoveredTeams(teamStats , clubName) {
