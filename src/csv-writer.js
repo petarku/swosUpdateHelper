@@ -396,7 +396,7 @@ function ageRelatedIncrement(player) {
 	const age =  parseInt(player.age) ; 
 
 	
-	if ((age) < 30 ){ 
+	if ((age) < 31 ){ 
 		player.valueStripped = player.valueStripped * 1 ; 
 	} else if ((age) < 32) {
 		player.valueStripped = player.valueStripped * 1.25 ; 
