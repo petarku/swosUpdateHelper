@@ -45,7 +45,8 @@ async function parsePlayerRow (row) {
 	const value = cells[cells.length - 1].childNodes[0].textContent;
 
 	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
-	const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
+	//const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
+	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '€');
 	//const swosData = getTheSwosValue(valueStripped);
 
 	//const swosValue = swosData.swosValue ; 
@@ -62,8 +63,8 @@ async function parseNationalPlayerRow (row) {
 	const value = row.querySelector('.rechts.hauptlink').textContent.trim();
 
 	//const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
-	const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
-
+	//const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
+    const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '€');
 	//const swosData = getTheSwosValue(valueStripped);
 
 	//const swosValue = swosData.swosValue ; 
@@ -128,11 +129,11 @@ async function parsePlayerStats (url) {
 	const { document } = new JSDOM(res1).window;
 	if (!document) return;
 
-	const table = document.querySelector('#yw1');
+	const table = document.querySelectorAll('.box')[5];
 	if (!table) return 0;
 
-	const heading = table
-		.closest('.box')
+	/*const heading = table
+		
 		.querySelector('.subkategorie-header')
 		.textContent.trim();
 	
@@ -140,9 +141,10 @@ async function parsePlayerStats (url) {
 		console.error("No this year stat for " + url); 
 		return 0;
 		
-	}
-	let timeInPlay = document.querySelector('#yw1 .items td:last-child');
-	
+	}*/
+	let timeInPlay = document.querySelector('#yw2 .items td:last-child');
+	if (!timeInPlay) return 0; 
+
 	timeInPlay = timeInPlay.textContent.replace('.', '');
 	//timeInPlay = timeInPlay.textContent.replace('-', '0');
 
