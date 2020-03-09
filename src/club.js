@@ -1,26 +1,31 @@
 const fetch = require('node-fetch');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const swosRange = require('./swos-range.json');
+const dataProcessing = require('./data-processing.js');
 
 const BASE_URL = 'https://www.transfermarkt.com';
 //const BASE_URL = 'https://www.transfermarkt.co.uk';
 
 const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ;
 
-/*function getTheSwosValue (valueStripped) {
-	var swosResult = {};
-	for (let i = 0; i < swosRange.length; i++) {
-		if (valueStripped >= swosRange[i].minValue && valueStripped < swosRange[i].maxValue) {
-			swosResult.swosValue = swosRange[i].swosValue;
-			swosResult.desiredSum = swosRange[i].desiredSum ; 
-			return swosResult;
-		}
+
+function convertStringValuetoNumber (original, substr, substr2, currency) {
+	original = original.replace(currency, '');
+	const idx = original.indexOf(substr);
+
+	if (idx != -1) {
+		original = original.substr(0, idx).replace(',', '.');
+		return parseFloat(original) * 1000000;
 	}
-	swosResult.swosValue = '25K';
-	swosResult.desiredSum = 0 ; 
-	return swosResult ; 
-}*/
+
+	const idx2 = original.indexOf(substr2);
+	if (idx2 != -1) {
+		original = original.substr(0, idx2).replace(',', '.');
+		return parseFloat(original) * 1000;
+	}
+
+	return original;
+}
 
 async function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
@@ -86,23 +91,7 @@ async function parseNationalPlayerRow (row) {
 }
 
 
-function convertStringValuetoNumber (original, substr, substr2, currency) {
-	original = original.replace(currency, '');
-	const idx = original.indexOf(substr);
 
-	if (idx != -1) {
-		original = original.substr(0, idx).replace(',', '.');
-		return parseFloat(original) * 1000000;
-	}
-
-	const idx2 = original.indexOf(substr2);
-	if (idx2 != -1) {
-		original = original.substr(0, idx2).replace(',', '.');
-		return parseFloat(original) * 1000;
-	}
-
-	return original;
-}
 
 async function parseNationalPlayerStats (url) {
 	const res1 = await fetch(url).then(res => res.text());
@@ -197,80 +186,7 @@ async function parseNationalTeamTable (res) {
 	return Promise.all(promises).then(players => ({ players, coach, formation }));
 }
 
-function sortPlayersSwosStyle(players) {
 
-
-	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
-	let gkIndex = 1;
-	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
-		gk.index = gkIndex;
-		gkIndex += 11;
-	});
-	let firstgoalkeeper = goalkeepers.slice(0, 1);
-	let secondGoalkeeper = goalkeepers.slice(1, 2);
-	let otherGoalkeepers = goalkeepers.slice(2,goalkeepers.length); 
-
-	var positionPriority = [
-		'Goalkeeper',
-		'Right-Back',
-		'Centre-Back',
-		'Left-Back',
-		'Right Winger',
-		'Central Midfield',
-		'Left Midfield',
-		'Right Midfield',
-		'Defensive Midfield',
-		'Attacking Midfield',
-		'Left Winger',
-		'Second Striker',
-		'Centre-Forward',
-	]
-
-	let firstTeam = players
-		.filter(p => p.position !== 'Goalkeeper')   
-		.slice(0, 10) ;                                       // pick first 10 for first team                              // add the 2 goalkeepers
-
-	let reserveTeam = players
-		.filter(p => p.position !== 'Goalkeeper')         // filter out GK
-		.slice(10, 14);                                     // take 4 reserves                               // add the 2 goalkeepers
-
-
-
-	firstTeam = firstTeam.sort(function (a, b) {
-		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
-	});   // sort positions by predefine list 
-
-	let idx = 2;
-	firstTeam.forEach(player => {                             // give the numbers starting from 2
-		if (player.index) return;							// don't number if GK is first
-		player.index = idx;
-		idx += 1;
-
-	});
-
-	reserveTeam = reserveTeam.sort(function (a, b) {
-		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
-	});
-
-	idx = 13;
-	reserveTeam.forEach(player => {                             // number other players
-		if (player.index) return;							// don't number if GK is first
-		player.index = idx;
-		idx += 1;
-
-	});
-
-	let restOfPlayers = players       
-		.slice(15, players.length)
-		.filter(p => p.position !== 'Goalkeeper') 
-		
-
-	let orderedTeam = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam.concat(restOfPlayers.concat(otherGoalkeepers)))));
-
-	//console.log(orderedTeam); 
-	return orderedTeam;
-
-}
 
 function getPlayers (club) {
 	console.log(`Getting players' details for ${club.name}...`);
@@ -282,7 +198,7 @@ function getPlayers (club) {
 			club.coach = res.coach;
 			club.formation = res.formation;
 			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
-			club.players = sortPlayersSwosStyle(res.players); 
+			club.players = dataProcessing.sortPlayersSwosStyle(res.players); 
 			return club;
 		});
 }
@@ -298,7 +214,7 @@ function getNationalTeamPlayers (nationalTeam) {
 			nationalTeam.coach = res.coach;
 			nationalTeam.formation = res.formation;
 			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
-			nationalTeam.players = sortPlayersSwosStyle(res.players); 
+			nationalTeam.players = dataProcessing.sortPlayersSwosStyle(res.players); 
 			return nationalTeam;
 		});
 }

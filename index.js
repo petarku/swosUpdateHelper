@@ -9,6 +9,7 @@ const fs = require('fs');
 const leagues = require('./src/leagues.json');
 const nationalTeams = require('./src/nationalTeams.json');
 const csvWriter = require('./src/csv-writer.js');
+const dataProcessing = require('./src/data-processing.js');
 const puppeteer = require('puppeteer');
 const del = require('delete');
 const handler = require('serve-handler');
@@ -400,6 +401,7 @@ function run () {
 			
 			console.log('you can use node . -takeScreenshot {serbia} to get screenshot for provided league ');
 			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
+			console.log('you can use node . -testScrapping to get 2 teams from Serbian league ');
 			
 			
 			
