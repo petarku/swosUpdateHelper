@@ -136,7 +136,7 @@ async function getFifaLeague (leagueUrl) {
 
 async function testLeagueScraping () {
 
-	let league = getLeagueByLeagueName('england'); 
+	let league = getLeagueByLeagueName('serbia'); 
 	let clubsArray = await superliga.getClubs(league.url) ; 
 	 
 	
@@ -380,6 +380,7 @@ function run () {
 		testNationalTeam: () => getOneNationalTeam(nationalTeams[0]), 
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
+		testScrapping:() => testLeagueScraping(), 
 		test:() => test(), 
 		
 	
