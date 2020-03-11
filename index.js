@@ -7,6 +7,7 @@ const club = require('./src/club');
 const clubFifa = require('./src/clubFifa');
 const fs = require('fs');
 const leagues = require('./src/leagues.json');
+const fifaLeaguesList = require('./src/leaguesFifa.json');
 const nationalTeams = require('./src/nationalTeams.json');
 const csvWriter = require('./src/csv-writer.js');
 const dataProcessing = require('./src/data-processing.js');
@@ -115,11 +116,12 @@ async function takeLineUpScreenshots (league) {
 
 
 
-async function getFifaLeague (leagueUrl) {
-	
-	let clubsArray = await fifaLeagues.getFifaClubs(leagueUrl) ; 
+async function getFifaLeague (league) {
+	console.log(league) ; 
+	let clubsArray = await fifaLeagues.getFifaClubs(league.url) ; 
 	//let clubsArraySliced = clubsArray.slice(0,1); 
 	//console.log(clubsArray) ; 
+	console.log(clubsArray); 
 	
 	let clubPlayersArray = new Array() ; 
 	for (const clubItem of clubsArray) {
@@ -294,6 +296,14 @@ function getLeagueByLeagueName (leagueName) {
 	}
 }
 
+function getFifaLeagueByLeagueName (leagueName) {
+	for (var i in fifaLeaguesList) {
+		if (fifaLeaguesList[i].name.indexOf(leagueName) !== -1) {
+			return fifaLeaguesList[i];
+		}
+	}
+}
+
 function getNationalTeamItemByName (nationalTeamName) {
 	for (var i in nationalTeams) {
 		if (nationalTeams[i].name.indexOf(nationalTeamName) !== -1) {
@@ -351,7 +361,107 @@ module.exports = {
 } ; 
 
 
-function test() { 
+async function  test() { 
+	let inputPath = "./data/" + `league-serbia.json`; 
+	const data = await fs.readFileSync(inputPath, 'utf8');
+	const result = await JSON.parse(data);
+
+	/*'Goalkeeper': 'GK',
+	'Right-Back': 'RB',
+	'Centre-Back': 'D',
+	'Left-Back': 'LB',
+	'Right Winger': 'RW',
+	'Left Winger': 'LW',
+	'Central Midfield': 'M',
+	'Left Midfield': 'M',
+	'Right Midfield': 'M',
+	'Defensive Midfield': 'M',
+	'Attacking Midfield': 'M',
+	'Centre-Forward': 'A',
+	'Second Striker': 'A',*/
+
+	result.forEach(clubDetails => {
+		console.log(clubDetails.name); 
+		console.log(clubDetails.formation); 
+		clubDetails.players
+		 
+		.forEach(player => {
+			const age =  parseInt(player.age) ; 
+
+	
+			if ((age) < 31 ){ 
+				player.valueStripped = player.valueStripped * 1 ; 
+			} else if ((age) < 32) {
+				player.valueStripped = player.valueStripped * 1.25 ; 
+			} else if ((age) < 35) {
+				player.valueStripped = player.valueStripped * 1.5 ; 
+			} else if ((age) < 38) {
+				player.valueStripped = player.valueStripped * 2 ; 
+			} else if ((age) < 40) {
+				player.valueStripped = player.valueStripped * 2.5 ; 
+			} else {
+				player.valueStripped = player.valueStripped * 3 ; 
+			}
+		});
+
+		let sortedPlayersByTime = clubDetails.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+
+		let GKS = sortedPlayersByTime
+		.filter(p => p.position === 'Goalkeeper') ;
+
+		
+
+		let firstgoalkeeper = GKS.slice(0, 1);
+		console.log(firstgoalkeeper[0].name, firstgoalkeeper[0].valueStripped)
+		let secondGoalkeeper = GKS.slice(1, 2);
+		let restGoalkeepers = GKS.slice(2,GKS.length);
+
+		let rbAll = sortedPlayersByTime
+		.filter(p => p.position === 'Right-Back') ;
+		
+		let firstRB = rbAll.slice(0, 1);
+		console.log(firstRB[0].name, firstRB[0].valueStripped)
+
+		let dAll = sortedPlayersByTime
+		.filter(p => p.position === 'Centre-Back') ;
+		
+		let def = dAll.slice(0, 2);
+		console.log(def[0].name, def[0].valueStripped)
+		console.log(def[1].name, def[1].valueStripped)
+
+		let lbAll = sortedPlayersByTime
+		.filter(p => p.position === 'Left-Back') ;
+		
+		let firstLB = lbAll.slice(0, 1);
+		console.log(firstLB[0].name, firstLB[0].valueStripped)
+
+		let defensiveMidfieldAll = sortedPlayersByTime
+		.filter(p => p.position === 'Defensive Midfield') ;
+		
+		let dMFirst = defensiveMidfieldAll.slice(0, 1);
+
+		let midfieldAll = sortedPlayersByTime
+		.filter(p => p.position === 'M') ;
+		
+		let mFirst = midfieldAll.slice(0, 1);
+		//});
+		
+		let lwAll = sortedPlayersByTime
+		.filter(p => p.position === 'Left Winger') ;
+		
+
+		let rwAll = sortedPlayersByTime
+		.filter(p => p.position === 'Right Winger') ;
+		
+
+		let aAll = sortedPlayersByTime
+		.filter(p => p.position === 'Centre-Forward') ;
+		
+	});
+	
+
+
+
 
 }
 
@@ -370,6 +480,7 @@ function run () {
 		allNational: rangeIndex => getAllNationalTeams(rangeIndex),
 	
 		national: name => getNationalTeam(getNationalTeamItemByName(name)),
+		fifaLeague: name => getFifaLeague(getFifaLeagueByLeagueName(name)) , 
 		
 		showNational:name => showNationalData(name), 
 		
