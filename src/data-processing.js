@@ -137,79 +137,9 @@ function sortPlayersSwosStyle2(players, formation) {
 
 }
 
-/*
-function sortPlayersSwosStyle(players) {
-
-
-	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
-	let gkIndex = 1;
-	goalkeepers.forEach(gk => {                             // number goalkeepers: 1, 12,
-		gk.index = gkIndex;
-		gkIndex += 11;
-	});
-	let firstgoalkeeper = goalkeepers.slice(0, 1);
-	let secondGoalkeeper = goalkeepers.slice(1, 2);
-	let otherGoalkeepers = goalkeepers.slice(2,goalkeepers.length); 
-
-	var positionPriority = [
-		'Goalkeeper',
-		'Right-Back',
-		'Centre-Back',
-		'Left-Back',
-		'Right Winger',
-		'Central Midfield',
-		'Left Midfield',
-		'Right Midfield',
-		'Defensive Midfield',
-		'Attacking Midfield',
-		'Left Winger',
-		'Second Striker',
-		'Centre-Forward',
-	]
-
-	let firstTeam = players
-		.filter(p => p.position !== 'Goalkeeper')   
-		.slice(0, 10) ;                                       // pick first 10 for first team                              // add the 2 goalkeepers
-
-	let reserveTeam = players
-		.filter(p => p.position !== 'Goalkeeper')         // filter out GK
-		.slice(10, 14);                                     // take 4 reserves                               // add the 2 goalkeepers
 
 
 
-	firstTeam = firstTeam.sort(function (a, b) {
-		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
-	});   // sort positions by predefine list 
-
-	let idx = 2;
-	firstTeam.forEach(player => {                             // give the numbers starting from 2
-		if (player.index) return;							// don't number if GK is first
-		player.index = idx;
-		idx += 1;
-
-	});
-
-	reserveTeam = reserveTeam.sort(function (a, b) {
-		return positionPriority.indexOf(a.position) - positionPriority.indexOf(b.position)
-	});
-
-	idx = 13;
-	reserveTeam.forEach(player => {                             // number other players
-		if (player.index) return;							// don't number if GK is first
-		player.index = idx;
-		idx += 1;
-
-	});
-
-	let restOfPlayers = players       
-		.slice(15, players.length)
-		.filter(p => p.position !== 'Goalkeeper') 
-		
-
-	let orderedTeam = firstgoalkeeper.concat(firstTeam.concat(secondGoalkeeper.concat(reserveTeam.concat(restOfPlayers.concat(otherGoalkeepers)))));
-
-}
-*/
 function sortPlayersSwosStyle(players) {
 
 
