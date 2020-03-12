@@ -87,8 +87,10 @@ async function parseNationalPlayerRow (row) {
 		.getAttribute('data-src')
 		.replace('small', 'medium');
 
-	return { number, name, position, value, imgUrl, age, timeInPlay , valueStripped };
+	
+	return { number, name, position, value, imgUrl, age, timeInPlay , valueStripped};
 }
+
 
 
 
@@ -197,8 +199,12 @@ function getPlayers (club) {
 			club.url = club.url + ORDER_URL ;
 			club.coach = res.coach;
 			club.formation = res.formation;
-			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
-			club.players = dataProcessing.sortPlayersSwosStyle(res.players); 
+			club.players = res.players; 
+			
+			//res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			//club.players = dataProcessing.sortPlayersSwosStyle(res.players); 
+			//res.players.sort((a, b) => b.valueStripped - a.valueStripped);
+			//club.players = dataProcessing.sortPlayersSwosStyle2(res.players, res.formation); 
 			return club;
 		});
 }
@@ -213,8 +219,9 @@ function getNationalTeamPlayers (nationalTeam) {
 			nationalTeam.url = BASE_URL + nationalTeam.url;
 			nationalTeam.coach = res.coach;
 			nationalTeam.formation = res.formation;
-			res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
-			nationalTeam.players = dataProcessing.sortPlayersSwosStyle(res.players); 
+			nationalTeam.players = res.players ; 
+			//res.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
+			//nationalTeam.players = dataProcessing.sortPlayersSwosStyle(res.players); 
 			return nationalTeam;
 		});
 }

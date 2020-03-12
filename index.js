@@ -160,6 +160,12 @@ async function testLeagueScraping () {
 	csvWriter.writeLeague(league, clubPlayersArray , 'data-test/');
 }
 
+async function testConversion () {
+
+	
+	writeCSVTeamsFromJson("test","./data-test/","./data-test/");
+}
+
 async function getAllNationalTeams (indexRange) {
 	 
 	let range = indexRange.split('-')
@@ -362,102 +368,12 @@ module.exports = {
 
 
 async function  test() { 
-	let inputPath = "./data/" + `league-serbia.json`; 
-	const data = await fs.readFileSync(inputPath, 'utf8');
-	const result = await JSON.parse(data);
-
-	/*'Goalkeeper': 'GK',
-	'Right-Back': 'RB',
-	'Centre-Back': 'D',
-	'Left-Back': 'LB',
-	'Right Winger': 'RW',
-	'Left Winger': 'LW',
-	'Central Midfield': 'M',
-	'Left Midfield': 'M',
-	'Right Midfield': 'M',
-	'Defensive Midfield': 'M',
-	'Attacking Midfield': 'M',
-	'Centre-Forward': 'A',
-	'Second Striker': 'A',*/
-
-	result.forEach(clubDetails => {
-		console.log(clubDetails.name); 
-		console.log(clubDetails.formation); 
-		clubDetails.players
-		 
-		.forEach(player => {
-			const age =  parseInt(player.age) ; 
+	let formation = "4-4-2"; 
+	let stringArray = formation.split("-"); 
+	console.log(stringArray[0]); 
+	console.log(stringArray[1]); 
 
 	
-			if ((age) < 31 ){ 
-				player.valueStripped = player.valueStripped * 1 ; 
-			} else if ((age) < 32) {
-				player.valueStripped = player.valueStripped * 1.25 ; 
-			} else if ((age) < 35) {
-				player.valueStripped = player.valueStripped * 1.5 ; 
-			} else if ((age) < 38) {
-				player.valueStripped = player.valueStripped * 2 ; 
-			} else if ((age) < 40) {
-				player.valueStripped = player.valueStripped * 2.5 ; 
-			} else {
-				player.valueStripped = player.valueStripped * 3 ; 
-			}
-		});
-
-		let sortedPlayersByTime = clubDetails.players.sort((a, b) => b.timeInPlay - a.timeInPlay);
-
-		let GKS = sortedPlayersByTime
-		.filter(p => p.position === 'Goalkeeper') ;
-
-		
-
-		let firstgoalkeeper = GKS.slice(0, 1);
-		console.log(firstgoalkeeper[0].name, firstgoalkeeper[0].valueStripped)
-		let secondGoalkeeper = GKS.slice(1, 2);
-		let restGoalkeepers = GKS.slice(2,GKS.length);
-
-		let rbAll = sortedPlayersByTime
-		.filter(p => p.position === 'Right-Back') ;
-		
-		let firstRB = rbAll.slice(0, 1);
-		console.log(firstRB[0].name, firstRB[0].valueStripped)
-
-		let dAll = sortedPlayersByTime
-		.filter(p => p.position === 'Centre-Back') ;
-		
-		let def = dAll.slice(0, 2);
-		console.log(def[0].name, def[0].valueStripped)
-		console.log(def[1].name, def[1].valueStripped)
-
-		let lbAll = sortedPlayersByTime
-		.filter(p => p.position === 'Left-Back') ;
-		
-		let firstLB = lbAll.slice(0, 1);
-		console.log(firstLB[0].name, firstLB[0].valueStripped)
-
-		let defensiveMidfieldAll = sortedPlayersByTime
-		.filter(p => p.position === 'Defensive Midfield') ;
-		
-		let dMFirst = defensiveMidfieldAll.slice(0, 1);
-
-		let midfieldAll = sortedPlayersByTime
-		.filter(p => p.position === 'M') ;
-		
-		let mFirst = midfieldAll.slice(0, 1);
-		//});
-		
-		let lwAll = sortedPlayersByTime
-		.filter(p => p.position === 'Left Winger') ;
-		
-
-		let rwAll = sortedPlayersByTime
-		.filter(p => p.position === 'Right Winger') ;
-		
-
-		let aAll = sortedPlayersByTime
-		.filter(p => p.position === 'Centre-Forward') ;
-		
-	});
 	
 
 
@@ -493,6 +409,7 @@ function run () {
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
 		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
 		testScrapping:() => testLeagueScraping(), 
+		testCsv:() => testConversion(), 
 		test:() => test(), 
 		
 	

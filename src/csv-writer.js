@@ -215,7 +215,25 @@ const formationCodeMap = {
 };
 
 
+function ageRelatedIncrement(player) {
+	const age =  parseInt(player.age) ; 
 
+	
+	if ((age) < 31 ){ 
+		player.valueStripped = player.valueStripped * 1 ; 
+	} else if ((age) < 32) {
+		player.valueStripped = player.valueStripped * 1.25 ; 
+	} else if ((age) < 35) {
+		player.valueStripped = player.valueStripped * 1.5 ; 
+	} else if ((age) < 38) {
+		player.valueStripped = player.valueStripped * 2 ; 
+	} else if ((age) < 40) {
+		player.valueStripped = player.valueStripped * 2.5 ; 
+	} else {
+		player.valueStripped = player.valueStripped * 3 ; 
+	}
+	
+}
 
 
 function slugify(text) {
@@ -248,12 +266,16 @@ function playerLine(player, nationalTeamName , teamStats) {
 
 	const playerName = normalize.normalizeDiacritics(player.name);
 
+	
+
 	const swosData = dataProcessing.getTheSwosValue(player);
 
 	 player.swosValue = swosData.swosValue ; 
 	 player.desiredSum = swosData.desiredSum ; 
 
 	let skills7 ; 
+
+	
 	if (player.position === 'Goalkeeper') {
 		//player.swosValue = capGoalkeeperPrice(player.desiredSum, player.swosValue);
 		skills7 = '0,0,0,0,0,0,0' ; 
@@ -320,6 +342,7 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	}
 
 
+	
 
 	const lines = [];
 
@@ -332,12 +355,21 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	teamStats.teamSpeed = 0 ; 
 	teamStats.fiveStarPlayersNo = 0 ; 
 
+	for (const player of playersData.players) {
+		ageRelatedIncrement(player); 
+	}
+	
+	
+	playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
+	playersData.players = dataProcessing.sortPlayersSwosStyle(playersData.players);
+
 	playersData.players
 		.slice(0, 16)   
 		.forEach(player => {
 			lines.push(playerLine(player, nationalTeamName , teamStats));
 		});
 
+	
 	dataProcessing.checkForOverpoveredTeams(teamStats , clubName); 
 
 	fs.writeFileSync(location + fname, lines.join('\r\n'));
