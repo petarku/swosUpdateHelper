@@ -84,99 +84,100 @@ function sortPlayersSwosStyle2(players, formation) {
 	// ------------------------------
 	// 12 GK 
 	let goalkeepers = players.filter(p => p.position === 'Goalkeeper'); 
-	let idx = 1 ; 
-	let firstGK = goalkeepers.slice(0,1) ; 
-	firstGK.index = idx ; 
 	
-	let secondGK  = goalkeepers.slice(1, 2);
+	let firstGK = goalkeepers[0] 
+	firstGK.index =1 ; 
+	
+
+	let secondGK  = goalkeepers[1];
 	secondGK.index = 12 ; 
 
 
 
 	let rightBacks = players.filter(p => p.position === 'Right-Back'); 
-	let firstRB = rightBacks.slice(0,1) ; 
+	let firstRB = rightBacks[0];
 	firstRB.index = 2 ; 
 	
 
 	let defenders = players.filter(p => p.position === 'Centre-Back'); 
-	let firstD = defenders.slice(0,1) 
+	let firstD = defenders[0];
 	firstD.index = 3 ; 
 
 	let leftBacks = players.filter(p => p.position === 'Left-Back'); 
-	let firstLB = leftBacks.slice(0,1) ; 
+	let firstLB = leftBacks[0]; 
 	firstLB.index = 5 ; 
 
 	let rightWings = players.filter(p => p.position === 'Right Winger'); 
-	let firstRW = rightWings.slice(0,1) ; 
+	let firstRW = rightWings[0] ; 
 	firstRW.index = 6 ; 
 
-	let defMidfielders = players.filter(p => p.position === 'Defensive Midfield'); 
+	//let defMidfielders = players.filter(p => p.position === 'Defensive Midfield'); 
 	
 
-	let midfielders = players.filter(p => ((p.position === 'Central Midfield') || 
+	let midfielders = players.filter(p => ((p.position === 'Central Midfield') || (p.position === 'Defensive Midfield') ||
 		(p.position === 'Attacking Midfield') || (p.position === 'Right Midfield') || (p.position === 'Left Midfield'))); 
-	let firstM = midfielders.slice(0,1) 
+	let firstM = midfielders[0]; 
 	firstM.index = 8 ; 
 
 	let leftWings = players.filter(p => p.position === 'Left Winger'); 
-	let firstLW = leftWings.slice(0,1) ; 
+	let firstLW = leftWings[0] ; 
 	firstLW.index = 9 ; 
 
 	let attackers = players.filter(p => ((p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
-	let firstA = attackers.slice(0,1) ; 
+	let firstA = attackers[0] ;
 	firstA.index = 11 ; 
 
 	let noOfM = 1 ; 
 	let noOfD = 1 ; 
 	let noOfA = 1 ; 
-	let noOfDF = 0 ; 
+	//let noOfDF = 0 ; 
 
 	let position4 ; 
 	if (dNumber == 3 ) {
-		position4 = defMidfielders.slice(noOfDF,noOfDF+1); 
-		noOfDF++ ; 
+		position4 = midfielders[noOfM]; 
+		noOfM++ ; 
 		
 	} else {
-		position4 = defenders.slice(noOfD,noOfD+1); 
+		position4 = defenders[noOfD];
 		noOfD++ 
 	
 	}
 	
 	position4.index = 4; 
 
-	let first5 = firstGK.concat(firstRB.concat(firstD.concat(position4.concat(firstLB))));
+	//let first5 = firstGK.concat(firstRB.concat(firstD.concat(position4.concat(firstLB))));
 
    let position7 ; 
    if (mNumber == 3) {
 	   if (dNumber == 5) {
-		   position7 = defenders.slice(noOfD,noOfD+1); 
+		   position7 = defenders[noOfD];
 		   noOfD++
 	   } else {
-			position7 = attackers.slice(noOfA,noOfA+1) ;
+			position7 = attackers[noOfA];
 			noOfA++; 
 	   }
    } else  {
-	   position7= midfielders.slice(noOfM,noOfM+1) ;
+	   position7= midfielders[noOfM]; 
 	   noOfM++; 
    }
    //console.log(position7);
    position7.index = 7 ; 
 
-   let middle4 = firstRW.concat(position7.concat(firstM.concat(firstLW)));
+   //let middle4 = firstRW.concat(position7.concat(firstM.concat(firstLW)));
 
    let position10 ; 
    if (aNumber == 1) {
-	position10 = midfielders.slice(noOfM,noOfM+1)
+	position10 = midfielders[noOfM]; 
 	noOfM++; 
    } else {
-	position10 = attackers.slice(noOfA,noOfA+1)
+	position10 = attackers[noOfA];
 	noOfA++ ; 
    } 
    position10.index = 10 ; 
 
-   let last2 = position10.concat(firstA);
+   //let last2 = position10.concat(firstA);
 
-   let position13 = defenders.slice(noOfD,noOfD+1) ; 
+   let position13 = defenders[noOfD];
    noOfD++; 
    if (!position13) {
 	console.log("position 13 is empty") ; 
@@ -184,7 +185,7 @@ function sortPlayersSwosStyle2(players, formation) {
    position13.index = 13; 
 
 
-   let position14 = midfielders.slice(noOfM,noOfM+1); 
+   let position14 = midfielders[noOfM];  
    noOfM++; 
    if (!position14) {
 	console.log("position 14 is empty") ; 
@@ -192,7 +193,7 @@ function sortPlayersSwosStyle2(players, formation) {
    position14.index = 14; 
 
   
-   let position16 = attackers.slice(noOfA, noOfA+1) ; 
+   let position16 = attackers[noOfA];
    noOfA++
    if (!position16) {
 	console.log("position 16 is empty") ; 
@@ -202,15 +203,15 @@ function sortPlayersSwosStyle2(players, formation) {
   
    let position15; 
    if (dNumber == 5) {
-	   position15 = defenders.slice(noOfD,noOfD+1) ; 
+	   position15 = defenders[noOfD]; 
    } else if (mNumber == 5) {
-	   position15 = midfielders.slice(noOfM,noOfM+1) ; 
+	   position15 = midfielders[noOfM];  
    } else if (aNumber !=1) {
-	   position15= attackers.slice(noOfA,noOfA+1)
+	   position15= attackers[noOfA];
    }
 
    if (!position15){
-		position15 = midfielders.slice(noOfM,noOfM+1); 
+		position15 = midfielders[noOfM];
    }
    if (!position15) {
 	console.log("position 15 is empty") ; 
@@ -218,14 +219,16 @@ function sortPlayersSwosStyle2(players, formation) {
    position15.index = 15; 
    
 
-   let orderedTeam = firstGK.concat(firstRB.concat(firstD.concat(position4.concat(firstLB.concat(firstRW.concat(position7.concat(firstM.concat(firstLW.concat(position10.concat(firstA.concat(secondGK.concat(position13.concat(position14.concat(position15.concat(position16))))))))))))))); 
+   
+  // let orderedTeam = firstGK.concat(firstRB.concat(firstD.concat(position4.concat(firstLB.concat(firstRW.concat(position7.concat(firstM.concat(firstLW.concat(position10.concat(firstA.concat(secondGK.concat(position13.concat(position14.concat(position15.concat(position16))))))))))))))); 
 
+  const orderedTeam = [firstGK, firstRB, firstD, position4,firstLB,firstRW,position7,firstM,firstLW,position10,firstA,secondGK,position13,position14,position15,position16];
    if (orderedTeam.length< 16) {
 	   console.log("this team has less then 16 players") ; 
 	   
 	   
    }
-   
+   //console.log(orderedTeam) ; 
    return orderedTeam ; 
 }
 
