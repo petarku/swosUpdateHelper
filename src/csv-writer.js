@@ -382,7 +382,16 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	fullData.forEach(player => {
 			linesFull.push(playerLine(player, nationalTeamName , teamStats));
 		});
-	let fnameFull = leagueData.name + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';
+
+		let fnameFull ;
+		if (nationalTeamData) {
+			fnameFull = 'nationalTeam' + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';
+			console.log(`Writing CSV for: 'nationalTeam'/${clubName}`);
+		} else {
+			fnameFull = leagueData.name + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';
+			console.log(`Writing CSV for: ${leagueData.name}/${clubName}`);
+		}
+	
 	fs.writeFileSync(location + fnameFull, linesFull.join('\r\n'));
 
 

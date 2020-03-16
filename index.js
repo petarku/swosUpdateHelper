@@ -313,6 +313,8 @@ function getFifaLeagueByLeagueName (leagueName) {
 }
 
 function getNationalTeamItemByName (nationalTeamName) {
+	nationalTeamName = nationalTeamName.charAt(0).toUpperCase() + nationalTeamName.toLowerCase().substring(1);
+	console.log(nationalTeamName);
 	for (var i in nationalTeams) {
 		if (nationalTeams[i].name.indexOf(nationalTeamName) !== -1) {
 			return nationalTeams[i];
