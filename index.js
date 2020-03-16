@@ -37,6 +37,8 @@ async function getLeague (league) {
 			
 }
 
+
+
 function showLeagueData(leagueName) { 
 	 
 	const server = http.createServer((request, response) => {
@@ -401,7 +403,7 @@ function run () {
 		showNational:name => showNationalData(name), 
 		
 		nationalScreenshots: () => takeNationalScreenshot(),
-		writeCSV:name => writeCSVTeams(name), 
+		writeLeague2Csv:name => writeCSVTeams(name), 
 		
 		
 		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),

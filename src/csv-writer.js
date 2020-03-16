@@ -361,7 +361,7 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	
 	
 	playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
-	playersData.players = dataProcessing.sortPlayersSwosStyle2(playersData.players, playersData.formation);
+	playersData.players = dataProcessing.sortPlayersSwosStyle3(playersData.players, playersData.formation);
 
 	playersData.players
 		.slice(0, 16)   

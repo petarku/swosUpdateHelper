@@ -52,6 +52,248 @@ const positionCodeMap = {
 	'Second Striker': 'A',
 };
 
+function sortPlayersSwosStyle3(players, formation) {
+
+
+	let clubFormation = formationCodeMap[formation];
+	if (!clubFormation) {
+	
+		clubFormation = "4-4-2";
+	}
+
+
+	let stringArray = clubFormation.split("-"); 
+
+
+	let dNumber = parseInt(stringArray[0], 10);
+	let mNumber = parseInt(stringArray[1], 10);
+	let aNumber = parseInt(stringArray[2], 10);
+
+	let goalkeepers = players.filter(p => p.position === 'Goalkeeper'); 
+	let rightBacks = players.filter(p => p.position === 'Right-Back'); 
+	let defenders = players.filter(p => p.position === 'Centre-Back'); 
+	let leftBacks = players.filter(p => p.position === 'Left-Back'); 
+	let firstM ; 
+	let firstA; 
+	let firstLW; 
+	let firstRW; 
+
+	let attackers; 
+	let rightWings ; 
+	let leftWings ; 
+	let midfielders ; 
+	
+
+	if (aNumber == 3) {
+
+		 attackers = players.filter(p => ((p.position === 'Attacking Midfield') || (p.position === 'Left Winger') || (p.position === 'Right Winger') 
+					||(p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
+
+		rightWings = players.filter(p =>  p.position === 'Right Midfield'); 
+		
+		leftWings = players.filter(p => p.position === 'Left Midfield'); 
+
+		midfielders = players.filter(p => ((p.position === 'Central Midfield') || (p.position === 'Defensive Midfield') )); 
+
+		
+
+	} else {
+		midfielders = players.filter(p => ((p.position === 'Central Midfield') || (p.position === 'Defensive Midfield') ||
+		(p.position === 'Attacking Midfield') || (p.position === 'Right Midfield') || (p.position === 'Left Midfield'))); 
+
+		attackers = players.filter(p => ((p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
+		leftWings = players.filter(p => p.position === 'Left Winger'); 
+		rightWings = players.filter(p => p.position === 'Right Winger'); 
+
+
+	}
+
+	firstM = midfielders[0]; 
+	firstM.index = 8 ; 
+	firstA = attackers[0] ;
+	firstA.index = 11 ;
+
+	let midfieldersCounter = 1
+	let attackersCounter = 1;  
+		
+	if(rightWings.length == 0 ) {
+			
+		firstRW = midfielders[midfieldersCounter++]; 
+		
+		//midfielders = midfielders.slice(midfieldersCounter); 
+
+	} else {
+		firstRW = rightWings[0] ; 
+		
+	}
+	firstRW.index = 6 
+
+	if (!Array.isArray(leftWings) || !leftWings.length) {
+		
+		firstLW = midfielders[midfieldersCounter++];
+		if (!firstLW) {
+			firstLW = attackers[attackersCounter++] ;
+			//attackers = attackers.slice(attackersCounter);  
+			// console.log(leftWings);
+		}
+	} else {
+		firstLW = leftWings[0] ; 
+	
+	
+	}
+
+	firstLW.index = 9 ;
+
+	 
+	/*for (const player of players) {
+		console.log(player.index); 
+	}*/
+
+
+	// 1 GK
+	// 2 RB
+	// 3 D
+	// 5 LB
+	// 6 RW
+	// 8 M 
+	// 9 LW
+	// 11 A
+	// ------------------------------
+	// 12 GK 
+	
+	
+	let firstGK = goalkeepers[0] 
+	firstGK.index =1 ; 
+	
+
+	let secondGK  = goalkeepers[1];
+	secondGK.index = 12 ; 
+
+
+
+	
+	let firstRB = rightBacks[0];
+	firstRB.index = 2 ; 
+	
+
+	
+	let firstD = defenders[0];
+	firstD.index = 3 ; 
+
+	
+	let firstLB = leftBacks[0]; 
+	firstLB.index = 5 ; 
+
+	
+	let noOfD = 1 ; 
+	
+	//let noOfDF = 0 ; 
+
+	let position4 ; 
+	if (dNumber == 3 ) {
+		position4 = midfielders[midfieldersCounter++]; 
+		
+		
+	} else {
+		position4 = defenders[noOfD];
+		noOfD++ 
+	
+	}
+	
+	position4.index = 4; 
+
+	//let first5 = firstGK.concat(firstRB.concat(firstD.concat(position4.concat(firstLB))));
+
+   let position7 ; 
+   if (mNumber == 3) {
+	   if (dNumber == 5) {
+		   position7 = defenders[noOfD];
+		   noOfD++
+	   } else {
+			position7 = attackers[attackersCounter++];
+			
+	   }
+   } else  {
+	   position7= midfielders[midfieldersCounter++]; 
+	 
+   }
+   //console.log(position7);
+   position7.index = 7 ; 
+
+   //let middle4 = firstRW.concat(position7.concat(firstM.concat(firstLW)));
+
+   let position10 ; 
+   if (aNumber == 1) {
+	position10 = midfielders[midfieldersCounter++]; 
+	
+   } else {
+	position10 = attackers[attackersCounter++];
+	
+   } 
+   position10.index = 10 ; 
+
+   //let last2 = position10.concat(firstA);
+
+   let position13 = defenders[noOfD];
+   noOfD++; 
+   if (!position13) {
+	console.log("position 13 is empty") ; 
+		} else {
+		position13.index = 13; 
+		}
+
+   let position14 = midfielders[midfieldersCounter++];  
+   
+   if (!position14) {
+	console.log("position 14 is empty") ; 
+	} else {
+   position14.index = 14; 
+	}
+  
+   let position16 = attackers[attackersCounter++];
+  
+   if (!position16) {
+	position15 = midfielders[midfieldersCounter++];  
+	
+	} else {
+   	position16.index = 16; 
+	}
+  
+   let position15; 
+   if (dNumber == 5) {
+	   position15 = defenders[noOfD]; 
+   } else if (mNumber == 5) {
+	   position15 = midfielders[midfieldersCounter++];  
+   } else if (aNumber !=1) {
+	   position15= attackers[attackersCounter++];
+   }
+
+   if (!position15){
+		position15 = midfielders[midfieldersCounter++];
+		if (!position15 ) {
+			position15 = attackers[attackersCounter++];
+		}
+		
+   }
+   
+  
+   position15.index = 15 ; 
+   
+
+   
+  // let orderedTeam = firstGK.concat(firstRB.concat(firstD.concat(position4.concat(firstLB.concat(firstRW.concat(position7.concat(firstM.concat(firstLW.concat(position10.concat(firstA.concat(secondGK.concat(position13.concat(position14.concat(position15.concat(position16))))))))))))))); 
+
+  const orderedTeam = [firstGK, firstRB, firstD, position4,firstLB,firstRW,position7,firstM,firstLW,position10,firstA,secondGK,position13,position14,position15,position16];
+   if (orderedTeam.length< 16) {
+	   console.log("this team has less then 16 players") ; 
+	   
+	   
+   }
+   //console.log(orderedTeam) ; 
+   return orderedTeam ; 
+}
+
+
 function sortPlayersSwosStyle2(players, formation) {
 
 
@@ -59,6 +301,10 @@ function sortPlayersSwosStyle2(players, formation) {
 	if (!clubFormation) {
 	
 		clubFormation = "4-4-2";
+	}
+
+	if (clubFormation === "3-4-3") {
+		clubFormation = "4-5-1" ; 
 	}
 
 	let stringArray = clubFormation.split("-"); 
@@ -121,6 +367,10 @@ function sortPlayersSwosStyle2(players, formation) {
 
 	let leftWings = players.filter(p => p.position === 'Left Winger'); 
 	let firstLW = leftWings[0] ; 
+	if (!firstLW) {
+		firstLW = rightWings[1] ;
+
+	}
 	firstLW.index = 9 ; 
 
 	let attackers = players.filter(p => ((p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
@@ -181,25 +431,26 @@ function sortPlayersSwosStyle2(players, formation) {
    noOfD++; 
    if (!position13) {
 	console.log("position 13 is empty") ; 
-}
-   position13.index = 13; 
-
+		} else {
+		position13.index = 13; 
+		}
 
    let position14 = midfielders[noOfM];  
    noOfM++; 
    if (!position14) {
 	console.log("position 14 is empty") ; 
-	}
+	} else {
    position14.index = 14; 
-
+	}
   
    let position16 = attackers[noOfA];
    noOfA++
    if (!position16) {
-	console.log("position 16 is empty") ; 
+	position15 = midfielders[noOfM];  
+	noOfM++; 
+	} else {
+   	position16.index = 16; 
 	}
-   position16.index = 16; 
-
   
    let position15; 
    if (dNumber == 5) {
@@ -212,11 +463,13 @@ function sortPlayersSwosStyle2(players, formation) {
 
    if (!position15){
 		position15 = midfielders[noOfM];
+		
    }
    if (!position15) {
-	console.log("position 15 is empty") ; 
-	}
-   position15.index = 15; 
+	position15 = rightWings[1]; 
+   }
+  
+   position15.index = 15 ; 
    
 
    
@@ -575,6 +828,7 @@ function checkForOverpoveredTeams(teamStats , clubName) {
 module.exports = {
 	sortPlayersSwosStyle , 
 	sortPlayersSwosStyle2, 
+	sortPlayersSwosStyle3, 
     calculateSkills , 
     checkForOverpoveredTeams , 
     getTheSwosValue
