@@ -417,6 +417,8 @@ function run () {
 	
 		help () {
 			console.log('you can use node . -league serbia --to scrap transfermarkt for league of serbia');
+			
+
 			console.log('you can use node . -showLeague serbia --to show league data in browser ');
 			console.log('you can use node . -writeCSV serbia to recreate csv from json file');
 			console.log('you can use node . -testLeague to get 1  team from league');

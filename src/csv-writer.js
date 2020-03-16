@@ -359,8 +359,11 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 		ageRelatedIncrement(player); 
 	}
 	
-	
-	playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
+	//let fullData = playersData.players.slice(); 
+	let fullData = [...playersData.players]; 
+	//playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
+	playersData.players.sort((a, b) => b.timeInPlay - a.timeInPlay); 
+
 	playersData.players = dataProcessing.sortPlayersSwosStyle3(playersData.players, playersData.formation);
 
 	playersData.players
@@ -376,9 +379,7 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 
 	const linesFull = [];
 	linesFull.push([clubName, 'NATION NUMBER', 'TEAM NUMBER', clubFormation, clubCoach, '', '', '', '', '', '', '', ''].join(','));
-	playersData.players
-		 
-		.forEach(player => {
+	fullData.forEach(player => {
 			linesFull.push(playerLine(player, nationalTeamName , teamStats));
 		});
 	let fnameFull = leagueData.name + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';

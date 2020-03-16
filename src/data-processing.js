@@ -86,8 +86,22 @@ function sortPlayersSwosStyle3(players, formation) {
 
 	if (aNumber == 3) {
 
-		 attackers = players.filter(p => ((p.position === 'Attacking Midfield') || (p.position === 'Left Winger') || (p.position === 'Right Winger') 
-					||(p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
+		 attackers = players.filter(p => ((p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
+
+		let secondaryAttackers = players.filter(p => ((p.position === 'Attacking Midfield') || (p.position === 'Left Winger') || (p.position === 'Right Winger') 
+		)); 
+		
+		for (const secondary of secondaryAttackers) {
+			secondary.position = "Centre-Forward" ; 
+		}
+
+		firstA = attackers[0] ;
+
+
+		let attackersFirst = attackers.slice(0,1)
+		let attackersRest = attackers.slice(1).concat(secondaryAttackers); 
+		attackersRest.sort((a, b) => b.valueStripped - a.valueStripped);
+		attackers = attackersFirst.concat(attackersRest); 
 
 		rightWings = players.filter(p =>  p.position === 'Right Midfield'); 
 		
@@ -105,12 +119,12 @@ function sortPlayersSwosStyle3(players, formation) {
 		leftWings = players.filter(p => p.position === 'Left Winger'); 
 		rightWings = players.filter(p => p.position === 'Right Winger'); 
 
-
+		firstA = attackers[0] ;
 	}
 
 	firstM = midfielders[0]; 
 	firstM.index = 8 ; 
-	firstA = attackers[0] ;
+	
 	firstA.index = 11 ;
 
 	let midfieldersCounter = 1
@@ -127,10 +141,12 @@ function sortPlayersSwosStyle3(players, formation) {
 		
 	}
 	firstRW.index = 6 
+	firstRW.position = 'Right Winger' ; 
 
 	if (!Array.isArray(leftWings) || !leftWings.length) {
 		
 		firstLW = midfielders[midfieldersCounter++];
+		
 		if (!firstLW) {
 			firstLW = attackers[attackersCounter++] ;
 			//attackers = attackers.slice(attackersCounter);  
@@ -142,6 +158,7 @@ function sortPlayersSwosStyle3(players, formation) {
 	
 	}
 
+	firstLW.position = 'Left Winger'; 
 	firstLW.index = 9 ;
 
 	 
@@ -253,12 +270,13 @@ function sortPlayersSwosStyle3(players, formation) {
    let position16 = attackers[attackersCounter++];
   
    if (!position16) {
-	position15 = midfielders[midfieldersCounter++];  
-	
-	} else {
-   	position16.index = 16; 
+	position16 = midfielders[midfieldersCounter++];  
+	if (!position16) {
+		position16 = defenders[noOfD]; 
+		noOfD++; 
 	}
-  
+	} 
+	position16.index = 16;
    let position15; 
    if (dNumber == 5) {
 	   position15 = defenders[noOfD]; 
@@ -629,44 +647,46 @@ if (desiredSUM > 33) {
 
 const RANGE = { from: minRange, to: maxRange };
 
-let randomRes = [0,0,0,0,0,0,0] ; 
-randomRes = randomizeSkills(desiredSUM , randomRes , RANGE)
-randomRes.sort(function(a, b){return b-a});
+let sortedSkillsArray = [0,0,0,0,0,0,0] ; 
+sortedSkillsArray = randomizeSkills(desiredSUM , sortedSkillsArray , RANGE)
+sortedSkillsArray.sort(function(a, b){return b-a});
 
 
 if (position === 'Attacking Midfield') {
-    P = randomRes[0] ; 
-    C = randomRes[1] ; 
+    P = sortedSkillsArray[0] ; 
+    C = sortedSkillsArray[1] ; 
 
-    let secundaryCharArray = randomRes.slice(2,6); 
+    let secundaryCharArray = sortedSkillsArray.slice(2,5); 
      
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
     V = secundaryCharArray[0] ; 
-    S = secundaryCharArray[1] ; 
-    F = secundaryCharArray[2] ;  
-    T = secundaryCharArray[3] ; 
-    H = randomRes[6] ; 
+     
+    F = secundaryCharArray[1] ;  
+	T = secundaryCharArray[2] ; 
+	S = sortedSkillsArray[5] ;
+    H = sortedSkillsArray[6] ; 
 } else if (position === 'Defensive Midfield') {
-    T = randomRes[0] ; 
-    H = randomRes[1] ; 
+    T = sortedSkillsArray[0] ; 
+    H = sortedSkillsArray[1] ; 
 	
-    let secundaryCharArray = randomRes.slice(3,6); 
+    let secundaryCharArray = sortedSkillsArray.slice(3,5); 
      
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
-	P = secundaryCharArray[3] ; ; 
+	P = secundaryCharArray[2] ; ; 
     V = secundaryCharArray[0] ; 
-    S = secundaryCharArray[1] ; 
-    C = secundaryCharArray[2] ;  
+   
+    C = secundaryCharArray[1] ;  
 
-    F = randomRes[6] ; 
+	S = sortedSkillsArray[5] ;
+    F = sortedSkillsArray[6] ; 
 } 
 else if (positionCodeMap[position] === 'M') {
-    P = randomRes[0] ; 
-    T = randomRes[1] ; 
+    P = sortedSkillsArray[0] ; 
+    T = sortedSkillsArray[1] ; 
     
-    let secundaryCharArray = randomRes.slice(2,6); 
+    let secundaryCharArray = sortedSkillsArray.slice(2,6); 
     
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
@@ -674,37 +694,37 @@ else if (positionCodeMap[position] === 'M') {
     S = secundaryCharArray[1] ; 
     C = secundaryCharArray[2] ; 
     H = secundaryCharArray[3] ; 
-    F = randomRes[6] ; 
+    F = sortedSkillsArray[6] ; 
 } else if (positionCodeMap[position] === 'A') {
-    F = randomRes[0] ; 
-    H = randomRes[1] ; 
+    F = sortedSkillsArray[0] ; 
+    H = sortedSkillsArray[1] ; 
     
-    let secundaryCharArray = randomRes.slice(2,4); 
+    let secundaryCharArray = sortedSkillsArray.slice(2,4); 
     
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
     V = secundaryCharArray[0] ; 
     S = secundaryCharArray[1] ; 
-    C = randomRes[4] ; 
-    P = randomRes[5] ; 
-    T = randomRes[6] ; 
+    C = sortedSkillsArray[4] ; 
+    P = sortedSkillsArray[5] ; 
+    T = sortedSkillsArray[6] ; 
 }else if (positionCodeMap[position] === 'D') {
-    T = randomRes[0] ; 
-    H = randomRes[1] ; 
-    let secundaryCharArray = randomRes.slice(2,4); 
+    T = sortedSkillsArray[0] ; 
+    H = sortedSkillsArray[1] ; 
+    let secundaryCharArray = sortedSkillsArray.slice(2,4); 
     
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
     P = secundaryCharArray[0] ; 
     S = secundaryCharArray[1] ; 
     
-    C = randomRes[4] ; 
-    V = randomRes[5] ; 
-    F = randomRes[6] ; 
+    C = sortedSkillsArray[4] ; 
+    V = sortedSkillsArray[5] ; 
+    F = sortedSkillsArray[6] ; 
 } else if ( (positionCodeMap[position] === 'LB') || ((positionCodeMap[position] === 'RB')) ){
-    T = randomRes[0] ; 
-    S = randomRes[1] ; 
-    let secundaryCharArray = randomRes.slice(2,5); 
+    T = sortedSkillsArray[0] ; 
+    S = sortedSkillsArray[1] ; 
+    let secundaryCharArray = sortedSkillsArray.slice(2,5); 
     
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
@@ -712,12 +732,12 @@ else if (positionCodeMap[position] === 'M') {
     C = secundaryCharArray[1] ; 
     
     V = secundaryCharArray[2] ; 
-    H = randomRes[5] ; 
-    F = randomRes[6] ; 
+    H = sortedSkillsArray[5] ; 
+    F = sortedSkillsArray[6] ; 
 } else if ( (positionCodeMap[position] === 'LW') || ((positionCodeMap[position] === 'RW')) ){
-    S = randomRes[0] ; 
-    C = randomRes[1] ; 
-    let secundaryCharArray = randomRes.slice(2,6); 
+    S = sortedSkillsArray[0] ; 
+    C = sortedSkillsArray[1] ; 
+    let secundaryCharArray = sortedSkillsArray.slice(2,6); 
     
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
@@ -726,7 +746,7 @@ else if (positionCodeMap[position] === 'M') {
     
     T = secundaryCharArray[2] ; 
     P = secundaryCharArray[3] ; 
-    H = randomRes[6] ; 
+    H = sortedSkillsArray[6] ; 
 }
 
 res = [P,V,H,T,C,S,F] ; 
