@@ -18,6 +18,8 @@ const http = require('http');
 var open = require("open");
 
 
+global.sortByCost = true;
+
 async function getLeague (league) {
 	
 	let clubsArray = await superliga.getClubs(league.url) ; 

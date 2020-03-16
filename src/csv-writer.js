@@ -359,11 +359,14 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 		ageRelatedIncrement(player); 
 	}
 	
+	//console.log(globalString); 
 	//let fullData = playersData.players.slice(); 
 	let fullData = [...playersData.players]; 
-	//playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
-	playersData.players.sort((a, b) => b.timeInPlay - a.timeInPlay); 
-
+	if (sortByCost) { 
+		playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
+	} else {
+		playersData.players.sort((a, b) => b.timeInPlay - a.timeInPlay); 
+	} 
 	playersData.players = dataProcessing.sortPlayersSwosStyle3(playersData.players, playersData.formation);
 
 	playersData.players
@@ -386,10 +389,10 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 		let fnameFull ;
 		if (nationalTeamData) {
 			fnameFull = 'nationalTeam' + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';
-			console.log(`Writing CSV for: 'nationalTeam'/${clubName}`);
+			console.log(`Writing Full CSV for: 'nationalTeam'/${clubName}`);
 		} else {
 			fnameFull = leagueData.name + '-' + slugify(clubName) + '-' + 'FULL' + '.csv';
-			console.log(`Writing CSV for: ${leagueData.name}/${clubName}`);
+			console.log(`Writing Full CSV for: ${leagueData.name}/${clubName}`);
 		}
 	
 	fs.writeFileSync(location + fnameFull, linesFull.join('\r\n'));
