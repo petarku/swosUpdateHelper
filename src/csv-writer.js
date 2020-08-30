@@ -209,7 +209,8 @@ const formationCodeMap = {
 	'3-5-2 Attacking':'3-5-2', 
 	'4-4-2 Diamond': '4-4-2' , 
 	'3-4-3 Diamond': '3-4-3' ,
-	'4-3-3 Defending' : '4-5-1' 
+	'4-3-3 Defending' : '4-5-1' , 
+	'3-1-4-2' : '3-5-2'
 
 
 };
@@ -259,8 +260,11 @@ function playerLine(player, nationalTeamName , teamStats) {
 	if (nationalTeamName) {
 		country = countryCodeMap[nationalTeamName] || 'CUS';
 	} else {
-		const countryFromFlags = player.flags[0];
+		
+			const countryFromFlags = player.flags[0];
+		
 		country = countryCodeMap[countryFromFlags] || 'CUS';
+		
 	}
 
 
@@ -362,6 +366,7 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	//console.log(globalString); 
 	//let fullData = playersData.players.slice(); 
 	let fullData = [...playersData.players]; 
+	
 	if (sortByCost) { 
 		playersData.players.sort((a, b) => b.valueStripped - a.valueStripped);
 	} else {

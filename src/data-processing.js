@@ -31,7 +31,8 @@ const formationCodeMap = {
 	'3-5-2 Attacking':'3-5-2', 
 	'4-4-2 Diamond': '4-4-2' , 
 	'3-4-3 Diamond': '3-4-3' ,
-	'4-3-3 Defending' : '4-5-1' 
+	'4-3-3 Defending' : '4-5-1' ,
+	'3-1-4-2' : '3-5-2'
 
 
 };
@@ -88,8 +89,22 @@ function sortPlayersSwosStyle3(players, formation) {
 
 		 attackers = players.filter(p => ((p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
 
-		let secondaryAttackers = players.filter(p => ((p.position === 'Attacking Midfield') || (p.position === 'Left Winger') || (p.position === 'Right Winger') 
-		)); 
+		 rightWings = players.filter(p => ((p.position === 'Right Winger') ));
+		 leftWings = players.filter(p => ((p.position === 'Left Winger') ));
+
+		let attackingMidfielders = players.filter(p => ((p.position === 'Attacking Midfield'))); 
+		
+		let secondaryAttackers ; 
+		if (rightWings.length > 0) {
+			secondaryAttackers = rightWings.slice(0,1); 
+		}
+		if (leftWings.length > 0) {
+			secondaryAttackers = secondaryAttackers.concat(leftWings.slice(0,1)); 
+		}
+
+		if(attackingMidfielders.length > 0) {
+			secondaryAttackers = secondaryAttackers.concat(attackingMidfielders.slice(0,1)); 
+		}
 		
 		for (const secondary of secondaryAttackers) {
 			secondary.position = "Centre-Forward" ; 
@@ -103,10 +118,17 @@ function sortPlayersSwosStyle3(players, formation) {
 		attackersRest.sort((a, b) => b.valueStripped - a.valueStripped);
 		attackers = attackersFirst.concat(attackersRest); 
 
-		rightWings = players.filter(p =>  p.position === 'Right Midfield'); 
-		
-		leftWings = players.filter(p => p.position === 'Left Midfield'); 
+		if (rightWings.length > 1) {
+			rightWings = rightWings.slice(1,2); 
+		} else { 
+			rightWings = players.filter(p =>  p.position === 'Right Midfield'); 
+		}
+		if (leftWings.length > 1) {
+			leftWings = leftWings.slice(1,2); 
+		} else {
 
+			leftWings = players.filter(p => p.position === 'Left Midfield'); 
+		}
 		midfielders = players.filter(p => ((p.position === 'Central Midfield') || (p.position === 'Defensive Midfield') )); 
 
 		
@@ -182,8 +204,15 @@ function sortPlayersSwosStyle3(players, formation) {
 	let firstGK = goalkeepers[0] 
 	firstGK.index =1 ; 
 	
+	let secondGK; 
 
-	let secondGK  = goalkeepers[1];
+	if (goalkeepers.length < 2 ) {
+		console.log("Warning this team has only 1 goalkeeper") ; 
+		console.log("Same goalkeeper will be assigned for reserve") ; 
+		secondGK = goalkeepers[0]; 
+	} else {
+	  secondGK  = goalkeepers[1];
+	}
 	secondGK.index = 12 ; 
 
 
@@ -255,9 +284,19 @@ function sortPlayersSwosStyle3(players, formation) {
    noOfD++; 
    if (!position13) {
 	console.log("position 13 is empty") ; 
+		if (rightBacks.length > 1 ) {
+			position13=rightBacks[1]; 
+			position13.index = 13 ; 
 		} else {
-		position13.index = 13; 
+			if (leftBacks.length > 1) {
+				position13 = leftBacks[1];
+				position13.index = 13; 
+			}
+					
 		}
+	} else {
+		position13.index = 13; 
+	}
 
    let position14 = midfielders[midfieldersCounter++];  
    
@@ -312,7 +351,7 @@ function sortPlayersSwosStyle3(players, formation) {
 }
 
 
-function sortPlayersSwosStyle2(players, formation) {
+/*function sortPlayersSwosStyle2(players, formation) {
 
 
 	let clubFormation = formationCodeMap[formation];
@@ -347,7 +386,7 @@ function sortPlayersSwosStyle2(players, formation) {
 	// 11 A
 	// ------------------------------
 	// 12 GK 
-	let goalkeepers = players.filter(p => p.position === 'Goalkeeper'); 
+	/*let goalkeepers = players.filter(p => p.position === 'Goalkeeper'); 
 	
 	let firstGK = goalkeepers[0] 
 	firstGK.index =1 ; 
@@ -449,9 +488,19 @@ function sortPlayersSwosStyle2(players, formation) {
    noOfD++; 
    if (!position13) {
 	console.log("position 13 is empty") ; 
+		if (rightBacks.length > 1 ) {
+			position13=rightBacks[1]; 
+			position13.index = 13 ; 
 		} else {
-		position13.index = 13; 
+			if (leftBacks.length > 1) {
+				position13 = leftBacks[1];
+				position13.index = 13; 
+			}
+					
 		}
+	} else {
+		position13.index = 13; 
+	}
 
    let position14 = midfielders[noOfM];  
    noOfM++; 
@@ -501,12 +550,12 @@ function sortPlayersSwosStyle2(players, formation) {
    }
    //console.log(orderedTeam) ; 
    return orderedTeam ; 
-}
+} */
 
 
 
 
-function sortPlayersSwosStyle(players) {
+/*function sortPlayersSwosStyle(players) {
 
 
 	let goalkeepers = players.filter(p => p.position === 'Goalkeeper');
@@ -579,7 +628,7 @@ function sortPlayersSwosStyle(players) {
 	//console.log(orderedTeam); 
 	return orderedTeam;
 
-}
+} */
 
 function randomizeSkills (desiredSUM , res , RANGE) {
 	//swos skills  P,V,H,T,C,S,F  
@@ -607,7 +656,7 @@ function randomizeSkills (desiredSUM , res , RANGE) {
 
 	return res; 
 
-}
+} 
 
 function calculateSkills (desiredSUM , position) {
 
@@ -846,8 +895,6 @@ function checkForOverpoveredTeams(teamStats , clubName) {
 
 
 module.exports = {
-	sortPlayersSwosStyle , 
-	sortPlayersSwosStyle2, 
 	sortPlayersSwosStyle3, 
     calculateSkills , 
     checkForOverpoveredTeams , 

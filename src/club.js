@@ -9,16 +9,16 @@ const BASE_URL = 'https://www.transfermarkt.com';
 const ORDER_URL = '/ajax/yw1/sort/marktwert.desc' ;
 
 
-function convertStringValuetoNumber (original, substr, substr2, currency) {
+function convertStringValuetoNumber (original, strMillion, strThousands, currency) {
 	original = original.replace(currency, '');
-	const idx = original.indexOf(substr);
+	const idx = original.indexOf(strMillion);
 
 	if (idx != -1) {
 		original = original.substr(0, idx).replace(',', '.');
 		return parseFloat(original) * 1000000;
 	}
 
-	const idx2 = original.indexOf(substr2);
+	const idx2 = original.indexOf(strThousands);
 	if (idx2 != -1) {
 		original = original.substr(0, idx2).replace(',', '.');
 		return parseFloat(original) * 1000;
@@ -51,7 +51,7 @@ async function parsePlayerRow (row) {
 
 	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
 	//const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
-	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '€');
+	const valueStripped = convertStringValuetoNumber(value, 'm', 'Th.', '€');
 	//const swosData = getTheSwosValue(valueStripped);
 
 	//const swosValue = swosData.swosValue ; 
@@ -69,7 +69,7 @@ async function parseNationalPlayerRow (row) {
 
 	//const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '£');
 	//const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
-    const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '€');
+    const valueStripped = convertStringValuetoNumber(value, 'm', 'Th.', '€');
 	//const swosData = getTheSwosValue(valueStripped);
 
 	//const swosValue = swosData.swosValue ; 
@@ -123,6 +123,8 @@ async function parsePlayerStats (url) {
 	const table = document.querySelectorAll('.box')[5];
 	if (!table) return 0;
 
+	
+
 	/*const heading = table
 		
 		.querySelector('.subkategorie-header')
@@ -133,6 +135,36 @@ async function parsePlayerStats (url) {
 		return 0;
 		
 	}*/
+
+	const subHeadersAll =  document.querySelectorAll(".subkategorie-header"); 
+	
+	let found = false ; 
+	
+	for (index = 0; index < subHeadersAll.length; index++) { 
+		
+		if (subHeadersAll[index].textContent) {
+			
+			if (subHeadersAll[index].textContent.trim() === 'Stats 20/21') {
+				found = true ; 
+				
+			} 
+		}	
+	}
+	
+
+	if (!found) {
+		console.log(url); 
+		return 0 ; 
+	}
+
+	
+	/*if (headerName !== 'STATS 20/21') {
+		console.error("No this year stat for " + url); 
+		return 0;
+		
+	}*/
+
+
 	let timeInPlay = document.querySelector('#yw2 .items td:last-child');
 	if (!timeInPlay) return 0; 
 
@@ -151,7 +183,12 @@ async function parseTable (res) {
 	const rows = document.querySelectorAll('#yw1 table.items>tbody>tr');
 	const promises = Array.from(rows).map(parsePlayerRow);
 	const coachName = document.querySelectorAll('.container-hauptinfo');
-	const coach = coachName[0].textContent.trim();
+	let  coach ; 
+	if (coachName.length > 1) {
+		coach = coachName[1].textContent.trim();
+	} else {
+		coach = coachName[0].textContent.trim(); 
+	}	
 	let formation = 'unknown';
 
 	try {
