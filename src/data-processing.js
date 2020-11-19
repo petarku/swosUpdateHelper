@@ -32,7 +32,8 @@ const formationCodeMap = {
 	'4-4-2 Diamond': '4-4-2' , 
 	'3-4-3 Diamond': '3-4-3' ,
 	'4-3-3 Defending' : '4-5-1' ,
-	'3-1-4-2' : '3-5-2'
+	'3-1-4-2' : '3-5-2' , 
+	'4-5-1' : '4-5-1' 
 
 
 };
@@ -219,7 +220,7 @@ function sortPlayersSwosStyle3(players, formation) {
 
 	
 	let firstRB = rightBacks[0];
-	firstRB.index = 2 ; 
+	
 	
 
 	
@@ -230,7 +231,12 @@ function sortPlayersSwosStyle3(players, formation) {
 	let firstLB = leftBacks[0]; 
 	firstLB.index = 5 ; 
 
-	
+	if (!firstRB){ 
+		firstRB = leftBacks[1] ; 
+		firstRB.index = 2 ;
+	}
+	 
+
 	let noOfD = 1 ; 
 	
 	//let noOfDF = 0 ; 
