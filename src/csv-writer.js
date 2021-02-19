@@ -45,7 +45,7 @@ const countryCodeMap = {
 	Turkey:	'TUR',
 	Ukraine:	'UKR',
 	Wales:	'WAL',
-	Serbia:	'YUG',
+	Serbia:	'SRB',
 	Belarus:	'BLS',
 	Slovakia:	'SVK',
 	Spain:	'ESP',

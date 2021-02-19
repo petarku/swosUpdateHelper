@@ -18,7 +18,7 @@ const http = require('http');
 var open = require("open");
 
 
-global.sortByCost = true;
+global.sortByCost = false;
 
 async function getLeague (league) {
 	
@@ -424,7 +424,7 @@ function run () {
 			
 
 			console.log('you can use node . -showLeague serbia --to show league data in browser ');
-			console.log('you can use node . -writeCSV serbia to recreate csv from json file');
+			console.log('you can use node . -writeLeague2Csv serbia to recreate csv from json file');
 			console.log('you can use node . -testLeague to get 1  team from league');
 
 			console.log('you can use node . -national SERBIA --to get Serbian national team ');
