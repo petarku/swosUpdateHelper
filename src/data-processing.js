@@ -177,8 +177,11 @@ function sortPlayersSwosStyle3(players, formation) {
 	
 	let firstRB = rightBacks[0];
 	
-	
-
+	if (!firstRB){ 
+		firstRB = leftBacks[1] ; 
+		
+	}
+	firstRB.index = 2 ;
 	
 	let firstD = defenders[0];
 	firstD.index = 3 ; 
@@ -187,10 +190,7 @@ function sortPlayersSwosStyle3(players, formation) {
 	let firstLB = leftBacks[0]; 
 	firstLB.index = 5 ; 
 
-	if (!firstRB){ 
-		firstRB = leftBacks[1] ; 
-		firstRB.index = 2 ;
-	}
+
 	 
 
 	let noOfD = 1 ; 
@@ -396,23 +396,25 @@ if (position === 'Attacking Midfield') {
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
     V = secundaryCharArray[0] ; 
-     
     F = secundaryCharArray[1] ;  
 	T = secundaryCharArray[2] ; 
+
+
 	S = sortedSkillsArray[5] ;
     H = sortedSkillsArray[6] ; 
 } else if (position === 'Defensive Midfield') {
     T = sortedSkillsArray[0] ; 
     H = sortedSkillsArray[1] ; 
 	
-    let secundaryCharArray = sortedSkillsArray.slice(3,5); 
+    let secundaryCharArray = sortedSkillsArray.slice(2,5); 
      
     secundaryCharArray = _.shuffle(secundaryCharArray); 
 
-	P = secundaryCharArray[2] ; ; 
+	
     V = secundaryCharArray[0] ; 
-   
     C = secundaryCharArray[1] ;  
+	P = secundaryCharArray[2] ; 
+
 
 	S = sortedSkillsArray[5] ;
     F = sortedSkillsArray[6] ; 
