@@ -140,22 +140,7 @@ async function parsePlayerStats (url) {
 	
 	let found = false ; 
 	
-	for (index = 0; index < subHeadersAll.length; index++) { 
-		
-		if (subHeadersAll[index].textContent) {
-			
-			if (subHeadersAll[index].textContent.trim() === 'Stats 20/21') {
-				found = true ; 
-				
-			} 
-		}	
-	}
 	
-
-	if (!found) {
-		console.log(url); 
-		return 0 ; 
-	}
 
 	
 	/*if (headerName !== 'STATS 20/21') {
