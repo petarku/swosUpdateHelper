@@ -39,6 +39,57 @@ async function getLeague (league) {
 			
 }
 
+async function testLeagueScraping () {
+
+	let league = getLeagueByLeagueName('serbia'); 
+	let clubsArray = await superliga.getClubs(league.url) ; 
+	 
+	
+	let clubPlayersArray = new Array() ; 
+	
+	
+	for (var i = 0; i < 2; i++) {
+
+	
+		let clubPlayers = await club.getPlayers(clubsArray[i]); 
+		
+		clubPlayersArray.push(clubPlayers); 
+	}
+	const str = JSON.stringify(clubPlayersArray, null, 2);
+	fs.writeFileSync(`data-test/league-test.json`, str);
+	console.log(`File data/league-test.json created!`);
+
+	csvWriter.writeLeague(league, clubPlayersArray , 'data-test/');
+}
+
+async function writeCSVTeamsFromJson(leagueName , inputDir, outputDir) { 
+
+	let inputPath = inputDir + `league-${leagueName}.json`; 
+
+	const data = await fs.readFileSync(inputPath, 'utf8'); 
+		 
+	const result = await JSON.parse(data);
+	let league = new Array() ; 
+	league.name = leagueName ; 
+	
+	if (!fs.existsSync(outputDir)){
+    fs.mkdirSync(outputDir);
+	}
+
+	csvWriter.writeLeague(league , result , outputDir )
+}
+
+async function writeCSVTeams(leagueName ) { 
+	writeCSVTeamsFromJson(leagueName, "./data/" , `./data-csv/${leagueName}/`)
+	
+}
+
+async function testConversion () {
+
+	
+	writeCSVTeamsFromJson("serbia","./data-test/","./data-test/");
+}
+
 
 
 function showLeagueData(leagueName) { 
@@ -141,34 +192,7 @@ async function getFifaLeague (league) {
 			
 }
 
-async function testLeagueScraping () {
 
-	let league = getLeagueByLeagueName('serbia'); 
-	let clubsArray = await superliga.getClubs(league.url) ; 
-	 
-	
-	let clubPlayersArray = new Array() ; 
-	
-	
-	for (var i = 0; i < 2; i++) {
-
-	
-		let clubPlayers = await club.getPlayers(clubsArray[i]); 
-		
-		clubPlayersArray.push(clubPlayers); 
-	}
-	const str = JSON.stringify(clubPlayersArray, null, 2);
-	fs.writeFileSync(`data-test/league-test.json`, str);
-	console.log(`File data/league-test.json created!`);
-
-	csvWriter.writeLeague(league, clubPlayersArray , 'data-test/');
-}
-
-async function testConversion () {
-
-	
-	writeCSVTeamsFromJson("test","./data-test/","./data-test/");
-}
 
 async function getAllNationalTeams (indexRange) {
 	 
@@ -346,27 +370,7 @@ function showNationalData(leagueName) {
 
 }
 
-async function writeCSVTeamsFromJson(leagueName , inputDir, outputDir) { 
 
-	let inputPath = inputDir + `league-${leagueName}.json`; 
-
-	const data = await fs.readFileSync(inputPath, 'utf8'); 
-		 
-	const result = await JSON.parse(data);
-	let league = new Array() ; 
-	league.name = leagueName ; 
-	
-	if (!fs.existsSync(outputDir)){
-    fs.mkdirSync(outputDir);
-	}
-
-	csvWriter.writeLeague(league , result , outputDir )
-}
-
-async function writeCSVTeams(leagueName ) { 
-	writeCSVTeamsFromJson(leagueName, "./data/" , `./data-csv/${leagueName}/`)
-	
-}
 
 module.exports = {
 	getBestTeamInLeague , getLeagueByLeagueName , writeCSVTeamsFromJson , getFifaLeague
@@ -420,12 +424,16 @@ function run () {
 		
 	
 		help () {
-			console.log('you can use node . -league serbia --to scrap transfermarkt for league of serbia');
-			
-
+			console.log('-------- USAGE to get LEAGUE DATA -------');
+			console.log('you can use node . -league serbia --to scrap transfermarkt for league of serbia and create csv files');
 			console.log('you can use node . -showLeague serbia --to show league data in browser ');
-			console.log('you can use node . -writeLeague2Csv serbia to recreate csv from json file');
-			console.log('you can use node . -testLeague to get 1  team from league');
+			console.log('you can use node . -writeLeague2Csv serbia to recreate csv from scrapped json file');
+
+			console.log('-------- Testing  LEAGUE Scrapping and CSV creation -------');
+			console.log('you can use node . -testLeague to get 2  teams from league');
+			console.log('you can use node . -testCsv to get create 2 CSV files from test league');
+
+			console.log('---------------------------------------------------------');
 
 			console.log('you can use node . -national SERBIA --to get Serbian national team ');
 			console.log('you can use node . -allNational indexRange -- for example "0-20" ');
