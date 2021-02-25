@@ -14,12 +14,8 @@ function sortPlayersSwosStyle3(players, formation) {
 
 
 	let clubFormation = constants.formationCodeMap[formation];
-	if (!clubFormation) {
+
 	
-		clubFormation = "4-4-2";
-	}
-
-
 	let stringArray = clubFormation.split("-"); 
 
 
@@ -31,6 +27,23 @@ function sortPlayersSwosStyle3(players, formation) {
 	let rightBacks = players.filter(p => p.position === 'Right-Back'); 
 	let defenders = players.filter(p => p.position === 'Centre-Back'); 
 	let leftBacks = players.filter(p => p.position === 'Left-Back'); 
+	let attackersNumber = players.filter(p => ((p.position === 'Centre-Forward') || (p.position === 'Second Striker'))); 
+	let defensiveMidNumbers = 	 players.filter(p => (p.position === 'Defensive Midfield') ); 
+	let rightWingsNumbers = players.filter(p => ((p.position === 'Right Winger') ||  (p.position === 'Right Midfield') ));
+	let	leftWingsNumbers = players.filter(p => ((p.position === 'Left Winger') ||  (p.position === 'Left Midfield') ));
+	let midfieldersNumbers = players.filter(p => ((p.position === 'Attacking Midfield') ||  (p.position === 'Central Midfield') ));
+
+	console.log("GK", goalkeepers.length); 
+	console.log("RB", rightBacks.length);
+	console.log("D", defenders.length);
+	console.log("LB", leftBacks.length);
+	console.log("DM", defensiveMidNumbers.length);
+	console.log("RW", rightWingsNumbers.length);
+	console.log("LW", leftWingsNumbers.length);
+	console.log("M", midfieldersNumbers.length);
+	console.log("A", attackersNumber.length);
+
+
 	let firstM ; 
 	let firstA; 
 	let firstLW; 
@@ -312,6 +325,9 @@ function sortPlayersSwosStyle3(players, formation) {
    //console.log(orderedTeam) ; 
    return orderedTeam ; 
 }
+
+
+
 
 
 

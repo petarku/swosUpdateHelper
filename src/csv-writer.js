@@ -123,8 +123,10 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	let clubFormation = constants.formationCodeMap[playersData.formation];
 	if (!clubFormation) {
 		console.error(`Formation  ${playersData.formation} for club ${clubName} not found `);
-		console.log("Defaulting to 4-4-2");
-		clubFormation = "4-4-2";
+		console.log("Defaulting to 4-5-1");
+		playersData.formation = "4-5-1";
+		cclubFormation = constants.formationCodeMap[playersData.formation];
+		
 	}
 
 	let fname;
