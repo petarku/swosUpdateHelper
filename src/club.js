@@ -34,7 +34,12 @@ async function parsePlayerRow (row) {
 	const playerLink = playerSubtable[0].querySelector('.hauptlink a');
 	const name = playerLink.innerHTML;
 	const url = BASE_URL + playerLink.href;
-	const timeInPlay = await parsePlayerStats(url);
+	var additionalPlayerData = await parsePlayerStats(url);
+	
+	const timeInPlay = additionalPlayerData.time ; 
+	const additionalPositions = additionalPlayerData.secondPosition ; 
+	console.log(additionalPositions); 
+	//const timeInPlay = await parsePlayerStats(url);
 	const position = playerSubtable[1].querySelector('td').innerHTML;
 	const zenTriertArray = row.querySelectorAll('.zentriert');
 	const age = zenTriertArray[1].textContent.match(/\(([^)]+)\)/)[1];
@@ -57,7 +62,7 @@ async function parsePlayerRow (row) {
 	//const swosValue = swosData.swosValue ; 
 	//const desiredSum = swosData.desiredSum ; 
 
-	return { number, name, position, flags, value, timeInPlay, imgUrl, age , valueStripped};
+	return { number, name, position, flags, value, timeInPlay, imgUrl, age , valueStripped , additionalPositions};
 }
 
 async function parseNationalPlayerRow (row) {
@@ -123,44 +128,108 @@ async function parsePlayerStats (url) {
 	const table = document.querySelectorAll('.box')[5];
 	if (!table) return 0;
 
+	let time ; 
+	let sectionFound ; 
+	let arraySubcategories = document.querySelectorAll('.subkategorie-header') ; 
+	for (index = 0; index < arraySubcategories.length; index++) { 
+		if (arraySubcategories[index].innerHTML.search("Stats") == 26) {
+			sectionFound = true ; 
+		}
+	}
+
+	if (!sectionFound) {
+		time = 0 ; 
+	} else { 
+		let timeInPlay = document.querySelector('#yw2 .items td:last-child');
+		if (!timeInPlay) return 0 ; 
+
+		timeInPlay = timeInPlay.textContent.replace('.', '');
+		//timeInPlay = timeInPlay.textContent.replace('-', '0');
+
+		time = parseInt(timeInPlay, 10);
+		if (!time) time = 0 ;
+	}
+
 	
+	let results;  
+	let otherPositionsObject = document.querySelector(".nebenpositionen"); 
+	let secondPosition = [] ; 
+	if (otherPositionsObject) {
+		//console.log(otherPositionsObject.textContent) ;
+		let str = otherPositionsObject.textContent
+		/*for (i = 0; i < str.length; i++) {
+			//if (str[i] === '\n') {
+				
+			  console.log('found enter key')
+			};
+		  };
+*/
+		   results = str.split("\n") ; 
+		  if (!results[2]){
+			secondPosition = [] 
+		  } else {
+			secondPosition = extractSecondPosition(results[2]); 
+			//console.log(results[2]) ; 
+		  }
+		  
+	} else {
+		secondPosition = [] ; 
+	}
 
-	/*const heading = table
-		
-		.querySelector('.subkategorie-header')
-		.textContent.trim();
+	this.time = time ; 
+	//console.log(secondPosition) ; 
+	this.secondPosition  = secondPosition ; 
+	return this ; 
+
 	
-	if (heading !== 'Stats 19/20') {
-		console.error("No this year stat for " + url); 
-		return 0;
-		
-	}*/
-
-	const subHeadersAll =  document.querySelectorAll(".subkategorie-header"); 
-	
-	let found = false ; 
-	
-	
-
-	
-	/*if (headerName !== 'STATS 20/21') {
-		console.error("No this year stat for " + url); 
-		return 0;
-		
-	}*/
-
-
-	let timeInPlay = document.querySelector('#yw2 .items td:last-child');
-	if (!timeInPlay) return 0; 
-
-	timeInPlay = timeInPlay.textContent.replace('.', '');
-	//timeInPlay = timeInPlay.textContent.replace('-', '0');
-
-	let time = parseInt(timeInPlay, 10);
-	if (!time) return 0;
-
-	return time;
 }
+
+function extractSecondPosition (secondPosString) { 
+	let secondPositionList = [] ; 
+	
+	if  (secondPosString.search("Central Midfield") != -1 ) {
+		secondPositionList.push("Central Midfield"); 
+	} 
+	if  (secondPosString.search("Left Winger") != -1 ) {
+		secondPositionList.push("Left Winger"); 
+	} 
+	if  (secondPosString.search("Right Winger") != -1 ) {
+		secondPositionList.push("Right Winger"); 
+	} 
+
+	if  (secondPosString.search("Second Striker") != -1 ) {
+		secondPositionList.push("Second Striker"); 
+	} 
+	if  (secondPosString.search("Centre-Forward") != -1 ) {
+		secondPositionList.push("Centre-Forward"); 
+	} 
+	if  (secondPosString.search("Right-Back") != -1 ) {
+		secondPositionList.push("Right-Back"); 
+	} 
+	if  (secondPosString.search("Centre-Back") != -1 ) {
+		secondPositionList.push("Centre-Back"); 
+	} 
+	if  (secondPosString.search("Left-Back") != -1 ) {
+		secondPositionList.push("Left-Back"); 
+	} 
+
+
+	if  (secondPosString.search("Defensive Midfield") != -1 ) {
+		secondPositionList.push("Defensive Midfield"); 
+	} 
+	if  (secondPosString.search("Attacking Midfield") != -1 ) {
+		secondPositionList.push("Attacking Midfield"); 
+	} 
+
+	if  (secondPosString.search("Left Midfield") != -1 ) {
+		secondPositionList.push("Left Midfield"); 
+	} 
+	if  (secondPosString.search("Right Midfield") != -1 ) {
+		secondPositionList.push("Right Midfield"); 
+	} 
+	return secondPositionList; 
+}
+
 
 async function parseTable (res) {
 	const { document } = new JSDOM(res).window;

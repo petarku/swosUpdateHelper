@@ -135,7 +135,7 @@ async function takeScreenshot (league) {
     await browser.close();
 }
 
-async function takeLineUpScreenshots (league) {
+/*async function takeLineUpScreenshots (league) {
 	let browser = await puppeteer.launch({ headless: true });
 	let page = await browser.newPage();
 	await page.setViewport({ width: 1920, height: 1080 });
@@ -144,17 +144,19 @@ async function takeLineUpScreenshots (league) {
 	
 	var arrayLength = clubs.length;
 	
-	for (var i = 0; i < arrayLength; i++) {
+	for (var i = 0; i < 2; i++) {
 			
 			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
 	
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
-			const url = await helper.findElement( page , ".footer > a");
+			const url = await helper.findElement( page , ".c2action-footer > a");
 			await page.goto(url);
+			console.log(url) ; 
 			await page.waitFor(5000);
 			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
+			console.log(lineUpsPageUrls) ; 
 			const urlArray = lineUpsPageUrls.urlElements; 
 			for (var j = 0; j < 3; j++) {
 				await page.goto(urlArray[j]); 
@@ -169,7 +171,7 @@ async function takeLineUpScreenshots (league) {
     await browser.close();
 }
 
-
+*/
 
 async function getFifaLeague (league) {
 	console.log(league) ; 
@@ -234,7 +236,12 @@ async function getNationalTeam (nationalTeamItem) {
 	
 }
 
-
+function delay(time) {
+	return new Promise(function(resolve) { 
+		setTimeout(resolve, time)
+	});
+ }
+ 
 async function takeLineUpScreenshots (league) {
 	let browser = await puppeteer.launch({ headless: true });
 	let page = await browser.newPage();
@@ -244,23 +251,39 @@ async function takeLineUpScreenshots (league) {
 	
 	var arrayLength = clubs.length;
 	
-		for (var i = 0; i < arrayLength; i++) {
+		for (var i = 0; i < 2; i++) {
 			
 			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
 	
 			await page.goto(clubs[i].url);
 			await page.waitFor(5000);
 			
-			const url = await helper.findElement( page , ".footer > a");
+			const url = await helper.findElement( page , ".c2action-footer > a");
 			await page.goto(url);
+			
+			
+
 			await page.waitFor(5000);
 			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
+			//console.log(lineUpsPageUrls) ; 
 			const urlArray = lineUpsPageUrls.urlElements; 
 			for (var j = 0; j < 3; j++) {
-				await page.goto(urlArray[j]); 
+				//await page.goto(urlArray[j]); 
+				const pageLoadOptions = {
+					timeout: 10000,
+					waitUntil: ['domcontentloaded', 'networkidle0']
+				};
+				
+
+				await page.goto(urlArray[j], pageLoadOptions) ; 
+				
+				console.log(urlArray[j]) ; 
 				let pathString = 'data-png/' +  `${clubs[i].name}${j}.png` ;
-				console.log(`Taking screnshot for ${pathString}`); 
-				let result = await helper.screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
+				console.log(`Taking screnshot for ${pathString}`);
+				await page.waitForSelector (".aufstellung-box") ; 
+				const bodyHeight = await page.evaluate(() => document.body.scrollHeight);;
+
+				let result = await helper.screenshotDOMElement( page , ".aufstellung-box", 1 , pathString);
 			}
 		
 
@@ -417,7 +440,7 @@ function run () {
 		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),
 		testNationalTeam: () => getOneNationalTeam(nationalTeams[0]), 
 		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
-		makeScreenshotTest: name => takeScreenshotTest(getLeagueByLeagueName(name)), 
+		makeScreenshotTest: name => takeScreenshot(getLeagueByLeagueName(name)), 
 		testScrapping:() => testLeagueScraping(), 
 		testCsv:() => testConversion(), 
 		test:() => test(), 
