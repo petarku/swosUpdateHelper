@@ -135,43 +135,7 @@ async function takeScreenshot (league) {
     await browser.close();
 }
 
-/*async function takeLineUpScreenshots (league) {
-	let browser = await puppeteer.launch({ headless: true });
-	let page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
-	const clubs = await superliga.getClubs(league.url)
 
-	
-	var arrayLength = clubs.length;
-	
-	for (var i = 0; i < 2; i++) {
-			
-			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
-	
-			await page.goto(clubs[i].url);
-			await page.waitFor(5000);
-			
-			const url = await helper.findElement( page , ".c2action-footer > a");
-			await page.goto(url);
-			console.log(url) ; 
-			await page.waitFor(5000);
-			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
-			console.log(lineUpsPageUrls) ; 
-			const urlArray = lineUpsPageUrls.urlElements; 
-			for (var j = 0; j < 3; j++) {
-				await page.goto(urlArray[j]); 
-				let pathString = 'data-png/' +  `${clubs[i].name}${j}.png` ;
-				console.log(`Taking screnshot for ${pathString}`); 
-				let result = await helper.screenshotDOMElement( page , "#main > div:nth-child(18) > div", 1 , pathString);
-			}
-		
-
-		}
-	
-    await browser.close();
-}
-
-*/
 
 async function getFifaLeague (league) {
 	console.log(league) ; 
@@ -256,14 +220,10 @@ async function takeLineUpScreenshots (league) {
 			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
 	
 			await page.goto(clubs[i].url);
-			await page.waitFor(5000);
+		
 			
 			const url = await helper.findElement( page , ".c2action-footer > a");
 			await page.goto(url);
-			
-			
-
-			await page.waitFor(5000);
 			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
 			//console.log(lineUpsPageUrls) ; 
 			const urlArray = lineUpsPageUrls.urlElements; 
@@ -400,18 +360,168 @@ module.exports = {
 } ; 
 
 
+
+async function screenshotLineups () {
+	const puppeteer = require('puppeteer');
+	// const function below allows files read 
+	const fs = require("fs").promises;
+
+	(async () => {
+
+		const browser = await puppeteer.launch({
+			headless: true
+		});
+		// launches chrome in headless mode
+		const page = await browser.newPage();
+		//const userAgent = await browser.userAgent()
+		//await page.setUserAgent(userAgent)
+
+		// code below reads cookies
+		const cookiesString = await fs.readFile('sitecookie.json');
+		const cookies = JSON.parse(cookiesString);
+		await page.setCookie(...cookies);
+		let league = getLeagueByLeagueName('serbia');
+
+		const clubs = await superliga.getClubs(league.url);
+
+
+		//clubs.length
+
+		for (var i = 0; i < clubs.length; i++) {
+
+			console.log(`Saving line ups for club ${league.name}-${clubs[i].name}`);
+
+			await page.goto(clubs[i].url);
+
+
+			const url = await helper.findElement(page, ".c2action-footer > a");
+			await page.goto(url);
+
+
+
+
+			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link");
+			//console.log(lineUpsPageUrls) ; 
+			const urlArray = lineUpsPageUrls.urlElements;
+			for (var j = 0; j < 2; j++) {
+				//await page.goto(urlArray[j]); 
+				const pageLoadOptions = {
+					timeout: 10000,
+					waitUntil: ['domcontentloaded', 'networkidle0']
+				};
+
+
+				await page.goto(urlArray[j], pageLoadOptions);
+				await page.setViewport({ width: 1920, height: 1080 });
+
+				console.log(urlArray[j]);
+				let pathString = 'data-png/' + `${league.name}` + `${clubs[i].name}${j}.png`;
+				console.log(`Taking screnshot for ${pathString}`);
+
+
+
+				await page.screenshot({                      // Screenshot the website using defined options
+
+					path: pathString,                   // Save the screenshot in current directory
+
+					fullPage: true                              // take a fullpage screenshot
+
+				});
+
+			}
+			
+
+		}
+		browser.close();
+
+	})();
+
+}
+ 
+
+ 
+      
+
 async function  test() { 
-	let formation = "4-4-2"; 
-	let stringArray = formation.split("-"); 
-	console.log(stringArray[0]); 
-	console.log(stringArray[1]); 
+
+	const puppeteer = require('puppeteer');
+// const function below allows files read 
+const fs = require("fs").promises;
+
+(async () => {
+
+    const browser = await puppeteer.launch({
+        headless: true
+    }); 
+    // launches chrome in headless mode
+    const page = await browser.newPage();
+	//const userAgent = await browser.userAgent()
+    //await page.setUserAgent(userAgent)
+
+    // code below reads cookies
+    const cookiesString = await fs.readFile('sitecookie.json');
+    const cookies = JSON.parse(cookiesString);
+    await page.setCookie(...cookies);
+    let league = getLeagueByLeagueName('serbia'); 
+
+	const clubs = await superliga.getClubs(league.url) ;
 
 	
+		//clubs.length
 	
+		for (var i = 0; i < 2; i++) {
+			
+			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
+	
+			await page.goto(clubs[i].url);
+			
+			
+			const url = await helper.findElement( page , ".c2action-footer > a");
+			await page.goto(url);
+			
+			
 
+			
+			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
+			//console.log(lineUpsPageUrls) ; 
+			const urlArray = lineUpsPageUrls.urlElements; 
+			for (var j = 0; j < 2; j++) {
+				//await page.goto(urlArray[j]); 
+				const pageLoadOptions = {
+					timeout: 10000,
+					waitUntil: ['domcontentloaded', 'networkidle0']
+				};
+				
 
+				await page.goto(urlArray[j], pageLoadOptions) ; 
+				await page.setViewport({ width: 1920, height: 1080 });
+				
+				console.log(urlArray[j]) ; 
+				let pathString = 'data-png/' + `${league.name}`+ `${clubs[i].name}${j}.png` ;
+				console.log(`Taking screnshot for ${pathString}`);
 
+				
+			
+				await page.screenshot({                      // Screenshot the website using defined options
+ 
+					path: pathString,                   // Save the screenshot in current directory
+				 
+					fullPage: true                              // take a fullpage screenshot
+				 
+				  });
 
+				  //let result = await helper.screenshotDOMElement( page , "/html/body/div[4]/div[14]/div", 1 , pathString);
+		
+
+		}
+		
+
+	}
+	browser.close() ; 
+
+})();
+ 
+	
 }
 
 
@@ -424,6 +534,7 @@ function run () {
 		league: name => getLeague(getLeagueByLeagueName(name)),
 		showLeague:name => showLeagueData(name), 
 		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
+		screenshot:() => screenshotLineups(), 
 
 		// national 
 		allNational: rangeIndex => getAllNationalTeams(rangeIndex),

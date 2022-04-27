@@ -130,17 +130,16 @@ async function parsePlayerStats (url) {
 
 	let time ; 
 	let sectionFound ; 
-	let arraySubcategories = document.querySelectorAll('.subkategorie-header') ; 
+	/*let arraySubcategories = document.querySelectorAll('.subkategorie-header') ; 
 	for (index = 0; index < arraySubcategories.length; index++) { 
 		if (arraySubcategories[index].innerHTML.search("Stats") == 26) {
 			sectionFound = true ; 
 		}
 	}
-
-	if (!sectionFound) {
-		time = 0 ; 
-	} else { 
-		let timeInPlay = document.querySelector('#yw2 .items td:last-child');
+	*/
+	
+		let timeInPlay = document.querySelector("#yw2 > table > tfoot > tr > td:last-child") ; 
+		//let timeInPlay = document.querySelector('#yw2 .items td:last-child');
 		if (!timeInPlay) return 0 ; 
 
 		timeInPlay = timeInPlay.textContent.replace('.', '');
@@ -148,30 +147,37 @@ async function parsePlayerStats (url) {
 
 		time = parseInt(timeInPlay, 10);
 		if (!time) time = 0 ;
-	}
+	
+		
 
 	
 	let results;  
-	let otherPositionsObject = document.querySelector(".nebenpositionen"); 
-	let secondPosition = [] ; 
-	if (otherPositionsObject) {
-		//console.log(otherPositionsObject.textContent) ;
-		let str = otherPositionsObject.textContent
-		/*for (i = 0; i < str.length; i++) {
-			//if (str[i] === '\n') {
-				
-			  console.log('found enter key')
+	let otherPositionsObject1 = document.querySelector(".description__title"); 
+	if (otherPositionsObject1){
+		let otherPositionsObject = otherPositionsObject1[1] ; 
+		console.log(otherPositionsObject) 
+		let secondPosition = [] ; 
+		if (otherPositionsObject) {
+			//console.log(otherPositionsObject.textContent) ;
+			let str = otherPositionsObject.textContent
+			/*for (i = 0; i < str.length; i++) {
+				//if (str[i] === '\n') {
+					
+				console.log('found enter key')
+				};
 			};
-		  };
-*/
-		   results = str.split("\n") ; 
-		  if (!results[2]){
-			secondPosition = [] 
-		  } else {
-			secondPosition = extractSecondPosition(results[2]); 
-			//console.log(results[2]) ; 
-		  }
-		  
+	*/
+			results = str.split("\n") ; 
+			if (!results[2]){
+				secondPosition = [] 
+			} else {
+				secondPosition = extractSecondPosition(results[2]); 
+				//console.log(results[2]) ; 
+			}
+			
+		} else {
+			secondPosition = [] ; 
+		}
 	} else {
 		secondPosition = [] ; 
 	}
