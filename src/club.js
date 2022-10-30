@@ -29,16 +29,19 @@ function convertStringValuetoNumber (original, strMillion, strThousands, currenc
 
 async function parsePlayerRow (row) {
 	if (!row || !row.querySelector) return console.error('cannot find player row...');
-	const number = row.querySelector('.rn_nummer').innerHTML;
+	const number = row.querySelector('.tm-shirt-number').innerHTML;
 	const playerSubtable = row.querySelectorAll('.posrela table tbody tr');
 	const playerLink = playerSubtable[0].querySelector('.hauptlink a');
 	const name = playerLink.innerHTML;
 	const url = BASE_URL + playerLink.href;
+	console.log(url); 
+	console.log(name); 
 	var additionalPlayerData = await parsePlayerStats(url);
 	
 	const timeInPlay = additionalPlayerData.time ; 
 	const additionalPositions = additionalPlayerData.secondPosition ; 
-	console.log(additionalPositions); 
+	
+	//console.log(additionalPositions); 
 	//const timeInPlay = await parsePlayerStats(url);
 	const position = playerSubtable[1].querySelector('td').innerHTML;
 	const zenTriertArray = row.querySelectorAll('.zentriert');
@@ -123,39 +126,51 @@ async function parseNationalPlayerStats (url) {
 async function parsePlayerStats (url) {
 	const res1 = await fetch(url).then(res => res.text());
 	const { document } = new JSDOM(res1).window;
+	console.log(document.querySelector); 
 	if (!document) return;
 
-	const table = document.querySelectorAll('.box')[5];
-	if (!table) return 0;
+	//const table = document.querySelectorAll('.box')[5];
+	//if (!table) return 0;
 
+	//console.log(table); 
 	let time ; 
 	let sectionFound ; 
-	/*let arraySubcategories = document.querySelectorAll('.subkategorie-header') ; 
-	for (index = 0; index < arraySubcategories.length; index++) { 
-		if (arraySubcategories[index].innerHTML.search("Stats") == 26) {
-			sectionFound = true ; 
-		}
-	}
-	*/
 	
-		let timeInPlay = document.querySelector("#yw2 > table > tfoot > tr > td:last-child") ; 
+		//let timeInPlay = document.querySelector("#player-performance-table > div > div > div:nth-child(4) > div:nth-child(6)") ; 
+		let check = document.querySelector("#player-performance-table")
+		//console.log(document.url); 
+		let timeInPlayArray = document.querySelectorAll(".svelte-w6i3a8") ;
+		//console.log(timeInPlayArray); 
+		if (!timeInPlayArray) return 0 
+		const arraySize = timeInPlayArray.length; 
+		//console.log(arraySize); 
+		let timeInPlay = timeInPlayArray[arraySize-1]; 
+		 
+		//#player-performance-table > div > div > div:nth-child(4) > div.cell.cell--medium.cell--centered.svelte-w6i3a8
 		//let timeInPlay = document.querySelector('#yw2 .items td:last-child');
+		//console.log(timeInPlay) ; 
 		if (!timeInPlay) return 0 ; 
-
-		timeInPlay = timeInPlay.textContent.replace('.', '');
-		//timeInPlay = timeInPlay.textContent.replace('-', '0');
-
-		time = parseInt(timeInPlay, 10);
-		if (!time) time = 0 ;
-	
 		
+
+		console.log(timeInPlay.length) ; 
+		if (timeInPlay.textContent) { 
+			timeInPlay = timeInPlay.textContent.replace('.', '');
+			//timeInPlay = timeInPlay.textContent.replace('-', '0');
+
+			time = parseInt(timeInPlay, 10);
+		if (!time) time = 0 ;
+		} else {
+			return time ; 
+		}
+	
+		console.log(time); 
 
 	
 	let results;  
 	let otherPositionsObject1 = document.querySelector(".description__title"); 
 	if (otherPositionsObject1){
 		let otherPositionsObject = otherPositionsObject1[1] ; 
-		console.log(otherPositionsObject) 
+		//console.log(otherPositionsObject) 
 		let secondPosition = [] ; 
 		if (otherPositionsObject) {
 			//console.log(otherPositionsObject.textContent) ;
