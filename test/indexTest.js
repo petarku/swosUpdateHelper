@@ -25,25 +25,6 @@ describe('Calculate skills tests ', function () {
 });
 
 
-/*describe('Scrape for 2 teams ', async function () {
-	it('should return 1 json with 2 files', async function()  {
-		this.timeout(25000);
-		 del.sync(['./data-test/*.json'])
-		 del.sync(["./data-test/*.csv"])
-		 
-		const path = await index.getBestTeamInLeague(index.getLeagueByLeagueName('england')) ; 
-
-		fs.statSync(path);
-		const data = fs.readFileSync(path, 'utf8'); 
-		 
-		const result = JSON.parse(data);
-
-		//console.log(result) ; 
-		assert.equal(result[0].name,'Manchester City'); 
-		assert.equal(result[1].name,'Liverpool FC'); 
-	
-	});
-});*/
 
 describe('Write csv from json ', function () {
 	it('should return 1 json with 2 files',async function()  {
@@ -63,11 +44,5 @@ describe('Write csv from json ', function () {
 	});
 });
 
-describe('Fifa index page ', function () {
-	it('return name of clubs',async function()  {
-		this.timeout(25000);
-		await index.getFifaLeague("/teams/?league=13&order=desc")
-	
-	});
-});
+
 

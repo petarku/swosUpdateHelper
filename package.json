@@ -18,7 +18,6 @@
     "node-fetch": "^2.2.0",
     "normalize-text": "^0.4.4",
     "open": ">=6.0.0",
-    "puppeteer": "^10.2.0",
     "serve": "^10.1.2",
     "underscore": "^1.13.1"
   },

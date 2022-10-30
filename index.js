@@ -1,17 +1,12 @@
 #!/usr/bin/env node
 
 const superliga = require('./src/leagues');
-const fifaLeagues = require('./src/leaguesFifa');
-const helper = require('./src/puppetteer-helper.js');
 const club = require('./src/club');
-const clubFifa = require('./src/clubFifa');
 const fs = require('fs');
 const leagues = require('./src/leagues.json');
-const fifaLeaguesList = require('./src/leaguesFifa.json');
 const nationalTeams = require('./src/nationalTeams.json');
 const csvWriter = require('./src/csv-writer.js');
 const dataProcessing = require('./src/data-processing.js');
-const puppeteer = require('puppeteer');
 const del = require('delete');
 const handler = require('serve-handler');
 const http = require('http');
@@ -109,54 +104,11 @@ function showLeagueData(leagueName) {
 
 }
 
-async function takeScreenshot (league) {
-	let browser = await puppeteer.launch({ headless: true });
-	let page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
-	const clubs = await superliga.getClubs(league.url)
-
-
-	var arrayLength = clubs.length;
-		for (var i = 0; i < arrayLength; i++) {
-			 
-			let pathString = 'data-png/' +  `${clubs[i].name}.png` ; 
-			await page.goto(clubs[i].url);
-			await page.waitFor(5000);
-			
-			let result = await helper.screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
-			if (!result) {
-				console.log(`Formation picture not found for  ${clubs[i].name}`) ; 
-			}	else {
-				console.log('Png created for ' + pathString) ; 
-			}
-
-		}
-	
-    await browser.close();
-}
 
 
 
-async function getFifaLeague (league) {
-	console.log(league) ; 
-	let clubsArray = await fifaLeagues.getFifaClubs(league.url) ; 
-	//let clubsArraySliced = clubsArray.slice(0,1); 
-	//console.log(clubsArray) ; 
-	console.log(clubsArray); 
-	
-	let clubPlayersArray = new Array() ; 
-	for (const clubItem of clubsArray) {
-		let clubPlayers = await clubFifa.getFifaPlayers(clubItem); 
-		console.log(clubPlayers) ; 
-		clubPlayersArray.push(clubPlayers); 
-	}
-	const str = JSON.stringify(clubPlayersArray, null, 2);
-	fs.writeFileSync(`data/league-fifa.json`, str);
-	//console.log(`File data/league-${league.name}.json created!`);
 
-	//csvWriter.writeLeague(league, clubPlayersArray , 'data-csv/');
-			
-}
+
 
 
 
@@ -206,51 +158,7 @@ function delay(time) {
 	});
  }
  
-async function takeLineUpScreenshots (league) {
-	let browser = await puppeteer.launch({ headless: true });
-	let page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
-	const clubs = await superliga.getClubs(league.url)
 
-	
-	var arrayLength = clubs.length;
-	
-		for (var i = 0; i < 2; i++) {
-			
-			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
-	
-			await page.goto(clubs[i].url);
-		
-			
-			const url = await helper.findElement( page , ".c2action-footer > a");
-			await page.goto(url);
-			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
-			//console.log(lineUpsPageUrls) ; 
-			const urlArray = lineUpsPageUrls.urlElements; 
-			for (var j = 0; j < 3; j++) {
-				//await page.goto(urlArray[j]); 
-				const pageLoadOptions = {
-					timeout: 10000,
-					waitUntil: ['domcontentloaded', 'networkidle0']
-				};
-				
-
-				await page.goto(urlArray[j], pageLoadOptions) ; 
-				
-				console.log(urlArray[j]) ; 
-				let pathString = 'data-png/' +  `${clubs[i].name}${j}.png` ;
-				console.log(`Taking screnshot for ${pathString}`);
-				await page.waitForSelector (".aufstellung-box") ; 
-				const bodyHeight = await page.evaluate(() => document.body.scrollHeight);;
-
-				let result = await helper.screenshotDOMElement( page , ".aufstellung-box", 1 , pathString);
-			}
-		
-
-		}
-	
-    await browser.close();
-}
 
 
   async function takeNationalScreenshot () {
@@ -313,13 +221,7 @@ function getLeagueByLeagueName (leagueName) {
 	}
 }
 
-function getFifaLeagueByLeagueName (leagueName) {
-	for (var i in fifaLeaguesList) {
-		if (fifaLeaguesList[i].name.indexOf(leagueName) !== -1) {
-			return fifaLeaguesList[i];
-		}
-	}
-}
+
 
 function getNationalTeamItemByName (nationalTeamName) {
 	nationalTeamName = nationalTeamName.charAt(0).toUpperCase() + nationalTeamName.toLowerCase().substring(1);
@@ -356,170 +258,20 @@ function showNationalData(leagueName) {
 
 
 module.exports = {
-	getBestTeamInLeague , getLeagueByLeagueName , writeCSVTeamsFromJson , getFifaLeague
+	getBestTeamInLeague , getLeagueByLeagueName , writeCSVTeamsFromJson 
 } ; 
 
 
 
-async function screenshotLineups () {
-	const puppeteer = require('puppeteer');
-	// const function below allows files read 
-	const fs = require("fs").promises;
-
-	(async () => {
-
-		const browser = await puppeteer.launch({
-			headless: true
-		});
-		// launches chrome in headless mode
-		const page = await browser.newPage();
-		//const userAgent = await browser.userAgent()
-		//await page.setUserAgent(userAgent)
-
-		// code below reads cookies
-		const cookiesString = await fs.readFile('sitecookie.json');
-		const cookies = JSON.parse(cookiesString);
-		await page.setCookie(...cookies);
-		let league = getLeagueByLeagueName('serbia');
-
-		const clubs = await superliga.getClubs(league.url);
-
-
-		//clubs.length
-
-		for (var i = 0; i < clubs.length; i++) {
-
-			console.log(`Saving line ups for club ${league.name}-${clubs[i].name}`);
-
-			await page.goto(clubs[i].url);
-
-
-			const url = await helper.findElement(page, ".c2action-footer > a");
-			await page.goto(url);
-
-
-
-
-			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link");
-			//console.log(lineUpsPageUrls) ; 
-			const urlArray = lineUpsPageUrls.urlElements;
-			for (var j = 0; j < 2; j++) {
-				//await page.goto(urlArray[j]); 
-				const pageLoadOptions = {
-					timeout: 10000,
-					waitUntil: ['domcontentloaded', 'networkidle0']
-				};
-
-
-				await page.goto(urlArray[j], pageLoadOptions);
-				await page.setViewport({ width: 1920, height: 1080 });
-
-				console.log(urlArray[j]);
-				let pathString = 'data-png/' + `${league.name}` + `${clubs[i].name}${j}.png`;
-				console.log(`Taking screnshot for ${pathString}`);
-
-
-
-				await page.screenshot({                      // Screenshot the website using defined options
-
-					path: pathString,                   // Save the screenshot in current directory
-
-					fullPage: true                              // take a fullpage screenshot
-
-				});
-
-			}
-			
-
-		}
-		browser.close();
-
-	})();
-
-}
- 
 
  
       
 
 async function  test() { 
 
-	const puppeteer = require('puppeteer');
-// const function below allows files read 
-const fs = require("fs").promises;
-
-(async () => {
-
-    const browser = await puppeteer.launch({
-        headless: true
-    }); 
-    // launches chrome in headless mode
-    const page = await browser.newPage();
-	//const userAgent = await browser.userAgent()
-    //await page.setUserAgent(userAgent)
-
-    // code below reads cookies
-    const cookiesString = await fs.readFile('sitecookie.json');
-    const cookies = JSON.parse(cookiesString);
-    await page.setCookie(...cookies);
-    let league = getLeagueByLeagueName('serbia'); 
-
-	const clubs = await superliga.getClubs(league.url) ;
-
 	
-		//clubs.length
-	
-		for (var i = 0; i < 2; i++) {
-			
-			console.log( `Saving line ups for club ${league.name}-${clubs[i].name}` ); 
-	
-			await page.goto(clubs[i].url);
-			
-			
-			const url = await helper.findElement( page , ".c2action-footer > a");
-			await page.goto(url);
-			
-			
 
-			
-			const lineUpsPageUrls = await helper.findMatchDataURLS(page, ".ergebnis-link") ; 
-			//console.log(lineUpsPageUrls) ; 
-			const urlArray = lineUpsPageUrls.urlElements; 
-			for (var j = 0; j < 2; j++) {
-				//await page.goto(urlArray[j]); 
-				const pageLoadOptions = {
-					timeout: 10000,
-					waitUntil: ['domcontentloaded', 'networkidle0']
-				};
-				
 
-				await page.goto(urlArray[j], pageLoadOptions) ; 
-				await page.setViewport({ width: 1920, height: 1080 });
-				
-				console.log(urlArray[j]) ; 
-				let pathString = 'data-png/' + `${league.name}`+ `${clubs[i].name}${j}.png` ;
-				console.log(`Taking screnshot for ${pathString}`);
-
-				
-			
-				await page.screenshot({                      // Screenshot the website using defined options
- 
-					path: pathString,                   // Save the screenshot in current directory
-				 
-					fullPage: true                              // take a fullpage screenshot
-				 
-				  });
-
-				  //let result = await helper.screenshotDOMElement( page , "/html/body/div[4]/div[14]/div", 1 , pathString);
-		
-
-		}
-		
-
-	}
-	browser.close() ; 
-
-})();
  
 	
 }
@@ -540,7 +292,7 @@ function run () {
 		allNational: rangeIndex => getAllNationalTeams(rangeIndex),
 	
 		national: name => getNationalTeam(getNationalTeamItemByName(name)),
-		fifaLeague: name => getFifaLeague(getFifaLeagueByLeagueName(name)) , 
+
 		
 		showNational:name => showNationalData(name), 
 		
@@ -574,11 +326,7 @@ function run () {
 			
 			console.log('you can use node . -showNational "0-20" data in browser ');
 			console.log('you can use node . -leagueScreenshot serbia to get formation screenshots for serbian league ');
-			console.log('you can use node . -nationalScreenshots to get screenshot for all national teams ');
 
-			
-			console.log('you can use node . -takeScreenshot {serbia} to get screenshot for provided league ');
-			console.log('you can use node . -makeScreenshotTest to get screenshot for provided league ');
 			console.log('you can use node . -testScrapping to get 2 teams from Serbian league ');
 			
 			
