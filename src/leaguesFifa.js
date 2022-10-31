@@ -17,7 +17,7 @@ function parseFifaClubRow (row) {
 function parseFifaTable (res) {
 	const { document } = (new JSDOM(res)).window;
 	if (!document) return;
-	const rows = document.querySelectorAll('.table-teams tbody tr');
+	const rows = document.querySelectorAll('td[data-title="Name"]');
 	return Array.from(rows).map(parseFifaClubRow);
 }
 
