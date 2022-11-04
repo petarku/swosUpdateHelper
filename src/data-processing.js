@@ -238,7 +238,6 @@ function sortPlayersSwosStyle3(players, formation) {
 	   position7= midfielders[midfieldersCounter++]; 
 	 
    }
-   //console.log(position7);
    position7.index = 7 ; 
 
    //let middle4 = firstRW.concat(position7.concat(firstM.concat(firstLW)));
@@ -318,11 +317,8 @@ function sortPlayersSwosStyle3(players, formation) {
 
   const orderedTeam = [firstGK, firstRB, firstD, position4,firstLB,firstRW,position7,firstM,firstLW,position10,firstA,secondGK,position13,position14,position15,position16];
    if (orderedTeam.length< 16) {
-	   console.log("this team has less then 16 players") ; 
-	   
-	   
+	   console.error("this team has less then 16 players") ; 
    }
-   //console.log(orderedTeam) ; 
    return orderedTeam ; 
 }
 

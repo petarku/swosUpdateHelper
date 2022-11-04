@@ -155,9 +155,7 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 	for (const player of playersData.players) {
 		ageRelatedIncrement(player); 
 	}
-	
-	//console.log(globalString); 
-	//let fullData = playersData.players.slice(); 
+
 	let fullData = [...playersData.players]; 
 	
 	if (sortByCost) { 
