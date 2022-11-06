@@ -105,13 +105,6 @@ function showLeagueData(leagueName) {
 }
 
 
-
-
-
-
-
-
-
 async function getAllNationalTeams (indexRange) {
 	 
 	let range = indexRange.split('-')
@@ -151,45 +144,6 @@ async function getNationalTeam (nationalTeamItem) {
 		csvWriter.writeTeam(null, nationalPlayersArray[0], nationalTeamItem , 'data-csv/');
 	
 }
-
-function delay(time) {
-	return new Promise(function(resolve) { 
-		setTimeout(resolve, time)
-	});
- }
- 
-
-
-
-  async function takeNationalScreenshot () {
-	let browser = await puppeteer.launch({ headless: true });
-	let page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
-	
-	const BASE_URL = 'https://www.transfermarkt.co.uk';
-	
-
-
-	var arrayLength = nationalTeams.length;
-		for (var i = 0; i < arrayLength; i++) {
-			 
-			let pathString = 'data-png/' +  `${nationalTeams[i].name}.png` ; 
-			await page.goto(BASE_URL + nationalTeams[i].url);
-			await page.waitFor(5000);
-			
-			let result = await helper.screenshotDOMElement( page , "img[src='https://tmssl.akamaized.net/images/spielfeld_klein.png']", 1 , pathString);
-			if (!result) {
-				console.log(`Formation picture not found for  ${nationalTeams[i].name}`) ; 
-			}	else {
-				console.log('Png created for ' + pathString) ; 
-			}
-
-		}
-	
-    await browser.close();
-}
-
-
 
 
 async function getBestTeamInLeague (league) {
@@ -262,11 +216,6 @@ module.exports = {
 } ; 
 
 
-
-
- 
-      
-
 async function  test() { 
 
 	
@@ -284,26 +233,17 @@ function run () {
 	const keys = {
 		//league 
 		league: name => getLeague(getLeagueByLeagueName(name)),
+		writeLeague2Csv:name => writeCSVTeams(name), 
+		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),
 		showLeague:name => showLeagueData(name), 
-		leagueScreenshot: name => takeScreenshot(getLeagueByLeagueName(name)),
-		screenshot:() => screenshotLineups(), 
+
 
 		// national 
 		allNational: rangeIndex => getAllNationalTeams(rangeIndex),
-	
 		national: name => getNationalTeam(getNationalTeamItemByName(name)),
-
-		
 		showNational:name => showNationalData(name), 
-		
-		nationalScreenshots: () => takeNationalScreenshot(),
-		writeLeague2Csv:name => writeCSVTeams(name), 
-		
-		
-		testLeague: name => getBestTeamInLeague(getLeagueByLeagueName(name)),
-		testNationalTeam: () => getOneNationalTeam(nationalTeams[0]), 
-		takeScreenshot:name => takeLineUpScreenshots(getLeagueByLeagueName(name)), 
-		makeScreenshotTest: name => takeScreenshot(getLeagueByLeagueName(name)), 
+		testNationalTeam: () => getOneNationalTeam(nationalTeams[0]),  
+
 		testScrapping:() => testLeagueScraping(), 
 		testCsv:() => testConversion(), 
 		test:() => test(), 
@@ -312,11 +252,8 @@ function run () {
 		help () {
 			console.log('-------- USAGE to get LEAGUE DATA -------');
 			console.log('you can use node . -league serbia --to scrap transfermarkt for league of serbia and create csv files');
-			console.log('you can use node . -showLeague serbia --to show league data in browser ');
 			console.log('you can use node . -writeLeague2Csv serbia to recreate csv from scrapped json file');
-
-			console.log('-------- Testing  LEAGUE Scrapping and CSV creation -------');
-			console.log('you can use node . -testLeague to get 2  teams from league');
+			console.log('you can use node . -testLeague serbia to get 2  teams from serbian league');
 			console.log('you can use node . -testCsv to get create 2 CSV files from test league');
 
 			console.log('---------------------------------------------------------');
@@ -325,10 +262,9 @@ function run () {
 			console.log('you can use node . -allNational indexRange -- for example "0-20" ');
 			
 			console.log('you can use node . -showNational "0-20" data in browser ');
-			console.log('you can use node . -leagueScreenshot serbia to get formation screenshots for serbian league ');
 
 			console.log('you can use node . -testScrapping to get 2 teams from Serbian league ');
-			
+			console.log('you can use node . -showLeague serbia --to show league data in browser ');
 			
 			
 		},

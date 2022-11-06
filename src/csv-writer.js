@@ -116,6 +116,9 @@ function writeTeam(leagueData, playersData, nationalTeamData , location) {
 		nationalTeamName = nationalTeamData.name;
 	} else {
 		clubName = normalize.normalizeDiacritics(playersData.name);
+		clubName =clubName.replace ('FK', ''); 
+		//clubName = clubName.replace('Belgrade', 'B\'GRADE'); 
+		//clubName = clubName.replace('Novi Sad', 'N. SAD') ; 
 	}
 
 	const clubCoach = normalize.normalizeDiacritics(playersData.coach);
