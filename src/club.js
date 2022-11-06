@@ -54,13 +54,7 @@ async function parsePlayerRow (row) {
 	const cells = row.children;
 	const value = cells[cells.length - 1].childNodes[0].textContent;
 
-	//const valueStripped = convertStringValuetoNumber(value, 'Mill', 'Th.' , ' €');
-	//const valueStripped = convertStringValuetoNumber(value, 'mil.', 'thousand', '€');
-	const valueStripped = convertStringValuetoNumber(value, 'm', 'Th.', '€');
-	//const swosData = getTheSwosValue(valueStripped);
-
-	//const swosValue = swosData.swosValue ; 
-	//const desiredSum = swosData.desiredSum ; 
+	const valueStripped = convertStringValuetoNumber(value, 'm', 'k', '€');
 
 	return { number, name, position, flags, value, timeInPlay, imgUrl, age , valueStripped , additionalPositions};
 }
